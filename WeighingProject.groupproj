@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{74662B07-F467-4D5F-BA5A-1DCE400B99B7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CLIENT\sources\project\WeighingClientProject.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SERVER\sources\project\WeighingServerProject.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="WeighingClientProject">
+        <MSBuild Projects="CLIENT\sources\project\WeighingClientProject.dproj"/>
+    </Target>
+    <Target Name="WeighingClientProject:Clean">
+        <MSBuild Projects="CLIENT\sources\project\WeighingClientProject.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WeighingClientProject:Make">
+        <MSBuild Projects="CLIENT\sources\project\WeighingClientProject.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WeighingServerProject">
+        <MSBuild Projects="SERVER\sources\project\WeighingServerProject.dproj"/>
+    </Target>
+    <Target Name="WeighingServerProject:Clean">
+        <MSBuild Projects="SERVER\sources\project\WeighingServerProject.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WeighingServerProject:Make">
+        <MSBuild Projects="SERVER\sources\project\WeighingServerProject.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="WeighingClientProject;WeighingServerProject"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="WeighingClientProject:Clean;WeighingServerProject:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="WeighingClientProject:Make;WeighingServerProject:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
