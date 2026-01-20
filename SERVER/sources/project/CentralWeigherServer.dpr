@@ -1,4 +1,4 @@
-program WeighingServerProject;
+program CentralWeigherServer;
 
 uses
   Vcl.Forms,

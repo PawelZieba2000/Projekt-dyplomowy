@@ -1,7 +1,7 @@
 object FormMain: TFormMain
   Left = 0
   Top = 0
-  Caption = 'FormMain'
+  Caption = 'Central Weigher - klient'
   ClientHeight = 441
   ClientWidth = 624
   Color = clBtnFace
@@ -12,6 +12,9 @@ object FormMain: TFormMain
   Font.Style = []
   Position = poScreenCenter
   OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object dxRibbon1: TdxRibbon
     Left = 0
@@ -27,6 +30,7 @@ object FormMain: TFormMain
     TabOrder = 0
     TabStop = False
     object dxRibbonTabMain: TdxRibbonTab
+      Active = True
       Caption = 'Narz'#281'dzia g'#322#243'wne'
       Groups = <
         item
@@ -35,7 +39,6 @@ object FormMain: TFormMain
       Index = 0
     end
     object dxRibbonTabConfig: TdxRibbonTab
-      Active = True
       Caption = 'Ustawienia'
       Groups = <
         item
@@ -60,8 +63,22 @@ object FormMain: TFormMain
       Index = 3
     end
   end
+  object stsbrBottom: TdxStatusBar
+    Left = 0
+    Top = 421
+    Width = 624
+    Height = 20
+    Panels = <
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Text = 'Zalogowano jako: [%s]'
+      end>
+    ExplicitLeft = 432
+    ExplicitTop = 304
+    ExplicitWidth = 0
+  end
   object actlstMain: TActionList
-    Images = ModDispatcher.imgList
+    Images = ModDispatcher.imgList32
     Left = 128
     Top = 160
     object actLogin: TAction
@@ -116,8 +133,8 @@ object FormMain: TFormMain
       2)
     Categories.Visibles = (
       True)
-    ImageOptions.Images = ModDispatcher.imgList
-    ImageOptions.LargeImages = ModDispatcher.imgList
+    ImageOptions.Images = ModDispatcher.imgList32
+    ImageOptions.LargeImages = ModDispatcher.imgList32
     PopupMenuLinks = <>
     UseSystemFont = True
     Left = 24
@@ -165,7 +182,7 @@ object FormMain: TFormMain
       FloatTop = 2
       FloatClientWidth = 0
       FloatClientHeight = 0
-      Images = ModDispatcher.imgList
+      Images = ModDispatcher.imgList32
       ItemLinks = <
         item
           Visible = True

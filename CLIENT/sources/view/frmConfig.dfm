@@ -1,27 +1,34 @@
 inherited FormConfig: TFormConfig
   Caption = 'Ustawienia'
-  ClientHeight = 315
+  ClientHeight = 361
   ClientWidth = 384
+  Constraints.MaxHeight = 400
+  Constraints.MaxWidth = 400
+  Constraints.MinHeight = 400
+  Constraints.MinWidth = 400
   StyleElements = [seFont, seClient, seBorder]
+  OnCreate = FormCreate
   ExplicitWidth = 400
-  ExplicitHeight = 354
+  ExplicitHeight = 400
   TextHeight = 15
   inherited lcMain: TdxLayoutControl
     Width = 384
-    Height = 315
+    Height = 361
+    ExplicitWidth = 384
+    ExplicitHeight = 315
     inherited btnOk: TcxButton
       Left = 215
-      Top = 278
-      TabOrder = 4
+      Top = 324
+      TabOrder = 5
       ExplicitLeft = 215
-      ExplicitTop = 278
+      ExplicitTop = 324
     end
     inherited btnCancel: TcxButton
       Left = 297
-      Top = 278
-      TabOrder = 5
+      Top = 324
+      TabOrder = 6
       ExplicitLeft = 297
-      ExplicitTop = 278
+      ExplicitTop = 324
     end
     object edtApiUrl: TcxTextEdit [2]
       Left = 129
@@ -35,17 +42,17 @@ inherited FormConfig: TFormConfig
     end
     object edtScaleIp: TcxTextEdit [3]
       Left = 129
-      Top = 190
+      Top = 223
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 2
+      TabOrder = 3
       Width = 229
     end
     object seScalePort: TcxSpinEdit [4]
       Left = 129
-      Top = 220
+      Top = 253
       BiDiMode = bdLeftToRight
       ParentBiDiMode = False
       Properties.Alignment.Horz = taRightJustify
@@ -54,7 +61,7 @@ inherited FormConfig: TFormConfig
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 3
+      TabOrder = 4
       Width = 229
     end
     object edtbtnApiLogPath: TcxButtonEdit [5]
@@ -63,8 +70,11 @@ inherited FormConfig: TFormConfig
       Properties.Buttons = <
         item
           Default = True
-          Kind = bkEllipsis
+          ImageIndex = 9
+          Kind = bkGlyph
         end>
+      Properties.Images = ModDispatcher.imgList16
+      Properties.OnButtonClick = edtbtnApiLogPathPropertiesButtonClick
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -72,6 +82,14 @@ inherited FormConfig: TFormConfig
       Style.ButtonStyle = bts3D
       TabOrder = 1
       Width = 229
+    end
+    object btnApiTest: TcxButton [6]
+      Left = 283
+      Top = 156
+      Width = 75
+      Height = 25
+      Action = actApiTest
+      TabOrder = 2
     end
     inherited lgMain: TdxLayoutGroup
       ItemIndex = 2
@@ -108,7 +126,6 @@ inherited FormConfig: TFormConfig
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       AllowRemove = False
-      ItemIndex = 1
       ShowBorder = False
       Index = 2
     end
@@ -181,7 +198,7 @@ inherited FormConfig: TFormConfig
     object lgApiConfig: TdxLayoutGroup
       Parent = lgCenter
       CaptionOptions.Text = 'Po'#322#261'czenie do API'
-      ItemIndex = 1
+      ItemIndex = 2
       Index = 0
     end
     object lgScaleConfig: TdxLayoutGroup
@@ -212,10 +229,21 @@ inherited FormConfig: TFormConfig
       Parent = lgApiConfig
       CaptionOptions.Text = #346'cie'#380'ka do log'#243'w'
       Control = edtbtnApiLogPath
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
+    end
+    object liApiTest: TdxLayoutItem
+      Parent = lgApiConfig
+      AlignHorz = ahRight
+      CaptionOptions.Text = 'New Item'
+      CaptionOptions.Visible = False
+      Control = btnApiTest
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   inherited barmngMain: TdxBarManager
@@ -224,6 +252,10 @@ inherited FormConfig: TFormConfig
   inherited actlstMain: TActionList
     inherited actOk: TAction
       Caption = 'Zapisz'
+    end
+    object actApiTest: TAction
+      Caption = 'Test po'#322#261'czenia'
+      OnExecute = actApiTestExecute
     end
   end
 end

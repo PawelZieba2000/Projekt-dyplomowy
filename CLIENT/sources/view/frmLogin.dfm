@@ -2,8 +2,8 @@ inherited FormLogin: TFormLogin
   Caption = 'Logowanie'
   ClientHeight = 161
   ClientWidth = 334
-  Constraints.MaxHeight = 250
-  Constraints.MaxWidth = 400
+  Constraints.MaxHeight = 200
+  Constraints.MaxWidth = 350
   Constraints.MinHeight = 200
   Constraints.MinWidth = 350
   StyleElements = [seFont, seClient, seBorder]
@@ -13,8 +13,6 @@ inherited FormLogin: TFormLogin
   inherited lcMain: TdxLayoutControl
     Width = 334
     Height = 161
-    ExplicitLeft = 0
-    ExplicitTop = 0
     ExplicitWidth = 334
     ExplicitHeight = 161
     inherited btnOk: TcxButton
@@ -70,9 +68,6 @@ inherited FormLogin: TFormLogin
     end
     inherited lgBottom: TdxLayoutGroup
       Index = 1
-    end
-    inherited lgBottomButtons: TdxLayoutGroup
-      ItemIndex = 2
     end
     object lgCentral: TdxLayoutGroup
       Parent = lgMain

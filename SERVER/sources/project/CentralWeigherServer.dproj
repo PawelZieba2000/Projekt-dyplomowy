@@ -6,10 +6,10 @@
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <ProjectName Condition="'$(ProjectName)'==''">WeighingServerProject</ProjectName>
+        <ProjectName Condition="'$(ProjectName)'==''">CentralWeigherServer</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
-        <MainSource>WeighingServerProject.dpr</MainSource>
+        <MainSource>CentralWeigherServer.dpr</MainSource>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -70,7 +70,7 @@
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <SanitizedProjectName>WeighingServerProject</SanitizedProjectName>
+        <SanitizedProjectName>CentralWeigherServer</SanitizedProjectName>
         <VerInfo_Locale>1045</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
@@ -133,7 +133,12 @@
             <Form>Form2</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <None Include="ModelSupport_WeighingServerProject\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherServer\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherServer\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherServer\frmMain\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherServer\CentralWeigherServer\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherServer\CentralWeigherServer\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherServer\frmMain\default.txaPackage"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -152,7 +157,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">WeighingServerProject.dpr</Source>
+                    <Source Name="MainSource">CentralWeigherServer.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -160,13 +165,25 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="5">
-                <DeployFile LocalName="..\..\bin\Win32\Debug\WeighingServerProject.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\bin\Win32\Debug\CentralWeigherServer.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>WeighingServerProject.exe</RemoteName>
+                        <RemoteName>CentralWeigherServer.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_WeighingServerProject\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_CentralWeigherServer\CentralWeigherServer\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherServer\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherServer\frmMain\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -1117,7 +1134,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
-            <ModelSupport>True</ModelSupport>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

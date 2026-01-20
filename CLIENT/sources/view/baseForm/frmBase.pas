@@ -8,7 +8,7 @@ uses
   cxLookAndFeelPainters, cxClasses, dxLayoutContainer, dxLayoutControl,
   System.Actions, Vcl.ActnList, dxBar, System.ImageList, Vcl.ImgList,
   cxImageList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
-  uModDispatcher;
+  uModDispatcher, dxSkinsCore, dxSkinBasic;
 
 type
   TFormBase = class(TForm)

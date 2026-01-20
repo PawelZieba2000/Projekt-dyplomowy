@@ -29,7 +29,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    class function CreateAndShowModal(AOwner : TComponent) : Integer;
   end;
 
 var
@@ -38,7 +38,7 @@ var
 implementation
 
 uses
-  frmConfig, cManagerUser, cItemUser;
+  frmConfig, cManagerUser, cItemUser, cHelpFunctions;
 
 {$R *.dfm}
 
@@ -66,10 +66,25 @@ end;
 
 procedure TFormLogin.actOpenConfigExecute(Sender: TObject);
 begin
-  if not Assigned(FormConfig) then
-    FormConfig := TFormConfig.Create(nil);
+  TFormConfig.CreateAndShowModal(Nil);
+end;
 
-  FormConfig.ShowModal;
+class function TFormLogin.CreateAndShowModal(AOwner: TComponent): Integer;
+begin
+  Result := mrNone;
+
+  if Assigned(FormLogin) then
+    Exit;
+
+  if not Assigned(AOwner) then
+    AOwner := THelpFunctions.GetActiveWindow;
+
+  FormLogin := TFormLogin.Create(AOwner);
+  try
+    Result := FormLogin.ShowModal;
+  finally
+    FreeAndNil(FormLogin);
+  end;
 end;
 
 end.

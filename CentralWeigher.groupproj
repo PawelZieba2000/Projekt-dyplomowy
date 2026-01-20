@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{74662B07-F467-4D5F-BA5A-1DCE400B99B7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CLIENT\sources\project\CentralWeigherClient.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SERVER\sources\project\CentralWeigherServer.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CentralWeigherClient">
+        <MSBuild Projects="CLIENT\sources\project\CentralWeigherClient.dproj"/>
+    </Target>
+    <Target Name="CentralWeigherClient:Clean">
+        <MSBuild Projects="CLIENT\sources\project\CentralWeigherClient.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CentralWeigherClient:Make">
+        <MSBuild Projects="CLIENT\sources\project\CentralWeigherClient.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CentralWeigherServer">
+        <MSBuild Projects="SERVER\sources\project\CentralWeigherServer.dproj"/>
+    </Target>
+    <Target Name="CentralWeigherServer:Clean">
+        <MSBuild Projects="SERVER\sources\project\CentralWeigherServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CentralWeigherServer:Make">
+        <MSBuild Projects="SERVER\sources\project\CentralWeigherServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CentralWeigherClient;CentralWeigherServer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CentralWeigherClient:Clean;CentralWeigherServer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CentralWeigherClient:Make;CentralWeigherServer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

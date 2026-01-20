@@ -21,10 +21,6 @@ object FormBase: TFormBase
     Height = 441
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 528
-    ExplicitTop = 160
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object btnOk: TcxButton
       Left = 455
       Top = 404
@@ -107,8 +103,8 @@ object FormBase: TFormBase
       2)
     Categories.Visibles = (
       True)
-    ImageOptions.Images = ModDispatcher.imgList
-    ImageOptions.LargeImages = ModDispatcher.imgList
+    ImageOptions.Images = ModDispatcher.imgList32
+    ImageOptions.LargeImages = ModDispatcher.imgList32
     PopupMenuLinks = <>
     UseSystemFont = True
     Left = 16
@@ -116,7 +112,7 @@ object FormBase: TFormBase
     PixelsPerInch = 96
   end
   object actlstMain: TActionList
-    Images = ModDispatcher.imgList
+    Images = ModDispatcher.imgList32
     Left = 80
     Top = 16
     object actOk: TAction

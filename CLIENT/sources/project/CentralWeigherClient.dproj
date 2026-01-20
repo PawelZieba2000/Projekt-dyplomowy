@@ -6,10 +6,10 @@
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <ProjectName Condition="'$(ProjectName)'==''">WeighingClientProject</ProjectName>
+        <ProjectName Condition="'$(ProjectName)'==''">CentralWeigherClient</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
-        <MainSource>WeighingClientProject.dpr</MainSource>
+        <MainSource>CentralWeigherClient.dpr</MainSource>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -70,7 +70,7 @@
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <SanitizedProjectName>WeighingClientProject</SanitizedProjectName>
+        <SanitizedProjectName>CentralWeigherClient</SanitizedProjectName>
         <VerInfo_Locale>1045</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
@@ -164,28 +164,29 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\cHelpFunctions.pas"/>
         <DCCReference Include="..\controller\cManagerUser.pas"/>
-        <None Include="ModelSupport_WeighingClientProject\default.txaPackage"/>
-        <None Include="ModelSupport_WeighingClientProject\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\uModDispatcher\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\frmMain\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\WeighingClientProject\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cItemProduct\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\frmBaseAddEdit\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cItemUser\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cItemCustomer\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\IScaleTranssmision\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cTypes\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cManagerConfig\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\frmConfig\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cItemWeighing\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cConfig\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\frmBase\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\frmBaseList\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\frmLogin\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cHelpFunctions\default.txvpck"/>
-        <None Include="ModelSupport_WeighingClientProject\cHelpFunctions\default.txaPackage"/>
+        <DCCReference Include="..\units\uConsts.pas"/>
+        <DCCReference Include="..\helper\cHelpFunctions.pas"/>
+        <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemCustomer\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemProduct\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemUser\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemWeighing\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerConfig\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cTypes\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmBase\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmBaseAddEdit\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmBaseList\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmConfig\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmLogin\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmMain\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\IScaleTranssmision\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\uModDispatcher\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\WeighingClientProject\default.txvpck"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -204,7 +205,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">WeighingClientProject.dpr</Source>
+                    <Source Name="MainSource">CentralWeigherClient.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -212,19 +213,19 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="5">
-                <DeployFile LocalName="..\..\bin\Win32\Debug\WeighingClientProject.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\bin\Win32\Debug\CentralWeigherClient.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>WeighingClientProject.exe</RemoteName>
+                        <RemoteName>CentralWeigherClient.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_WeighingClientProject\cHelpFunctions\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_WeighingClientProject\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -1175,7 +1176,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
-            <ModelSupport>True</ModelSupport>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

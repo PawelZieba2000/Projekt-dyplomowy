@@ -8,7 +8,7 @@ uses
   Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   dxCore, dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxSkinsCore,
   dxSkinOffice2019Colorful, dxSkinBasic, dxDockControl, uModDispatcher,
-  System.ImageList, Vcl.ImgList, cxImageList;
+  System.ImageList, Vcl.ImgList, cxImageList, dxStatusBar;
 
 type
   TFormMain = class(TForm)
@@ -37,6 +37,7 @@ type
     dxRibbonTabConfig: TdxRibbonTab;
     dxRibbonTabDictionaries: TdxRibbonTab;
     dxRibbonTabWeighings: TdxRibbonTab;
+    stsbrBottom: TdxStatusBar;
     procedure FormActivate(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actOpenConfigExecute(Sender: TObject);
@@ -46,6 +47,9 @@ type
     procedure actOpenProductsExecute(Sender: TObject);
     procedure actOpenDictionariesExecute(Sender: TObject);
     procedure actOpenWeighingExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -58,7 +62,8 @@ var
 implementation
 
 uses
-  frmLogin, frmConfig, cHelpFunctions;
+  frmLogin, frmConfig, cHelpFunctions, System.StrUtils, cManagerUser, uConsts,
+  cManagerConfig;
 
 {$R *.dfm}
 
@@ -69,18 +74,14 @@ end;
 
 procedure TFormMain.actLoginExecute(Sender: TObject);
 begin
-  if not Assigned(FormLogin) then
-    FormLogin := TFormLogin.Create(Nil);
-
-  THelpFunctions.SetControlEnable([actOpenCustomers, actOpenProducts, actOpenWeighing, actOpenWeighingHistory], FormLogin.ModalResult = mrOk);
+  var logInResult : Boolean := TFormLogin.CreateAndShowModal(Nil) = mrOk;
+  THelpFunctions.SetControlEnable([actOpenCustomers, actOpenProducts, actOpenWeighing, actOpenWeighingHistory], logInResult);
+  Format(Self.stsbrBottom.Panels[0].Text, [System.StrUtils.IfThen(logInResult, TManagerUser.Instance.LoggedUser.FullName, EMPTY_STR)]);
 end;
 
 procedure TFormMain.actOpenConfigExecute(Sender: TObject);
 begin
-  if not Assigned(FormConfig) then
-    FormConfig := TFormConfig.Create(nil);
-
-  FormConfig.ShowModal;
+  TFormConfig.CreateAndShowModal(Nil);
 end;
 
 procedure TFormMain.actOpenCustomersExecute(Sender: TObject);
@@ -111,6 +112,23 @@ end;
 procedure TFormMain.FormActivate(Sender: TObject);
 begin
   actLoginExecute(nil);
+end;
+
+procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure TFormMain.FormCreate(Sender: TObject);
+begin
+  TManagerConfig.Instance.LoadConfig();
+  TManagerUser.Instance;
+end;
+
+procedure TFormMain.FormDestroy(Sender: TObject);
+begin
+  TManagerConfig.ReleaseInstance;
+  TManagerUser.ReleaseInstance;
 end;
 
 end.

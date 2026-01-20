@@ -1,4 +1,4 @@
-program WeighingClientProject;
+program CentralWeigherClient;
 
 uses
   Vcl.Forms,
@@ -17,8 +17,9 @@ uses
   frmLogin in '..\view\frmLogin.pas' {FormLogin},
   frmConfig in '..\view\frmConfig.pas' {FormConfig},
   uModDispatcher in '..\modules\uModDispatcher.pas' {ModDispatcher: TDataModule},
-  cHelpFunctions in '..\cHelpFunctions.pas',
-  cManagerUser in '..\controller\cManagerUser.pas';
+  cManagerUser in '..\controller\cManagerUser.pas',
+  uConsts in '..\units\uConsts.pas',
+  cHelpFunctions in '..\helper\cHelpFunctions.pas';
 
 {$R *.res}
 
@@ -26,7 +27,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMain, FormMain);
-  Application.CreateForm(TFormConfig, FormConfig);
   Application.CreateForm(TModDispatcher, ModDispatcher);
   Application.Run;
 end.
