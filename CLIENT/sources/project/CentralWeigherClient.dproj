@@ -167,6 +167,18 @@
         <DCCReference Include="..\controller\cManagerUser.pas"/>
         <DCCReference Include="..\units\uConsts.pas"/>
         <DCCReference Include="..\helper\cHelpFunctions.pas"/>
+        <DCCReference Include="..\view\frmCustomerList.pas">
+            <Form>FormCustomerList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmProductList.pas">
+            <Form>FormProductList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmWeighingList.pas">
+            <Form>FormWeighingList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>

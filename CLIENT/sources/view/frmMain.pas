@@ -76,7 +76,7 @@ procedure TFormMain.actLoginExecute(Sender: TObject);
 begin
   var logInResult : Boolean := TFormLogin.CreateAndShowModal(Nil) = mrOk;
   THelpFunctions.SetControlEnable([actOpenCustomers, actOpenProducts, actOpenWeighing, actOpenWeighingHistory], logInResult);
-  Format(Self.stsbrBottom.Panels[0].Text, [System.StrUtils.IfThen(logInResult, TManagerUser.Instance.LoggedUser.FullName, EMPTY_STR)]);
+  Self.stsbrBottom.Panels[0].Text := Self.stsbrBottom.Panels[0].Text + ' ' + System.StrUtils.IfThen(logInResult, TManagerUser.Instance.LoggedUser.FullName, EMPTY_STR);
 end;
 
 procedure TFormMain.actOpenConfigExecute(Sender: TObject);

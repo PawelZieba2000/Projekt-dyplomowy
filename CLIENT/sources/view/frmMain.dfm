@@ -71,11 +71,8 @@ object FormMain: TFormMain
     Panels = <
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        Text = 'Zalogowano jako: [%s]'
+        Text = 'Zalogowano jako:'
       end>
-    ExplicitLeft = 432
-    ExplicitTop = 304
-    ExplicitWidth = 0
   end
   object actlstMain: TActionList
     Images = ModDispatcher.imgList32

@@ -19,7 +19,10 @@ uses
   uModDispatcher in '..\modules\uModDispatcher.pas' {ModDispatcher: TDataModule},
   cManagerUser in '..\controller\cManagerUser.pas',
   uConsts in '..\units\uConsts.pas',
-  cHelpFunctions in '..\helper\cHelpFunctions.pas';
+  cHelpFunctions in '..\helper\cHelpFunctions.pas',
+  frmCustomerList in '..\view\frmCustomerList.pas' {FormCustomerList},
+  frmProductList in '..\view\frmProductList.pas' {FormProductList},
+  frmWeighingList in '..\view\frmWeighingList.pas' {FormWeighingList};
 
 {$R *.res}
 

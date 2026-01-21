@@ -108,13 +108,13 @@ object FormBase: TFormBase
     PopupMenuLinks = <>
     UseSystemFont = True
     Left = 16
-    Top = 16
+    Top = 72
     PixelsPerInch = 96
   end
   object actlstMain: TActionList
     Images = ModDispatcher.imgList32
     Left = 80
-    Top = 16
+    Top = 72
     object actOk: TAction
       Caption = 'OK'
       OnExecute = actOkExecute
