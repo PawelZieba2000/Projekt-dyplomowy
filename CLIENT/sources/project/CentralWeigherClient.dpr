@@ -22,7 +22,11 @@ uses
   cHelpFunctions in '..\helper\cHelpFunctions.pas',
   frmCustomerList in '..\view\frmCustomerList.pas' {FormCustomerList},
   frmProductList in '..\view\frmProductList.pas' {FormProductList},
-  frmWeighingList in '..\view\frmWeighingList.pas' {FormWeighingList};
+  frmWeighingList in '..\view\frmWeighingList.pas' {FormWeighingList},
+  cRestClientService in '..\service\cRestClientService.pas',
+  cScaleTranssRinstrumC520 in '..\transsmision\cScaleTranssRinstrumC520.pas',
+  cItemBase in '..\model\cItemBase.pas',
+  cItemAddress in '..\model\cItemAddress.pas';
 
 {$R *.res}
 
