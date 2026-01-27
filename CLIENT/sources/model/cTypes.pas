@@ -22,6 +22,10 @@ type
     class function FromInteger(AValue: Integer) : TScaleProtocolType; static;
   end;
 
+  TWeihgingSearchFilters = record
+
+  end;
+
 implementation
 
 { TScaleConnTypeHelper }

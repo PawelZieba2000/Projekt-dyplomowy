@@ -23,11 +23,11 @@ uses
   frmCustomerList in '..\view\frmCustomerList.pas' {FormCustomerList},
   frmProductList in '..\view\frmProductList.pas' {FormProductList},
   frmWeighingList in '..\view\frmWeighingList.pas' {FormWeighingList},
-  cRestClientService in '..\service\cRestClientService.pas',
+  cRestClient in '..\service\cRestClient.pas',
   cScaleTranssRinstrumC520 in '..\transsmision\cScaleTranssRinstrumC520.pas',
   cItemBase in '..\model\cItemBase.pas',
   cItemAddress in '..\model\cItemAddress.pas',
-  iRestClientService in '..\service\iRestClientService.pas';
+  iApiClient in '..\service\iApiClient.pas';
 
 {$R *.res}
 
