@@ -3,10 +3,20 @@ unit cItemAddress;
 interface
 
 uses
-  cItemBase;
+  cItemBase, OverbyteIcsSuperObject;
 
 type
   TItemAddress = class(TItemBase)
+    private
+    const
+    {$REGION 'JSON FIELDS'}
+      jf_street : String = 'street';
+      jf_house_no : String = 'house_no';
+      jf_local_no : String = 'local_no';
+      jf_post_code : String = 'post_code';
+      jf_city : String = 'city';
+      jf_country : String = 'country';
+    {$ENDREGION}
     private
       FStreet : String;
       FHouseNo : String;
@@ -35,7 +45,10 @@ type
       property City: String read GetCity write SetCity;
       property Country: String read GetCountry write SetCountry;
 
+      procedure AssignValues(const pSource : TItemAddress); reintroduce;
       procedure SetDefaultValues(); override;
+
+      function ToJson() : ISuperObject; reintroduce;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -44,6 +57,20 @@ type
 implementation
 
 { TItemAddress }
+
+procedure TItemAddress.AssignValues(const pSource: TItemAddress);
+begin
+  if not Assigned(pSource) then
+    Exit;
+
+  inherited AssignValues(pSource);
+  Self.Street := pSource.Street;
+  Self.HouseNo := pSource.HouseNo;
+  Self.LocalNo := pSource.LocalNo;
+  Self.PostCode := pSource.PostCode;
+  Self.City := pSource.City;
+  Self.Country := pSource.Country;
+end;
 
 constructor TItemAddress.Create;
 begin
@@ -132,6 +159,18 @@ procedure TItemAddress.SetStreet(const Value: String);
 begin
   if Value <> Self.Street then
     Self.FStreet := Value;
+end;
+
+function TItemAddress.ToJson: ISuperObject;
+begin
+  Result := inherited ToJson();
+
+  Result.S[jf_street] := Self.Street;
+  Result.S[jf_house_no] := Self.HouseNo;
+  Result.S[jf_local_no] := Self.LocalNo;
+  Result.S[jf_post_code] := Self.PostCode;
+  Result.S[jf_city] := Self.City;
+  Result.S[jf_country] := Self.Country;
 end;
 
 end.

@@ -3,19 +3,31 @@ unit cItemCustomer;
 interface
 
 uses
-  cItemBase, cItemAddress;
+  cItemBase, cItemAddress, OverbyteIcsSuperObject;
 
 type
   TItemCustomer = class(TItemBase)
     private
+    const
+    {$REGION 'JSON FIELDS'}
+      jf_address : String = 'address';
+      jf_name : String = 'name';
+      jf_code : String = 'code';
+      jf_nip : String = 'nip';
+      jf_phone_no : String = 'phone_no';
+    {$ENDREGION}
+    private
       FAddress : TItemAddress;
       FName : String;
+      FCode : String;
       FNIP : String;
       FPhoneNo : String;
 
       function GetAddress: TItemAddress;
       function GetName: String;
       procedure SetName(const Value: String);
+      function GetCode: String;
+      procedure SetCode(const Value: String);
       function GetNIP: String;
       procedure SetNIP(const Value: String);
       function GetPhoneNo: String;
@@ -23,10 +35,14 @@ type
     public
       property Address: TItemAddress read GetAddress;
       property Name: String read GetName write SetName;
+      property Code: String read GetCode write SetCode;
       property NIP: String read GetNIP write SetNIP;
       property PhoneNo: String read GetPhoneNo write SetPhoneNo;
 
+      procedure AssignValues(const pSource : TItemCustomer); reintroduce;
       procedure SetDefaultValues(); override;
+
+      function ToJson() : ISuperObject; reintroduce;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -35,6 +51,20 @@ type
 implementation
 
 { TItemCustomer }
+
+procedure TItemCustomer.AssignValues(const pSource: TItemCustomer);
+begin
+  if not Assigned(pSource) then
+    Exit;
+
+  inherited AssignValues(pSource);
+  Self.Name := pSource.Name;
+  Self.Code := pSource.Code;
+  Self.NIP := pSource.NIP;
+  Self.PhoneNo := pSource.PhoneNo;
+
+  Self.Address.AssignValues(pSource.Address);
+end;
 
 constructor TItemCustomer.Create;
 begin
@@ -54,6 +84,11 @@ begin
   Result := Self.FAddress;
 end;
 
+function TItemCustomer.GetCode: String;
+begin
+  Result := Self.FCode;
+end;
+
 function TItemCustomer.GetName: String;
 begin
   Result := Self.FName;
@@ -67,6 +102,12 @@ end;
 function TItemCustomer.GetPhoneNo: String;
 begin
   Result := Self.FPhoneNo;
+end;
+
+procedure TItemCustomer.SetCode(const Value: String);
+begin
+  if Value <> Self.Code then
+    Self.FCode := Value;
 end;
 
 procedure TItemCustomer.SetDefaultValues;
@@ -96,6 +137,17 @@ procedure TItemCustomer.SetPhoneNo(const Value: String);
 begin
   if Value <> Self.PhoneNo then
     Self.FPhoneNo := Value;
+end;
+
+function TItemCustomer.ToJson: ISuperObject;
+begin
+  Result := inherited ToJson();
+
+  Result.S[jf_name] := Self.Name;
+  Result.S[jf_code] := Self.Code;
+  Result.S[jf_nip] := Self.NIP;
+  Result.S[jf_phone_no] := Self.PhoneNo;
+  Result.O[jf_address] := Self.Address.ToJson();
 end;
 
 end.

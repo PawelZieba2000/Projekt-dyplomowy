@@ -75,14 +75,19 @@ begin
 
 
   //assign data
-  with TManagerConfig.Instance do
+  with TManagerConfig.Instance.RestClientConfig do
   begin
     ApiUrl := Trim(edtApiUrl.Text);
     ApiLogPath := Trim(edtbtnApiLogPath.Text);
-    ScaleIP := Trim(edtScaleIp.Text);
-    ScalePort := seScalePort.Value;
-    SaveConfig;
   end;
+
+  with TManagerConfig.Instance.ScaleConfig do
+  begin
+    TcpIpAddress := Trim(edtScaleIp.Text);
+    TcpPort := seScalePort.Value;
+  end;
+
+  TManagerConfig.Instance.SaveConfig;
 
   Self.ModalResult := mrOk;
 end;
@@ -125,12 +130,16 @@ end;
 
 procedure TFormConfig.FillControls;
 begin
-  with TManagerConfig.Instance do
+  with TManagerConfig.Instance.RestClientConfig do
   begin
     edtApiUrl.Text := ApiUrl;
     edtbtnApiLogPath.Text := ApiLogPath;
-    edtScaleIp.Text := ScaleIP;
-    seScalePort.Value := ScalePort;
+  end;
+
+  with TManagerConfig.Instance.ScaleConfig do
+  begin
+    edtScaleIp.Text := TcpIpAddress;
+    seScalePort.Value := TcpPort;
   end;
 end;
 

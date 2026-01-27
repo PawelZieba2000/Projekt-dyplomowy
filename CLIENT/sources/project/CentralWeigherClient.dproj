@@ -183,6 +183,7 @@
         <DCCReference Include="..\transsmision\cScaleTranssRinstrumC520.pas"/>
         <DCCReference Include="..\model\cItemBase.pas"/>
         <DCCReference Include="..\model\cItemAddress.pas"/>
+        <DCCReference Include="..\service\iRestClientService.pas"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>

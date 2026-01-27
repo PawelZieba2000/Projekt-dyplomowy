@@ -26,7 +26,8 @@ uses
   cRestClientService in '..\service\cRestClientService.pas',
   cScaleTranssRinstrumC520 in '..\transsmision\cScaleTranssRinstrumC520.pas',
   cItemBase in '..\model\cItemBase.pas',
-  cItemAddress in '..\model\cItemAddress.pas';
+  cItemAddress in '..\model\cItemAddress.pas',
+  iRestClientService in '..\service\iRestClientService.pas';
 
 {$R *.res}
 
