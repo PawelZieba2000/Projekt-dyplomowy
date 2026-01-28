@@ -15,11 +15,19 @@ uses
 
 type
   TFormProductList = class(TFormBaseList)
+    clmnIdErp: TcxGridColumn;
+    clmnProdCode: TcxGridColumn;
+    clmnProdName: TcxGridColumn;
+    clmnProdPrice: TcxGridColumn;
+    clmnProdLocationId: TcxGridColumn;
+    clmnProdModifDT: TcxGridColumn;
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
     class function CreateAndShowModal(AOwner : TComponent) : Integer;
+
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -28,9 +36,16 @@ var
 implementation
 
 uses
-  cHelpFunctions;
+  cHelpFunctions, cManagerProducts;
 
 {$R *.dfm}
+
+constructor TFormProductList.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+
+  Self.gGridListTableView1.DataController.CustomDataSource := TManagerProducts.Instance.ProductsDS;
+end;
 
 class function TFormProductList.CreateAndShowModal(
   AOwner: TComponent): Integer;

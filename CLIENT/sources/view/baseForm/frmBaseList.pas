@@ -16,7 +16,6 @@ uses
 type
   TFormBaseList = class(TFormBase)
     liGrid: TdxLayoutItem;
-    gGridListDBTableView1: TcxGridDBTableView;
     gGridListLevel1: TcxGridLevel;
     gGridList: TcxGrid;
     sprtrTop: TdxLayoutSeparatorItem;
@@ -26,13 +25,13 @@ type
     actSearch: TAction;
     btnSearch: TdxBarLargeButton;
     baredtFilter: TcxBarEditItem;
+    gGridListTableView1: TcxGridTableView;
     procedure actRefreshExecute(Sender: TObject);
     procedure actSearchExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -55,9 +54,10 @@ begin
 //
 end;
 
-procedure TFormBaseList.FormCreate(Sender: TObject);
+constructor TFormBaseList.Create(AOwner: TComponent);
 begin
-  THelpFunctions.SetGridDefaultOptions(Self.gGridListDBTableView1);
+  inherited Create(AOwner);
+  THelpFunctions.SetGridDefaultOptions(Self.gGridListTableView1);
 end;
 
 end.

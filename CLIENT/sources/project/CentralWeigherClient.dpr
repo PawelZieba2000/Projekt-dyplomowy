@@ -27,7 +27,11 @@ uses
   cScaleTranssRinstrumC520 in '..\transsmision\cScaleTranssRinstrumC520.pas',
   cItemBase in '..\model\cItemBase.pas',
   cItemAddress in '..\model\cItemAddress.pas',
-  iApiClient in '..\service\iApiClient.pas';
+  iApiClient in '..\service\iApiClient.pas',
+  cManagerProducts in '..\controller\cManagerProducts.pas',
+  cManagerCustomers in '..\controller\cManagerCustomers.pas',
+  cDataSourceCustomers in '..\datasources\cDataSourceCustomers.pas',
+  cDataSourceProducts in '..\datasources\cDataSourceProducts.pas';
 
 {$R *.res}
 

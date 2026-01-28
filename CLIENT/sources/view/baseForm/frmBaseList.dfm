@@ -1,13 +1,12 @@
 inherited FormBaseList: TFormBaseList
   Caption = 'FormBaseList'
   StyleElements = [seFont, seClient, seBorder]
-  OnCreate = FormCreate
   TextHeight = 15
   inherited lcMain: TdxLayoutControl
     Top = 58
     Height = 383
-    ExplicitTop = 46
-    ExplicitHeight = 395
+    ExplicitTop = 58
+    ExplicitHeight = 383
     inherited btnOk: TcxButton
       Top = 346
       TabOrder = 1
@@ -24,7 +23,7 @@ inherited FormBaseList: TFormBaseList
       Width = 600
       Height = 301
       TabOrder = 0
-      object gGridListDBTableView1: TcxGridDBTableView
+      object gGridListTableView1: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         ScrollbarAnnotations.CustomAnnotations = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -32,7 +31,7 @@ inherited FormBaseList: TFormBaseList
         DataController.Summary.SummaryGroups = <>
       end
       object gGridListLevel1: TcxGridLevel
-        GridView = gGridListDBTableView1
+        GridView = gGridListTableView1
       end
     end
     inherited lgBottom: TdxLayoutGroup

@@ -15,11 +15,25 @@ uses
 
 type
   TFormCustomerList = class(TFormBaseList)
+    clmnIdErp: TcxGridColumn;
+    clmnCustomerCode: TcxGridColumn;
+    clmnCustomerName: TcxGridColumn;
+    clmnCustomerNIP: TcxGridColumn;
+    clmnAddressStreet: TcxGridColumn;
+    clmnAddressHouseNo: TcxGridColumn;
+    clmnAddressLocalNo: TcxGridColumn;
+    clmnAddressPostCode: TcxGridColumn;
+    clmnAddressCity: TcxGridColumn;
+    clmnCustomerPhoneNo: TcxGridColumn;
+    clmnCustomerLocationId: TcxGridColumn;
+    clmnCustomerModifDT: TcxGridColumn;
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
     class function CreateAndShowModal(AOwner : TComponent) : Integer;
+
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -28,9 +42,16 @@ var
 implementation
 
 uses
-  cHelpFunctions;
+  cHelpFunctions, cManagerCustomers;
 
 {$R *.dfm}
+
+constructor TFormCustomerList.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+
+  Self.gGridListTableView1.DataController.CustomDataSource := TManagerCustomers.Instance.CustomersDS;
+end;
 
 class function TFormCustomerList.CreateAndShowModal(
   AOwner: TComponent): Integer;

@@ -55,7 +55,7 @@ uses
   System.SysUtils, System.IniFiles, Vcl.Forms, uConsts, cHelpFunctions, cTypes,
   CPort;
 
-{ TManagerAdditionalData }
+{ TManagerConfig }
 
 constructor TManagerConfig.Create;
 begin

@@ -27,7 +27,7 @@ implementation
 uses
   System.SysUtils;
 
-{ TManagerAdditionalData }
+{ TManagerUser }
 
 constructor TManagerUser.Create;
 begin

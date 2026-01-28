@@ -184,6 +184,10 @@
         <DCCReference Include="..\model\cItemBase.pas"/>
         <DCCReference Include="..\model\cItemAddress.pas"/>
         <DCCReference Include="..\service\iApiClient.pas"/>
+        <DCCReference Include="..\controller\cManagerProducts.pas"/>
+        <DCCReference Include="..\controller\cManagerCustomers.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceCustomers.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceProducts.pas"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>
@@ -236,18 +240,36 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\IScaleTranssmision\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\WeighingClientProject\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cConfig\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemCustomer\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemProduct\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemUser\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemWeighing\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerConfig\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cTypes\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBaseAddEdit\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBaseList\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBase\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmConfig\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmLogin\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmMain\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\uModDispatcher\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
@@ -1181,6 +1203,7 @@
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimARM64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
