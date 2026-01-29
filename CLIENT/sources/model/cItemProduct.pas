@@ -34,12 +34,18 @@ type
       procedure SetDefaultValues(); override;
 
       function ToJson() : ISuperObject; reintroduce;
+      procedure FromJson(pProdJson : ISuperObject); reintroduce;
+
+      class function JsonToProduct(pProdJson : ISuperObject) : TItemProduct;
 
       constructor Create(); overload;
       destructor Destroy(); override;
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TItemProduct }
 
@@ -64,6 +70,32 @@ end;
 destructor TItemProduct.Destroy;
 begin
   inherited;
+end;
+
+procedure TItemProduct.FromJson(pProdJson: ISuperObject);
+begin
+  if not (Assigned(pProdJson) and (pProdJson.DataType = stObject)) then
+    raise Exception.Create('wrong JSON format');
+
+  Self.Name := pProdJson.S[jf_name];
+  Self.Code := pProdJson.S[jf_code];
+  Self.Price := pProdJson.D[jf_price];
+
+  inherited FromJson(pProdJson);
+end;
+
+class function TItemProduct.JsonToProduct(pProdJson: ISuperObject): TItemProduct;
+begin
+  Result := nil;
+  if not (Assigned(pProdJson) and (pProdJson.DataType = stObject)) then
+    Exit;
+
+  Result := TItemProduct.Create;
+  try
+    Result.FromJson(pProdJson);
+  except
+    FreeAndNil(Result);
+  end;
 end;
 
 function TItemProduct.GetCode: String;

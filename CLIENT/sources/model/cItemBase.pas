@@ -46,6 +46,7 @@ type
       procedure SetDefaultValues(); virtual;
 
       function ToJson() : ISuperObject;
+      procedure FromJson(pJson : ISuperObject);
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -80,6 +81,15 @@ end;
 destructor TItemBase.Destroy;
 begin
   inherited;
+end;
+
+procedure TItemBase.FromJson(pJson: ISuperObject);
+begin
+  if not (Assigned(pJson) and (pJson.DataType = stObject)) then
+    raise Exception.Create('wrong JSON format'); ;
+
+  Self.IdErp := pJson.I[jf_id_erp];
+  Self.LocationId := pJson.I[jf_location_id];
 end;
 
 function TItemBase.GetId: Integer;

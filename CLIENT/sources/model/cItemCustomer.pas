@@ -43,12 +43,18 @@ type
       procedure SetDefaultValues(); override;
 
       function ToJson() : ISuperObject; reintroduce;
+      procedure FromJson(pCustomerJson : ISuperObject); reintroduce;
+
+      class function JsonToCustomer(pCustomerJson : ISuperObject) : TItemCustomer;
 
       constructor Create(); overload;
       destructor Destroy(); override;
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TItemCustomer }
 
@@ -79,6 +85,21 @@ begin
   inherited;
 end;
 
+procedure TItemCustomer.FromJson(pCustomerJson: ISuperObject);
+begin
+  if not (Assigned(pCustomerJson) and (pCustomerJson.DataType = stObject)) then
+    raise Exception.Create('wrong JSON format');
+
+  Self.Name := pCustomerJson.S[jf_name];
+  Self.Code := pCustomerJson.S[jf_code];
+  Self.NIP := pCustomerJson.S[jf_nip];
+  Self.PhoneNo := pCustomerJson.S[jf_phone_no];
+
+  Self.Address.FromJson(pCustomerJson.O[jf_address]);
+
+  inherited FromJson(pCustomerJson);
+end;
+
 function TItemCustomer.GetAddress: TItemAddress;
 begin
   Result := Self.FAddress;
@@ -102,6 +123,21 @@ end;
 function TItemCustomer.GetPhoneNo: String;
 begin
   Result := Self.FPhoneNo;
+end;
+
+class function TItemCustomer.JsonToCustomer(
+  pCustomerJson: ISuperObject): TItemCustomer;
+begin
+Result := nil;
+  if not (Assigned(pCustomerJson) and (pCustomerJson.DataType = stObject)) then
+    Exit;
+
+  Result := TItemCustomer.Create;
+  try
+    Result.FromJson(pCustomerJson);
+  except
+    FreeAndNil(Result);
+  end;
 end;
 
 procedure TItemCustomer.SetCode(const Value: String);

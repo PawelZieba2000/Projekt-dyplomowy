@@ -73,6 +73,9 @@ type
       procedure SetDefaultValues(); override;
 
       function ToJson() : ISuperObject; reintroduce;
+      procedure FromJson(pWeighingJson : ISuperObject); reintroduce;
+
+      class function JsonToWeighing(pWeighingJson : ISuperObject) : TItemWeighing;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -101,6 +104,25 @@ begin
   Self.FUser.Free;
 
   inherited;
+end;
+
+procedure TItemWeighing.FromJson(pWeighingJson: ISuperObject);
+begin
+  if not (Assigned(pWeighingJson) and (pWeighingJson.DataType = stObject)) then
+    raise Exception.Create('wrong JSON format');
+
+  Self.MassIn := pWeighingJson.D[jf_mass_in];
+  Self.MassOut := pWeighingJson.D[jf_mass_out];
+  Self.DateIn := pWeighingJson.DT[jf_date_in];
+  Self.DateOut := pWeighingJson.DT[jf_date_out];
+  Self.CarNo := pWeighingJson.S[jf_car_no];
+  Self.TrailerNo := pWeighingJson.S[jf_trailer_no];
+  Self.User.Id := pWeighingJson.I[jf_user_id];
+
+  Self.Customer.FromJson(pWeighingJson.O[jf_customer]);
+  Self.Product.FromJson(pWeighingJson.O[jf_product]);
+
+  inherited FromJson(pWeighingJson);
 end;
 
 function TItemWeighing.GetCarNo: String;
@@ -156,6 +178,21 @@ end;
 function TItemWeighing.GetUser: TItemUser;
 begin
   Result := Self.FUser;
+end;
+
+class function TItemWeighing.JsonToWeighing(
+  pWeighingJson: ISuperObject): TItemWeighing;
+begin
+  Result := nil;
+  if not (Assigned(pWeighingJson) and (pWeighingJson.DataType = stObject)) then
+    Exit;
+
+  Result := TItemWeighing.Create;
+  try
+    Result.FromJson(pWeighingJson);
+  except
+    FreeAndNil(Result);
+  end;
 end;
 
 procedure TItemWeighing.SetCarNo(const Value: String);

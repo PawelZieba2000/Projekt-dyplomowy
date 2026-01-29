@@ -22,8 +22,9 @@ type
     class function FromInteger(AValue: Integer) : TScaleProtocolType; static;
   end;
 
-  TWeihgingSearchFilters = record
-
+  TSearchFilters = record
+    DateStart : TDateTime;
+    DateStop : TDateTime;
   end;
 
 implementation

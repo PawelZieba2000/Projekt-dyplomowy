@@ -49,12 +49,18 @@ type
       procedure SetDefaultValues(); override;
 
       function ToJson() : ISuperObject; reintroduce;
+      procedure FromJson(pAddressJson : ISuperObject); reintroduce;
+
+      class function JsonToAddress(pAddressJson : ISuperObject) : TItemAddress;
 
       constructor Create(); overload;
       destructor Destroy(); override;
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TItemAddress }
 
@@ -82,6 +88,21 @@ end;
 destructor TItemAddress.Destroy;
 begin
   inherited;
+end;
+
+procedure TItemAddress.FromJson(pAddressJson: ISuperObject);
+begin
+  if not (Assigned(pAddressJson) and (pAddressJson.DataType = stObject)) then
+    raise Exception.Create('wrong JSON format');
+
+  Self.Street := pAddressJson.S[jf_street];
+  Self.HouseNo := pAddressJson.S[jf_house_no];
+  Self.LocalNo := pAddressJson.S[jf_local_no];
+  Self.PostCode := pAddressJson.S[jf_post_code];
+  Self.City := pAddressJson.S[jf_city];
+  Self.Country := pAddressJson.S[jf_country];
+
+  inherited FromJson(pAddressJson);
 end;
 
 function TItemAddress.GetCity: String;
@@ -112,6 +133,21 @@ end;
 function TItemAddress.GetStreet: String;
 begin
   Result := Self.FStreet;
+end;
+
+class function TItemAddress.JsonToAddress(
+  pAddressJson: ISuperObject): TItemAddress;
+begin
+  Result := nil;
+  if not (Assigned(pAddressJson) and (pAddressJson.DataType = stObject)) then
+    Exit;
+
+  Result := TItemAddress.Create;
+  try
+    Result.FromJson(pAddressJson);
+  except
+    FreeAndNil(Result);
+  end;
 end;
 
 procedure TItemAddress.SetCity(const Value: String);

@@ -10,6 +10,14 @@ const
   SCALE_TIMER_SEND_INTERVAL = 300;
   SCALE_TIMER_TIME_OUT_INTERVAL = 1000;
 
+  HTTP_OK = 200;
+
+  API_END_POINT_LOGIN : String = '/login';
+  API_END_POINT_GET_PRODUCTS : String = '/products';
+  API_END_POINT_GET_CUSTOMERS : String = '/customers';
+  API_END_POINT_GET_WEIGHINGS : String = '/weighings';
+  API_END_POINT_SEND_WEIGHING : String = '/weighings';
+
 implementation
 
 end.

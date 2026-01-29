@@ -17,7 +17,7 @@ type
       function LogInUser(const pUser : TItemUser) : TApiResponse;
       function GetProducts(pProductList : TObjectList<TItemProduct>) : TApiResponse;
       function GetCustomers(pCustomerList : TObjectList<TItemCustomer>) : TApiResponse;
-      function GetWeighings(pWeighingList : TObjectList<TItemWeighing>; const pSearchFilter : TWeihgingSearchFilters) : TApiResponse;
+      function GetWeighings(pWeighingList : TObjectList<TItemWeighing>; const pSearchFilter : TSearchFilters) : TApiResponse;
       function GetWeighingData(const pIdErpWeighing : Integer) : TApiResponse;
       function PostWeighing(const pWeighing : TItemWeighing) : TApiResponse;
   end;
