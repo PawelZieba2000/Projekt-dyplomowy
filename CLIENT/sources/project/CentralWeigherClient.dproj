@@ -188,6 +188,10 @@
         <DCCReference Include="..\controller\cManagerCustomers.pas"/>
         <DCCReference Include="..\datasources\cDataSourceCustomers.pas"/>
         <DCCReference Include="..\datasources\cDataSourceProducts.pas"/>
+        <DCCReference Include="..\view\frmWeighing.pas">
+            <Form>FormWeighing</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>

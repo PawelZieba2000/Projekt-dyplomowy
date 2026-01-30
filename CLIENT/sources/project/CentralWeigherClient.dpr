@@ -31,7 +31,8 @@ uses
   cManagerProducts in '..\controller\cManagerProducts.pas',
   cManagerCustomers in '..\controller\cManagerCustomers.pas',
   cDataSourceCustomers in '..\datasources\cDataSourceCustomers.pas',
-  cDataSourceProducts in '..\datasources\cDataSourceProducts.pas';
+  cDataSourceProducts in '..\datasources\cDataSourceProducts.pas',
+  frmWeighing in '..\view\frmWeighing.pas' {FormWeighing};
 
 {$R *.res}
 
@@ -40,5 +41,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TModDispatcher, ModDispatcher);
+  Application.CreateForm(TFormWeighing, FormWeighing);
   Application.Run;
 end.
