@@ -7,8 +7,7 @@ type
 
   TScaleProtocolType = (sptNone, sptRinstrumC520, sptRhewaDisplay);
 
-  TTransmisionWithDeviceEvent = procedure (pIsConnected : Boolean; pStatus : Integer = 0) of object;
-  TReadMassFromDeviceEvent = procedure (pMassFromDevice : Double; pStatus : Integer = 0) of object;
+  TWeighingType = (wtNone, wtFirst, wtSecond, wtSingle);
 
   TScaleConnTypeHelper = record helper for TScaleConnType
     function ToInteger() : Integer;
@@ -22,9 +21,16 @@ type
     class function FromInteger(AValue: Integer) : TScaleProtocolType; static;
   end;
 
+  TWeighingTypeHelper = record helper for TWeighingType
+    function ToInteger() : Integer;
+    function ToString() : String;
+    class function FromInteger(AValue: Integer) : TWeighingType; static;
+  end;
+
   TSearchFilters = record
     DateStart : TDateTime;
     DateStop : TDateTime;
+    IsTranzit : Boolean;
   end;
 
 implementation
@@ -94,6 +100,41 @@ begin
   case Self of
     sptRinstrumC520: Result := 'Rinstrum C520';
     sptRhewaDisplay: Result := 'Rhewa Display';
+  end;
+end;
+
+{ TWeighingTypeHelper }
+
+class function TWeighingTypeHelper.FromInteger(AValue: Integer): TWeighingType;
+begin
+  Result := wtNone;
+  for var item : TWeighingType := Low(TWeighingType) to High(TWeighingType) do
+  begin
+    if item.ToInteger <> AValue then
+      Continue;
+
+    Result := item;
+    Break;
+  end;
+end;
+
+function TWeighingTypeHelper.ToInteger: Integer;
+begin
+  Result := 0;
+  case Self of
+    wtFirst: Result := 1;
+    wtSecond: Result := 2;
+    wtSingle: Result := 3;
+  end;
+end;
+
+function TWeighingTypeHelper.ToString: String;
+begin
+  Result := '---';
+  case Self of
+    wtFirst: Result := 'Pierwsze wa¿enie';
+    wtSecond: Result := 'Drugie wa¿enie';
+    wtSingle: Result := 'Pojedyncze wa¿enie';
   end;
 end;
 

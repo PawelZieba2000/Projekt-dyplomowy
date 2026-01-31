@@ -21,8 +21,8 @@ type
       FReceiveData : AnsiString;
       FConnectedWithDevice : Boolean;
       FMassFromDevice : Double;
-      FConnectionEvent : TTransmisionWithDeviceEvent;
-      FReadMassEvent : TReadMassFromDeviceEvent;
+
+      FNewMassDT : TDateTime;
 
       procedure AfterConnect(Sender: TObject; Error: Word);
       procedure AfterDisconnect(Sender: TObject; Error: Word);
@@ -40,10 +40,6 @@ type
       procedure SetConnConfig(const pValue : TScaleConfig);
 
       function GetScaleConnected() : Boolean;
-      function GetReadMassEvent() : TReadMassFromDeviceEvent;
-      procedure SetReadMassEvent(const pValue : TReadMassFromDeviceEvent);
-      function GetConnectionEvent() : TTransmisionWithDeviceEvent;
-      procedure SetConnectionEvent(const pValue : TTransmisionWithDeviceEvent);
       function GetMassFromDevice() : Double;
 
       procedure ConnectTcpIp;
@@ -51,11 +47,16 @@ type
 
       procedure DisconnectTcpIp;
       procedure DisconnectSerial;
+
+      procedure SetMassFromDevice(const Value: Double);
+
+      function GetScaleStable() : Boolean;
+
+      property MassFromDevicePriv : Double read GetMassFromDevice write SetMassFromDevice;
     public
       property ScaleConnected : Boolean read GetScaleConnected;
-      property MassFromDevice  : Double read GetMassFromDevice;
-      property ConnectionEvent : TTransmisionWithDeviceEvent read GetConnectionEvent write SetConnectionEvent;
-      property ReadMassEvent    : TReadMassFromDeviceEvent read GetReadMassEvent write SetReadMassEvent;
+      property MassFromDevice : Double read GetMassFromDevice;
+      property MassStable : Boolean read GetScaleStable;
 
       procedure Connect;
       procedure Disconnect;
@@ -67,7 +68,8 @@ type
 
 implementation
 uses
-  Vcl.Dialogs, OverbyteIcsTypes, uConsts;
+  Vcl.Dialogs, OverbyteIcsTypes, uConsts, frmWeighing, Winapi.Windows,
+  System.DateUtils;
 
 procedure TTransRinstrumC520.AfterClose(Sender: TObject);
 begin
@@ -97,7 +99,7 @@ end;
 
 procedure TTransRinstrumC520.Connect;
 begin
-  FMassFromDevice := SCALE_WRONG_MASS;
+  Self.MassFromDevicePriv := SCALE_WRONG_MASS;
 
   case Self.FConnConfig.ConnType of
     sctSerialPort: Self.ConnectSerial;
@@ -124,11 +126,10 @@ begin
 
   try
     FComPort.Open;
-    if Assigned(FConnectionEvent) then
-      FConnectionEvent(True);
+
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_STATUS, WPARAM(0), LPARAM(PChar(True.ToInteger.ToString)));
   except
-    if Assigned(FConnectionEvent) then
-      FConnectionEvent(False);
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_STATUS, WPARAM(0), LPARAM(PChar(False.ToInteger.ToString)));
   end;
 end;
 
@@ -151,11 +152,9 @@ begin
 
   try
     FDeviceClient.Connect;
-    if Assigned(FConnectionEvent) then
-      FConnectionEvent(True);
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_STATUS, WPARAM(0), LPARAM(PChar(True.ToInteger.ToString)));
   except
-    if Assigned(FConnectionEvent) then
-      FConnectionEvent(False);
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_STATUS, WPARAM(0), LPARAM(PChar(False.ToInteger.ToString)));
   end;
 end;
 
@@ -193,8 +192,9 @@ begin
   begin
     FConnectedWithDevice := True;
     FTimeOutCounter := 0;
-    if Assigned(ReadMassEvent) then
-      ReadMassEvent(FMassFromDevice);
+
+    var scaleMassMsg : String := Self.MassFromDevicePriv.ToString + SCALE_STATUS_SEPARATOR + Self.MassStable.ToInteger.ToString;
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_MASS, WPARAM(0), LPARAM(PChar(scaleMassMsg)));
 
     FTimerSend.Enabled := True;
   end else
@@ -246,19 +246,9 @@ begin
   end;
 end;
 
-function TTransRinstrumC520.GetConnectionEvent: TTransmisionWithDeviceEvent;
-begin
-  Result := Self.FConnectionEvent;
-end;
-
 function TTransRinstrumC520.GetMassFromDevice: Double;
 begin
   Result := Self.FMassFromDevice;
-end;
-
-function TTransRinstrumC520.GetReadMassEvent: TReadMassFromDeviceEvent;
-begin
-  Result := Self.FReadMassEvent;
 end;
 
 function TTransRinstrumC520.GetScaleConnected: Boolean;
@@ -268,6 +258,11 @@ begin
     sctSerialPort: Result := Self.FComPort.Connected;
     sctTcpIp: Result := Self.FDeviceClient.State = wsConnected;
   end;
+end;
+
+function TTransRinstrumC520.GetScaleStable: Boolean;
+begin
+  Result := SecondsBetween(Now(), Self.FNewMassDT) >= SCALE_MIN_STABLE_TIME_SEC;
 end;
 
 procedure TTransRinstrumC520.OnRxChar(Sender: TObject; Count: Integer);
@@ -281,8 +276,9 @@ begin
   begin
     FConnectedWithDevice := True;
     FTimeOutCounter := 0;
-    if Assigned(ReadMassEvent) then
-      ReadMassEvent(FMassFromDevice);
+
+    var scaleMassMsg : String := Self.MassFromDevicePriv.ToString + SCALE_STATUS_SEPARATOR + Self.MassStable.ToInteger.ToString;
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_MASS, WPARAM(0), LPARAM(PChar(scaleMassMsg)));
 
     FTimerSend.Enabled := True;
   end else
@@ -308,12 +304,12 @@ begin
       massAsString := StringReplace(massAsString, '.', FormatSettings.DecimalSeparator, [rfReplaceAll]);
       massAsString := StringReplace(massAsString, ',', FormatSettings.DecimalSeparator, [rfReplaceAll]);
 
-      FMassFromDevice := StrToIntDef(massAsString, SCALE_WRONG_MASS);
-      Result := FMassFromDevice <> SCALE_WRONG_MASS;
+      var tmpMass : Integer := StrToIntDef(massAsString, SCALE_WRONG_MASS);
+      Result := tmpMass <> SCALE_WRONG_MASS;
       if Result then
-      begin
-        FMassFromDevice := FMassFromDevice * 1000;
-      end;
+        Self.MassFromDevicePriv := tmpMass * 1000
+      else
+        Self.MassFromDevicePriv := SCALE_WRONG_MASS;
     end;
 
     FReceiveData := '';
@@ -330,16 +326,13 @@ begin
   Self.FConnConfig := pValue;
 end;
 
-procedure TTransRinstrumC520.SetConnectionEvent(
-  const pValue: TTransmisionWithDeviceEvent);
+procedure TTransRinstrumC520.SetMassFromDevice(const Value: Double);
 begin
-  Self.FConnectionEvent := pValue;
-end;
-
-procedure TTransRinstrumC520.SetReadMassEvent(
-  const pValue: TReadMassFromDeviceEvent);
-begin
-  Self.FReadMassEvent := pValue;
+  if Value <> Self.FMassFromDevice then
+  begin
+    Self.FMassFromDevice := Value;
+    Self.FNewMassDT := Now();
+  end;
 end;
 
 procedure TTransRinstrumC520.TimerSendExecute(Sender: TObject);
@@ -395,8 +388,7 @@ begin
   if FTimeOutCounter > 2 then
   begin
     FConnectedWithDevice := False;
-    if Assigned(FConnectionEvent) then
-      FConnectionEvent(FConnectedWithDevice);
+    SendMessage(FormWeighing.Handle, WM_SET_SCALE_STATUS, WPARAM(0), LPARAM(PChar(False.ToInteger.ToString)));
   end else
   begin
     Inc(FTimeOutCounter);

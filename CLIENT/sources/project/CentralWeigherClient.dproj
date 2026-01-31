@@ -192,6 +192,7 @@
             <Form>FormWeighing</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\controller\cManagerScale.pas"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>

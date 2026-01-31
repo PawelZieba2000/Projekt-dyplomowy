@@ -32,7 +32,8 @@ uses
   cManagerCustomers in '..\controller\cManagerCustomers.pas',
   cDataSourceCustomers in '..\datasources\cDataSourceCustomers.pas',
   cDataSourceProducts in '..\datasources\cDataSourceProducts.pas',
-  frmWeighing in '..\view\frmWeighing.pas' {FormWeighing};
+  frmWeighing in '..\view\frmWeighing.pas' {FormWeighing},
+  cManagerScale in '..\controller\cManagerScale.pas';
 
 {$R *.res}
 

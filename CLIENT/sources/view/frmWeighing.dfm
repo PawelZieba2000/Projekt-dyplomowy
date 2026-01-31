@@ -1,84 +1,89 @@
 inherited FormWeighing: TFormWeighing
   Caption = 'Okno wa'#380'enia'
   ClientHeight = 451
-  ClientWidth = 520
+  ClientWidth = 652
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitWidth = 536
+  OnActivate = FormActivate
+  ExplicitWidth = 668
   ExplicitHeight = 490
   TextHeight = 15
   inherited lcMain: TdxLayoutControl
-    Width = 520
+    Width = 652
     Height = 451
+    ExplicitWidth = 652
+    ExplicitHeight = 451
     inherited btnOk: TcxButton
-      Left = 351
+      Left = 483
       Top = 414
-      TabOrder = 14
-      ExplicitLeft = 351
+      Enabled = False
+      TabOrder = 17
+      ExplicitLeft = 483
       ExplicitTop = 414
     end
     inherited btnCancel: TcxButton
-      Left = 433
+      Left = 565
       Top = 414
-      TabOrder = 15
-      ExplicitLeft = 433
+      Enabled = False
+      TabOrder = 18
+      ExplicitLeft = 565
       ExplicitTop = 414
     end
     object btnSelectProduct: TcxButton [2]
-      Left = 351
-      Top = 198
+      Left = 483
+      Top = 200
       Width = 75
       Height = 25
       Action = actSelectProduct
-      TabOrder = 8
+      TabOrder = 10
     end
     object btnSelectCustomer: TcxButton [3]
-      Left = 351
-      Top = 166
+      Left = 483
+      Top = 168
       Width = 75
       Height = 25
       Action = actSelectCutomer
-      TabOrder = 5
+      TabOrder = 7
     end
     object btnClearCustomer: TcxButton [4]
-      Left = 433
-      Top = 166
+      Left = 565
+      Top = 168
       Width = 75
       Height = 25
       Action = actClearCustomer
-      TabOrder = 6
+      TabOrder = 8
     end
     object btnClearProduct: TcxButton [5]
-      Left = 433
-      Top = 198
+      Left = 565
+      Top = 200
       Width = 75
       Height = 25
       Action = actClearProduct
-      TabOrder = 9
+      TabOrder = 11
     end
     object edtCustomer: TcxTextEdit [6]
       Left = 122
-      Top = 166
+      Top = 168
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 4
-      Width = 222
+      TabOrder = 6
+      Width = 354
     end
     object edtProduct: TcxTextEdit [7]
       Left = 122
-      Top = 198
+      Top = 200
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 7
-      Width = 222
+      TabOrder = 9
+      Width = 354
     end
     object pnlTop: TPanel [8]
       Left = 12
       Top = 12
-      Width = 496
+      Width = 628
       Height = 61
       Margins.Left = 0
       Margins.Top = 0
@@ -149,58 +154,142 @@ inherited FormWeighing: TFormWeighing
         Style.Font.Style = [fsBold]
         Style.IsFontAssigned = True
         Properties.Alignment.Vert = taVCenter
-        ExplicitWidth = 504
         Height = 61
-        Width = 400
+        Width = 532
         AnchorY = 31
       end
     end
     object pnlScaleInfo: TPanel [9]
       Left = 165
-      Top = 322
-      Width = 261
-      Height = 45
+      Top = 284
+      Width = 393
+      Height = 48
       BevelOuter = bvNone
-      TabOrder = 11
+      TabOrder = 13
+      object pnlScaleMass: TPanel
+        AlignWithMargins = True
+        Left = 5
+        Top = 5
+        Width = 383
+        Height = 38
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        Align = alClient
+        BevelOuter = bvNone
+        Color = clRed
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+        object lblScaleMass: TcxLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 5
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = '0'
+          ParentFont = False
+          Style.Font.Charset = DEFAULT_CHARSET
+          Style.Font.Color = clYellow
+          Style.Font.Height = -20
+          Style.Font.Name = 'Segoe UI'
+          Style.Font.Style = [fsBold]
+          Style.IsFontAssigned = True
+          Properties.Alignment.Horz = taRightJustify
+          Properties.Alignment.Vert = taVCenter
+          AnchorX = 346
+          AnchorY = 19
+        end
+        object lblScaleUnit: TcxLabel
+          AlignWithMargins = True
+          Left = 351
+          Top = 0
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 5
+          Margins.Bottom = 0
+          Align = alRight
+          Caption = 'kg'
+          ParentFont = False
+          Style.Font.Charset = DEFAULT_CHARSET
+          Style.Font.Color = clYellow
+          Style.Font.Height = -20
+          Style.Font.Name = 'Segoe UI'
+          Style.Font.Style = [fsBold]
+          Style.IsFontAssigned = True
+          Properties.Alignment.Vert = taVCenter
+          AnchorY = 19
+        end
+      end
     end
     object btnDoWeighing: TcxButton [10]
-      Left = 433
-      Top = 322
+      Left = 565
+      Top = 284
       Width = 75
-      Height = 45
+      Height = 48
       Action = actDoWeighing
-      TabOrder = 12
+      TabOrder = 14
     end
     object pnlScaleStatus: TPanel [11]
       Left = 165
-      Top = 374
-      Width = 343
-      Height = 20
+      Top = 339
+      Width = 475
+      Height = 28
       BevelOuter = bvNone
-      TabOrder = 13
+      TabOrder = 15
+      object pnlScaleStatusInfo: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 469
+        Height = 22
+        Align = alClient
+        BevelOuter = bvNone
+        Caption = 'Brak po'#322#261'czenia z wag'#261
+        Color = clRed
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clYellow
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+      end
     end
     object edtCarNo: TcxTextEdit [12]
       Left = 122
       Top = 93
+      AutoSize = False
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 1
-      Width = 233
+      Height = 25
+      Width = 277
     end
     object edtTrailerNo: TcxTextEdit [13]
       Left = 122
-      Top = 123
+      Top = 125
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 2
-      Width = 233
+      TabOrder = 3
+      Width = 324
     end
     object seTare: TcxSpinEdit [14]
-      Left = 390
+      Left = 539
       Top = 93
       Properties.Alignment.Horz = taRightJustify
       Properties.SpinButtons.Visible = False
@@ -210,12 +299,12 @@ inherited FormWeighing: TFormWeighing
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 3
-      Width = 118
+      TabOrder = 4
+      Width = 101
     end
     object seNetto: TcxSpinEdit [15]
       Left = 48
-      Top = 322
+      Top = 284
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Properties.SpinButtons.Visible = False
@@ -225,18 +314,64 @@ inherited FormWeighing: TFormWeighing
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 10
+      TabOrder = 12
       Width = 110
     end
+    object cmbWeighingType: TcxComboBox [16]
+      Left = 539
+      Top = 123
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 5
+      Width = 101
+    end
+    object stsbrBottom: TdxStatusBar [17]
+      Left = 12
+      Top = 387
+      Width = 628
+      Height = 20
+      Color = clHighlightText
+      Panels = <
+        item
+          PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        end>
+    end
+    object btnSearchCar: TcxButton [18]
+      Left = 406
+      Top = 93
+      Width = 40
+      Height = 25
+      Action = actSearchCar
+      TabOrder = 2
+    end
     inherited lgMain: TdxLayoutGroup
-      ItemIndex = 6
+      ItemIndex = 2
     end
     inherited lgBottom: TdxLayoutGroup
       Index = 7
     end
+    inherited lgBottomButtons: TdxLayoutGroup
+      Visible = False
+      AllowRemove = False
+      Enabled = False
+      Index = 2
+    end
+    inherited liOk: TdxLayoutItem
+      AllowRemove = False
+      Enabled = False
+    end
+    inherited liCancel: TdxLayoutItem
+      AllowRemove = False
+      Enabled = False
+    end
     object lgCustomer: TdxLayoutGroup
       Parent = lgMain
       CaptionOptions.Text = 'New Group'
+      AllowRemove = False
       ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -245,6 +380,7 @@ inherited FormWeighing: TFormWeighing
     object lgProduct: TdxLayoutGroup
       Parent = lgMain
       CaptionOptions.Text = 'New Group'
+      AllowRemove = False
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 5
@@ -252,6 +388,7 @@ inherited FormWeighing: TFormWeighing
     object liCustomer: TdxLayoutItem
       Parent = lgCustomer
       AlignHorz = ahClient
+      AllowRemove = False
       CaptionOptions.Text = 'Kontrahent'
       Control = edtCustomer
       ControlOptions.OriginalHeight = 23
@@ -262,6 +399,7 @@ inherited FormWeighing: TFormWeighing
     object liProduct: TdxLayoutItem
       Parent = lgProduct
       AlignHorz = ahClient
+      AllowRemove = False
       CaptionOptions.Text = 'Produkt'
       Control = edtProduct
       ControlOptions.OriginalHeight = 23
@@ -272,6 +410,7 @@ inherited FormWeighing: TFormWeighing
     object liSelectProduct: TdxLayoutItem
       Parent = lgProduct
       AlignHorz = ahRight
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = btnSelectProduct
@@ -283,6 +422,7 @@ inherited FormWeighing: TFormWeighing
     object liSelectCustomer: TdxLayoutItem
       Parent = lgCustomer
       AlignHorz = ahRight
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = btnSelectCustomer
@@ -294,6 +434,7 @@ inherited FormWeighing: TFormWeighing
     object liClearCustomer: TdxLayoutItem
       Parent = lgCustomer
       AlignHorz = ahRight
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = btnClearCustomer
@@ -305,6 +446,7 @@ inherited FormWeighing: TFormWeighing
     object liClearProduct: TdxLayoutItem
       Parent = lgProduct
       AlignHorz = ahRight
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = btnClearProduct
@@ -320,17 +462,19 @@ inherited FormWeighing: TFormWeighing
       SizeOptions.AssignedValues = [sovSizableVert]
       SizeOptions.SizableVert = True
       SizeOptions.Height = 61
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = pnlTop
       ControlOptions.AutoColor = True
-      ControlOptions.OriginalHeight = 41
+      ControlOptions.OriginalHeight = 61
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object sprtrTop: TdxLayoutSeparatorItem
       Parent = lgMain
+      AllowRemove = False
       CaptionOptions.Text = 'Separator'
       Index = 1
     end
@@ -341,7 +485,9 @@ inherited FormWeighing: TFormWeighing
       CaptionOptions.Text = 'New Group'
       SizeOptions.AssignedValues = [sovSizableVert]
       SizeOptions.SizableVert = True
-      SizeOptions.Height = 72
+      SizeOptions.Height = 83
+      AllowRemove = False
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 6
@@ -354,6 +500,7 @@ inherited FormWeighing: TFormWeighing
       SizeOptions.AssignedValues = [sovSizableHorz]
       SizeOptions.SizableHorz = True
       SizeOptions.Width = 146
+      AllowRemove = False
       ShowBorder = False
       Index = 0
     end
@@ -361,6 +508,7 @@ inherited FormWeighing: TFormWeighing
       Parent = lgScaleMass
       AlignHorz = ahClient
       AlignVert = avClient
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = pnlScaleInfo
@@ -374,6 +522,7 @@ inherited FormWeighing: TFormWeighing
       Parent = lgScaleMass
       AlignHorz = ahRight
       AlignVert = avClient
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = btnDoWeighing
@@ -387,6 +536,8 @@ inherited FormWeighing: TFormWeighing
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
+      AllowRemove = False
+      ItemIndex = 1
       ShowBorder = False
       Index = 1
     end
@@ -396,6 +547,7 @@ inherited FormWeighing: TFormWeighing
       CaptionOptions.Text = 'New Group'
       SizeOptions.AssignedValues = [sovSizableVert]
       SizeOptions.SizableVert = False
+      AllowRemove = False
       ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -406,18 +558,20 @@ inherited FormWeighing: TFormWeighing
       AlignVert = avBottom
       SizeOptions.AssignedValues = [sovSizableVert]
       SizeOptions.SizableVert = True
-      SizeOptions.Height = 12
+      SizeOptions.Height = 28
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = pnlScaleStatus
       ControlOptions.AutoColor = True
-      ControlOptions.OriginalHeight = 41
+      ControlOptions.OriginalHeight = 28
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
       Index = 1
     end
     object sprtrTop2: TdxLayoutSeparatorItem
       Parent = lgMain
+      AllowRemove = False
       CaptionOptions.Text = 'Separator'
       Index = 3
     end
@@ -426,7 +580,7 @@ inherited FormWeighing: TFormWeighing
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
-      ItemIndex = 1
+      AllowRemove = False
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
@@ -436,12 +590,15 @@ inherited FormWeighing: TFormWeighing
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
-      ItemIndex = 1
+      AllowRemove = False
       ShowBorder = False
       Index = 0
     end
     object liCarNo: TdxLayoutItem
-      Parent = lgRegNo
+      Parent = lgCar
+      AlignHorz = ahClient
+      AlignVert = avClient
+      AllowRemove = False
       CaptionOptions.Text = 'NR REJESTRACYJNY'
       Control = edtCarNo
       ControlOptions.OriginalHeight = 23
@@ -451,6 +608,7 @@ inherited FormWeighing: TFormWeighing
     end
     object liTrailerNo: TdxLayoutItem
       Parent = lgRegNo
+      AllowRemove = False
       CaptionOptions.Text = 'NR NACZEPY'
       Control = edtTrailerNo
       ControlOptions.OriginalHeight = 23
@@ -463,12 +621,15 @@ inherited FormWeighing: TFormWeighing
       CaptionOptions.Text = 'New Group'
       SizeOptions.AssignedValues = [sovSizableHorz]
       SizeOptions.SizableHorz = True
-      SizeOptions.Width = 146
+      SizeOptions.Width = 187
+      AllowRemove = False
+      ItemIndex = 1
       ShowBorder = False
       Index = 1
     end
     object liTare: TdxLayoutItem
       Parent = lgTopRight
+      AllowRemove = False
       CaptionOptions.Text = 'Tara'
       Control = seTare
       ControlOptions.OriginalHeight = 23
@@ -480,6 +641,7 @@ inherited FormWeighing: TFormWeighing
       Parent = lgWeighingData
       AlignHorz = ahClient
       AlignVert = avTop
+      AllowRemove = False
       CaptionOptions.Text = 'Netto'
       Control = seNetto
       ControlOptions.AutoControlAreaAlignment = False
@@ -487,6 +649,47 @@ inherited FormWeighing: TFormWeighing
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object liWeighingType: TdxLayoutItem
+      Parent = lgTopRight
+      AllowRemove = False
+      CaptionOptions.Text = 'Rodzaj wa'#380'enia'
+      Control = cmbWeighingType
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object liStatusBar: TdxLayoutItem
+      Parent = lgBottom
+      CaptionOptions.Visible = False
+      Control = stsbrBottom
+      ControlOptions.OriginalHeight = 20
+      ControlOptions.OriginalWidth = 628
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object lgCar: TdxLayoutGroup
+      Parent = lgRegNo
+      CaptionOptions.Text = 'New Group'
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object liSearchCars: TdxLayoutItem
+      Parent = lgCar
+      AlignHorz = ahRight
+      AlignVert = avClient
+      SizeOptions.AssignedValues = [sovSizableHorz]
+      SizeOptions.SizableHorz = True
+      SizeOptions.Width = 40
+      CaptionOptions.Visible = False
+      Control = btnSearchCar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 40
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   inherited barmngMain: TdxBarManager
@@ -496,18 +699,27 @@ inherited FormWeighing: TFormWeighing
     Images = ModDispatcher.imgList16
     object actSelectProduct: TAction
       ImageIndex = 2
+      OnExecute = actSelectProductExecute
     end
     object actSelectCutomer: TAction
       ImageIndex = 1
+      OnExecute = actSelectCutomerExecute
     end
     object actClearProduct: TAction
       ImageIndex = 7
+      OnExecute = actClearProductExecute
     end
     object actClearCustomer: TAction
       ImageIndex = 7
+      OnExecute = actClearCustomerExecute
     end
     object actDoWeighing: TAction
       Caption = 'WA'#379'ENIE'
+      OnExecute = actDoWeighingExecute
+    end
+    object actSearchCar: TAction
+      ImageIndex = 12
+      OnExecute = actSearchCarExecute
     end
   end
 end

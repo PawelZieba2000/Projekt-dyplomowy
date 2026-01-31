@@ -3,7 +3,7 @@ unit cHelpFunctions;
 interface
 
 uses
-  System.Classes, cxGridTableView;
+  System.Classes, cxGridTableView, cxDropDownEdit;
 
 type
   THelpFunctions = class
@@ -18,13 +18,17 @@ type
       class function GetActiveWindow() : TComponent;
 
       class procedure SetGridDefaultOptions(pGridTableView: TcxGridTableView);
+
+      class procedure FillWeighingTypeCombo(pCombo : TcxComboBox);
+      class procedure FillScaleProtocolsCombo(pCombo : TcxComboBox);
+      class procedure FillScaleConnCombo(pCombo : TcxComboBox);
   end;
 
 implementation
 
 uses
   System.SysUtils, Vcl.Controls, Vcl.ActnList, System.IOUtils, Vcl.Forms,
-  cxFilter;
+  cxFilter, cTypes;
 
 { THelpFunctions }
 
@@ -41,6 +45,39 @@ end;
 class function THelpFunctions.GetCurrentDirectory: String;
 begin
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName));
+end;
+
+class procedure THelpFunctions.FillScaleConnCombo(pCombo: TcxComboBox);
+begin
+  if not Assigned(pCombo) then
+    Exit;
+
+  pCombo.Properties.Items.Clear;
+
+  for var item : TScaleConnType := Low(TScaleConnType) to High(TScaleConnType) do
+    pCombo.Properties.Items.Add(item.ToString);
+end;
+
+class procedure THelpFunctions.FillScaleProtocolsCombo(pCombo: TcxComboBox);
+begin
+  if not Assigned(pCombo) then
+    Exit;
+
+  pCombo.Properties.Items.Clear;
+
+  for var item : TScaleProtocolType := Low(TScaleProtocolType) to High(TScaleProtocolType) do
+    pCombo.Properties.Items.Add(item.ToString);
+end;
+
+class procedure THelpFunctions.FillWeighingTypeCombo(pCombo: TcxComboBox);
+begin
+  if not Assigned(pCombo) then
+    Exit;
+
+  pCombo.Properties.Items.Clear;
+
+  for var item : TWeighingType := Low(TWeighingType) to High(TWeighingType) do
+    pCombo.Properties.Items.Add(item.ToString);
 end;
 
 class procedure THelpFunctions.SetControlEnable(pControl: TComponent;

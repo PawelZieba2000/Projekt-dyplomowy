@@ -50,7 +50,6 @@ object FormBase: TFormBase
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
       AllowRemove = False
-      ItemIndex = 1
       ShowBorder = False
       Index = 0
     end
@@ -63,7 +62,6 @@ object FormBase: TFormBase
     object lgBottomButtons: TdxLayoutGroup
       Parent = lgBottom
       CaptionOptions.Text = 'New Group'
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
