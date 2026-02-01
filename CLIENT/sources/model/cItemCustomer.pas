@@ -32,12 +32,14 @@ type
       procedure SetNIP(const Value: String);
       function GetPhoneNo: String;
       procedure SetPhoneNo(const Value: String);
+      function GetFullName: String;
     public
       property Address: TItemAddress read GetAddress;
       property Name: String read GetName write SetName;
       property Code: String read GetCode write SetCode;
       property NIP: String read GetNIP write SetNIP;
       property PhoneNo: String read GetPhoneNo write SetPhoneNo;
+      property FullName: String read GetFullName;
 
       procedure AssignValues(const pSource : TItemCustomer); reintroduce;
       procedure SetDefaultValues(); override;
@@ -108,6 +110,15 @@ end;
 function TItemCustomer.GetCode: String;
 begin
   Result := Self.FCode;
+end;
+
+function TItemCustomer.GetFullName: String;
+begin
+  Result := Self.Code;
+  if not Result.IsEmpty then
+    Result := Result + ' - ';
+
+  Result := Result + Self.Name;
 end;
 
 function TItemCustomer.GetName: String;

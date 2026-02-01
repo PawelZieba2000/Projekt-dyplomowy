@@ -15,7 +15,7 @@ type
       constructor CreateInstance;
       destructor Destroy(); override;
     public
-      property ProductCustomer : TObjectList<TItemProduct> read FProductCustomer;
+      property ProductList : TObjectList<TItemProduct> read FProductCustomer;
       property ProductsDS : TDataSourceProducts read FProductsDS;
 
       constructor Create(); overload;

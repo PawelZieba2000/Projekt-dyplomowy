@@ -3,6 +3,8 @@ unit uConsts;
 interface
 
 const
+  APP_NAME = 'Central weigher';
+
   EMPTY_STR = '';
   EMPTY_INT = 0;
 

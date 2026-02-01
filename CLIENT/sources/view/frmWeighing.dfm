@@ -60,27 +60,7 @@ inherited FormWeighing: TFormWeighing
       Action = actClearProduct
       TabOrder = 11
     end
-    object edtCustomer: TcxTextEdit [6]
-      Left = 122
-      Top = 168
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.TransparentBorder = False
-      TabOrder = 6
-      Width = 354
-    end
-    object edtProduct: TcxTextEdit [7]
-      Left = 122
-      Top = 200
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.TransparentBorder = False
-      TabOrder = 9
-      Width = 354
-    end
-    object pnlTop: TPanel [8]
+    object pnlTop: TPanel [6]
       Left = 12
       Top = 12
       Width = 628
@@ -130,7 +110,7 @@ inherited FormWeighing: TFormWeighing
           362C31307A204D322E322C32324C372C31322E3520202623393B2623393B6C34
           2E382C392E3548322E327A204D32302E322C32326C342E382D392E356C342E38
           2C392E354832302E327A222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
-        Properties.FitMode = ifmFill
+        Properties.FitMode = ifmProportionalStretch
         TabOrder = 0
         Height = 61
         Width = 61
@@ -159,7 +139,7 @@ inherited FormWeighing: TFormWeighing
         AnchorY = 31
       end
     end
-    object pnlScaleInfo: TPanel [9]
+    object pnlScaleInfo: TPanel [7]
       Left = 165
       Top = 284
       Width = 393
@@ -231,7 +211,7 @@ inherited FormWeighing: TFormWeighing
         end
       end
     end
-    object btnDoWeighing: TcxButton [10]
+    object btnDoWeighing: TcxButton [8]
       Left = 565
       Top = 284
       Width = 75
@@ -239,7 +219,7 @@ inherited FormWeighing: TFormWeighing
       Action = actDoWeighing
       TabOrder = 14
     end
-    object pnlScaleStatus: TPanel [11]
+    object pnlScaleStatus: TPanel [9]
       Left = 165
       Top = 339
       Width = 475
@@ -266,7 +246,7 @@ inherited FormWeighing: TFormWeighing
         TabOrder = 0
       end
     end
-    object edtCarNo: TcxTextEdit [12]
+    object edtCarNo: TcxTextEdit [10]
       Left = 122
       Top = 93
       AutoSize = False
@@ -278,7 +258,7 @@ inherited FormWeighing: TFormWeighing
       Height = 25
       Width = 277
     end
-    object edtTrailerNo: TcxTextEdit [13]
+    object edtTrailerNo: TcxTextEdit [11]
       Left = 122
       Top = 125
       Style.BorderColor = clWindowFrame
@@ -288,7 +268,7 @@ inherited FormWeighing: TFormWeighing
       TabOrder = 3
       Width = 324
     end
-    object seTare: TcxSpinEdit [14]
+    object seTare: TcxSpinEdit [12]
       Left = 539
       Top = 93
       Properties.Alignment.Horz = taRightJustify
@@ -302,7 +282,7 @@ inherited FormWeighing: TFormWeighing
       TabOrder = 4
       Width = 101
     end
-    object seNetto: TcxSpinEdit [15]
+    object seNetto: TcxSpinEdit [13]
       Left = 48
       Top = 284
       Properties.Alignment.Horz = taRightJustify
@@ -317,7 +297,7 @@ inherited FormWeighing: TFormWeighing
       TabOrder = 12
       Width = 110
     end
-    object cmbWeighingType: TcxComboBox [16]
+    object cmbWeighingType: TcxComboBox [14]
       Left = 539
       Top = 123
       Style.BorderColor = clWindowFrame
@@ -329,7 +309,7 @@ inherited FormWeighing: TFormWeighing
       TabOrder = 5
       Width = 101
     end
-    object stsbrBottom: TdxStatusBar [17]
+    object stsbrBottom: TdxStatusBar [15]
       Left = 12
       Top = 387
       Width = 628
@@ -340,13 +320,37 @@ inherited FormWeighing: TFormWeighing
           PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         end>
     end
-    object btnSearchCar: TcxButton [18]
+    object btnSearchCar: TcxButton [16]
       Left = 406
       Top = 93
       Width = 40
       Height = 25
       Action = actSearchCar
       TabOrder = 2
+    end
+    object cmbCustomer: TcxComboBox [17]
+      Left = 122
+      Top = 168
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 6
+      Width = 354
+    end
+    object cmbProduct: TcxComboBox [18]
+      Left = 122
+      Top = 200
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 9
+      Width = 354
     end
     inherited lgMain: TdxLayoutGroup
       ItemIndex = 2
@@ -390,7 +394,7 @@ inherited FormWeighing: TFormWeighing
       AlignHorz = ahClient
       AllowRemove = False
       CaptionOptions.Text = 'Kontrahent'
-      Control = edtCustomer
+      Control = cmbCustomer
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
@@ -401,7 +405,7 @@ inherited FormWeighing: TFormWeighing
       AlignHorz = ahClient
       AllowRemove = False
       CaptionOptions.Text = 'Produkt'
-      Control = edtProduct
+      Control = cmbProduct
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False

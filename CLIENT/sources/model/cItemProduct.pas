@@ -25,10 +25,12 @@ type
       procedure SetCode(const Value: String);
       function GetPrice: Currency;
       procedure SetPrice(const Value: Currency);
+      function GetFullName: String;
     public
       property Name: String read GetName write SetName;
       property Code: String read GetCode write SetCode;
       property Price: Currency read GetPrice write SetPrice;
+      property FullName: String read GetFullName;
 
       procedure AssignValues(const pSource : TItemProduct); reintroduce;
       procedure SetDefaultValues(); override;
@@ -101,6 +103,15 @@ end;
 function TItemProduct.GetCode: String;
 begin
   Result := Self.FCode;
+end;
+
+function TItemProduct.GetFullName: String;
+begin
+  Result := Self.Code;
+  if not Result.IsEmpty then
+    Result := Result + ' - ';
+
+  Result := Result + Self.Name;
 end;
 
 function TItemProduct.GetName: String;

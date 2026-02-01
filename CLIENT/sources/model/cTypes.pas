@@ -9,6 +9,8 @@ type
 
   TWeighingType = (wtNone, wtFirst, wtSecond, wtSingle);
 
+  TMessageType = (mtInfo, mtWarning, mtError, mtQuestion);
+
   TScaleConnTypeHelper = record helper for TScaleConnType
     function ToInteger() : Integer;
     function ToString() : String;

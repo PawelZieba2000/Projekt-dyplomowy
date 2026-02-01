@@ -30,8 +30,6 @@ type
     btnSelectCustomer: TcxButton;
     btnClearCustomer: TcxButton;
     btnClearProduct: TcxButton;
-    edtCustomer: TcxTextEdit;
-    edtProduct: TcxTextEdit;
     actSelectProduct: TAction;
     actSelectCutomer: TAction;
     actClearProduct: TAction;
@@ -76,6 +74,8 @@ type
     liSearchCars: TdxLayoutItem;
     btnSearchCar: TcxButton;
     actSearchCar: TAction;
+    cmbCustomer: TcxComboBox;
+    cmbProduct: TcxComboBox;
     procedure actSelectProductExecute(Sender: TObject);
     procedure actSelectCutomerExecute(Sender: TObject);
     procedure actClearProductExecute(Sender: TObject);
@@ -108,7 +108,7 @@ var
 implementation
 
 uses
-  uConsts, cManagerScale;
+  uConsts, cManagerScale, frmAppMessage, cTypes, cHelpFunctions;
 
 {$R *.dfm}
 
@@ -116,14 +116,14 @@ uses
 
 procedure TFormWeighing.actClearCustomerExecute(Sender: TObject);
 begin
-  inherited;
-//
+  Self.cmbCustomer.ItemIndex := -1;
+  Self.FWeighingItem.Customer.SetDefaultValues;
 end;
 
 procedure TFormWeighing.actClearProductExecute(Sender: TObject);
 begin
-  inherited;
-//
+  Self.cmbProduct.ItemIndex := -1;
+  Self.FWeighingItem.Product.SetDefaultValues;
 end;
 
 procedure TFormWeighing.actDoWeighingExecute(Sender: TObject);
@@ -155,6 +155,10 @@ begin
   inherited Create(AOwner);
 
   Self.FWeighingItem := TItemWeighing.Create;
+
+  THelpFunctions.FillWeighingTypeCombo(Self.cmbWeighingType);
+  THelpFunctions.FillCustomersCombo(Self.cmbCustomer);
+  THelpFunctions.FillProductsCombo(Self.cmbProduct);
 end;
 
 destructor TFormWeighing.Destroy;
@@ -228,7 +232,43 @@ end;
 
 function TFormWeighing.ValidateWeighingData: Boolean;
 begin
-//
+  Result := False;
+  // sprawdü rodzaj waøenia
+  if Self.cmbWeighingType.ItemIndex = wtNone.ToInteger then
+  begin
+    TFormAppMessage.ShowWarning('Rodzaj waøenia nie zosta≥ wybrany!');
+    Exit;
+  end;
+
+  // dla waøenia pojedynczego - sprawdü tarÍ
+  if (Self.cmbWeighingType.ItemIndex = wtSingle.ToInteger) and (Self.seTare.Value < 1) then
+  begin
+    TFormAppMessage.ShowWarning('Tara pojazdu nie zosta≥a uzupe≥niona!');
+    Exit;
+  end;
+
+  // sprawdz numer rejestracyjny
+  if Self.edtCarNo.Text = EMPTY_STR then
+  begin
+    TFormAppMessage.ShowWarning('Nr rejestracyjny pojazdu nie zosta≥ uzupe≥niony!');
+    Exit;
+  end;
+
+  // sprawdz czy kontrahent zosta≥ wybrany
+  if Self.cmbCustomer.ItemIndex = -1 then
+  begin
+    TFormAppMessage.ShowWarning('Kontrahent nie zosta≥ wybrany!');
+    Exit;
+  end;
+
+  // sprawdz czy produkt zosta≥ wybrany
+  if Self.cmbProduct.ItemIndex = -1 then
+  begin
+    TFormAppMessage.ShowWarning('Produkt nie zosta≥ wybrany!');
+    Exit;
+  end;
+
+  Result := True;
 end;
 
 procedure TFormWeighing.wmSetScaleMass(var pMessage: TMessage);
