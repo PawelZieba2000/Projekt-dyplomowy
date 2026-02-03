@@ -16,7 +16,7 @@ inherited FormWeighing: TFormWeighing
       Left = 483
       Top = 414
       Enabled = False
-      TabOrder = 17
+      TabOrder = 18
       ExplicitLeft = 483
       ExplicitTop = 414
     end
@@ -24,7 +24,7 @@ inherited FormWeighing: TFormWeighing
       Left = 565
       Top = 414
       Enabled = False
-      TabOrder = 18
+      TabOrder = 19
       ExplicitLeft = 565
       ExplicitTop = 414
     end
@@ -34,7 +34,7 @@ inherited FormWeighing: TFormWeighing
       Width = 75
       Height = 25
       Action = actSelectProduct
-      TabOrder = 10
+      TabOrder = 11
     end
     object btnSelectCustomer: TcxButton [3]
       Left = 483
@@ -42,7 +42,7 @@ inherited FormWeighing: TFormWeighing
       Width = 75
       Height = 25
       Action = actSelectCutomer
-      TabOrder = 7
+      TabOrder = 8
     end
     object btnClearCustomer: TcxButton [4]
       Left = 565
@@ -50,7 +50,7 @@ inherited FormWeighing: TFormWeighing
       Width = 75
       Height = 25
       Action = actClearCustomer
-      TabOrder = 8
+      TabOrder = 9
     end
     object btnClearProduct: TcxButton [5]
       Left = 565
@@ -58,7 +58,7 @@ inherited FormWeighing: TFormWeighing
       Width = 75
       Height = 25
       Action = actClearProduct
-      TabOrder = 11
+      TabOrder = 12
     end
     object pnlTop: TPanel [6]
       Left = 12
@@ -145,7 +145,7 @@ inherited FormWeighing: TFormWeighing
       Width = 393
       Height = 48
       BevelOuter = bvNone
-      TabOrder = 13
+      TabOrder = 14
       object pnlScaleMass: TPanel
         AlignWithMargins = True
         Left = 5
@@ -217,7 +217,7 @@ inherited FormWeighing: TFormWeighing
       Width = 75
       Height = 48
       Action = actDoWeighing
-      TabOrder = 14
+      TabOrder = 15
     end
     object pnlScaleStatus: TPanel [9]
       Left = 165
@@ -225,7 +225,7 @@ inherited FormWeighing: TFormWeighing
       Width = 475
       Height = 28
       BevelOuter = bvNone
-      TabOrder = 15
+      TabOrder = 16
       object pnlScaleStatusInfo: TPanel
         AlignWithMargins = True
         Left = 3
@@ -256,7 +256,7 @@ inherited FormWeighing: TFormWeighing
       Style.TransparentBorder = False
       TabOrder = 1
       Height = 25
-      Width = 277
+      Width = 230
     end
     object edtTrailerNo: TcxTextEdit [11]
       Left = 122
@@ -265,7 +265,7 @@ inherited FormWeighing: TFormWeighing
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 3
+      TabOrder = 4
       Width = 324
     end
     object seTare: TcxSpinEdit [12]
@@ -279,7 +279,7 @@ inherited FormWeighing: TFormWeighing
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 4
+      TabOrder = 5
       Width = 101
     end
     object seNetto: TcxSpinEdit [13]
@@ -294,19 +294,20 @@ inherited FormWeighing: TFormWeighing
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 12
+      TabOrder = 13
       Width = 110
     end
     object cmbWeighingType: TcxComboBox [14]
       Left = 539
       Top = 123
+      Properties.OnChange = cmbWeighingTypePropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 5
+      TabOrder = 6
       Width = 101
     end
     object stsbrBottom: TdxStatusBar [15]
@@ -321,7 +322,7 @@ inherited FormWeighing: TFormWeighing
         end>
     end
     object btnSearchCar: TcxButton [16]
-      Left = 406
+      Left = 359
       Top = 93
       Width = 40
       Height = 25
@@ -337,7 +338,7 @@ inherited FormWeighing: TFormWeighing
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 6
+      TabOrder = 7
       Width = 354
     end
     object cmbProduct: TcxComboBox [18]
@@ -349,8 +350,16 @@ inherited FormWeighing: TFormWeighing
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 9
+      TabOrder = 10
       Width = 354
+    end
+    object btnClearData: TcxButton [19]
+      Left = 406
+      Top = 93
+      Width = 40
+      Height = 25
+      Action = actClearData
+      TabOrder = 3
     end
     inherited lgMain: TdxLayoutGroup
       ItemIndex = 2
@@ -676,7 +685,7 @@ inherited FormWeighing: TFormWeighing
     object lgCar: TdxLayoutGroup
       Parent = lgRegNo
       CaptionOptions.Text = 'New Group'
-      ItemIndex = 1
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -694,6 +703,21 @@ inherited FormWeighing: TFormWeighing
       ControlOptions.OriginalWidth = 40
       ControlOptions.ShowBorder = False
       Index = 1
+    end
+    object liClearData: TdxLayoutItem
+      Parent = lgCar
+      AlignHorz = ahRight
+      AlignVert = avClient
+      SizeOptions.AssignedValues = [sovSizableHorz]
+      SizeOptions.SizableHorz = True
+      SizeOptions.Width = 40
+      CaptionOptions.Text = 'New Item'
+      CaptionOptions.Visible = False
+      Control = btnClearData
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   inherited barmngMain: TdxBarManager
@@ -724,6 +748,10 @@ inherited FormWeighing: TFormWeighing
     object actSearchCar: TAction
       ImageIndex = 12
       OnExecute = actSearchCarExecute
+    end
+    object actClearData: TAction
+      ImageIndex = 7
+      OnExecute = actClearDataExecute
     end
   end
 end

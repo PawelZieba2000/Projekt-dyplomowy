@@ -76,6 +76,9 @@ type
     actSearchCar: TAction;
     cmbCustomer: TcxComboBox;
     cmbProduct: TcxComboBox;
+    liClearData: TdxLayoutItem;
+    btnClearData: TcxButton;
+    actClearData: TAction;
     procedure actSelectProductExecute(Sender: TObject);
     procedure actSelectCutomerExecute(Sender: TObject);
     procedure actClearProductExecute(Sender: TObject);
@@ -85,10 +88,14 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure cmbWeighingTypePropertiesChange(Sender: TObject);
+    procedure actClearDataExecute(Sender: TObject);
   private
     FWeighingItem : TItemWeighing;
 
     function ValidateWeighingData() : Boolean;
+    procedure AssignDataToWeighing();
+    procedure FillFormData();
 
     procedure SetScaleConnection(const pConnected : Boolean);
     procedure SetScaleStable(const pMassStable : Boolean);
@@ -108,7 +115,8 @@ var
 implementation
 
 uses
-  uConsts, cManagerScale, frmAppMessage, cTypes, cHelpFunctions;
+  uConsts, cManagerScale, frmAppMessage, cTypes, cHelpFunctions, cItemCustomer,
+  cItemProduct, frmCustomerList, frmProductList, frmWeighingList;
 
 {$R *.dfm}
 
@@ -118,6 +126,12 @@ procedure TFormWeighing.actClearCustomerExecute(Sender: TObject);
 begin
   Self.cmbCustomer.ItemIndex := -1;
   Self.FWeighingItem.Customer.SetDefaultValues;
+end;
+
+procedure TFormWeighing.actClearDataExecute(Sender: TObject);
+begin
+  Self.FWeighingItem.SetDefaultValues;
+  Self.FillFormData;
 end;
 
 procedure TFormWeighing.actClearProductExecute(Sender: TObject);
@@ -140,14 +154,69 @@ end;
 
 procedure TFormWeighing.actSelectCutomerExecute(Sender: TObject);
 begin
-  inherited;
-//
+  var customer : TItemCustomer := TFormCustomerList.CreateAndSelectOne(nil);
+  if not Assigned(customer) then
+  begin
+    actClearCustomerExecute(nil);
+    Exit;
+  end;
+
+  try
+    for var I : Integer := Self.cmbCustomer.Properties.Items.Count - 1 downto 0 do
+    begin
+      var tmpCustomer : TItemCustomer := Self.cmbCustomer.Properties.Items.Objects[I] as TItemCustomer;
+      if tmpCustomer.IdErp <> customer.IdErp then
+        Continue;
+
+      Self.cmbCustomer.ItemIndex := I;
+      Break;
+    end;
+  finally
+    customer.Free;
+  end;
 end;
 
 procedure TFormWeighing.actSelectProductExecute(Sender: TObject);
 begin
-  inherited;
-//
+  var product : TItemProduct := TFormProductList.CreateAndSelectOne(nil);
+  if not Assigned(product) then
+  begin
+    actClearProductExecute(nil);
+    Exit;
+  end;
+
+  try
+    for var I : Integer := Self.cmbProduct.Properties.Items.Count - 1 downto 0 do
+    begin
+      var tmpProduct : TItemProduct := Self.cmbProduct.Properties.Items.Objects[I] as TItemProduct;
+      if tmpProduct.IdErp <> product.IdErp then
+        Continue;
+
+      Self.cmbProduct.ItemIndex := I;
+      Break;
+    end;
+  finally
+    product.Free;
+  end;
+end;
+
+procedure TFormWeighing.AssignDataToWeighing;
+begin
+  var customer : TItemCustomer := TItemCustomer(Self.cmbCustomer.ItemObject);
+  Self.FWeighingItem.Customer.AssignValues(customer);
+
+  var product : TItemProduct := TItemProduct(Self.cmbProduct.ItemObject);
+  Self.FWeighingItem.Product.AssignValues(product);
+
+  Self.FWeighingItem.WeighingType := TWeighingType.FromInteger(Self.cmbWeighingType.ItemIndex);
+end;
+
+procedure TFormWeighing.cmbWeighingTypePropertiesChange(Sender: TObject);
+begin
+  var tmpWT : TWeighingType := TWeighingType.FromInteger(Self.cmbWeighingType.ItemIndex);
+
+  Self.liTare.Visible := tmpWT in [wtSecond, wtSingle];
+  Self.liNetto.Visible := Self.liTare.Visible;
 end;
 
 constructor TFormWeighing.Create(AOwner: TComponent);
@@ -166,6 +235,34 @@ begin
   Self.FWeighingItem.Free;
 
   inherited;
+end;
+
+procedure TFormWeighing.FillFormData;
+begin
+  Self.edtCarNo.Text := Self.FWeighingItem.CarNo;
+  Self.edtTrailerNo.Text := Self.FWeighingItem.TrailerNo;
+
+  Self.cmbWeighingType.ItemIndex := Self.FWeighingItem.WeighingType.ToInteger;
+
+  for var I : Integer := Self.cmbCustomer.Properties.Items.Count - 1 downto 0 do
+  begin
+    var tmpCustomer : TItemCustomer := Self.cmbCustomer.Properties.Items.Objects[I] as TItemCustomer;
+    if tmpCustomer.IdErp <> Self.FWeighingItem.Customer.IdErp then
+      Continue;
+
+    Self.cmbCustomer.ItemIndex := I;
+    Break;
+  end;
+
+  for var I : Integer := Self.cmbProduct.Properties.Items.Count - 1 downto 0 do
+  begin
+    var tmpProduct : TItemProduct := Self.cmbProduct.Properties.Items.Objects[I] as TItemProduct;
+    if tmpProduct.IdErp <> Self.FWeighingItem.Product.IdErp then
+      Continue;
+
+    Self.cmbProduct.ItemIndex := I;
+    Break;
+  end;
 end;
 
 procedure TFormWeighing.FormActivate(Sender: TObject);
@@ -215,6 +312,14 @@ end;
 procedure TFormWeighing.SetScaleMass(const pMass: Integer);
 begin
   Self.lblScaleMass.Caption := pMass.ToString;
+
+  var nettoVal : Double := 0;
+  case TWeighingType.FromInteger(Self.cmbWeighingType.ItemIndex) of
+    wtSecond : nettoVal := Abs(Round(Self.FWeighingItem.MassIn) - pMass);
+    wtSingle : nettoVal := Abs(pMass - Self.seTare.Value);
+  end;
+
+  Self.seNetto.Value := nettoVal;
 end;
 
 procedure TFormWeighing.SetScaleStable(const pMassStable: Boolean);
@@ -260,11 +365,21 @@ begin
     TFormAppMessage.ShowWarning('Kontrahent nie zosta³ wybrany!');
     Exit;
   end;
+  if not (Assigned(Self.cmbCustomer.ItemObject) and (Self.cmbCustomer.ItemObject is TItemCustomer)) then
+  begin
+    TFormAppMessage.ShowError('Wybrany kontrahent nie jest obiektem typu TItemCustomer');
+    Exit;
+  end;
 
   // sprawdz czy produkt zosta³ wybrany
   if Self.cmbProduct.ItemIndex = -1 then
   begin
     TFormAppMessage.ShowWarning('Produkt nie zosta³ wybrany!');
+    Exit;
+  end;
+  if not (Assigned(Self.cmbProduct.ItemObject) and (Self.cmbProduct.ItemObject is TItemProduct)) then
+  begin
+    TFormAppMessage.ShowError('Wybrany produkt nie jest obiektem typu TItemProduct');
     Exit;
   end;
 

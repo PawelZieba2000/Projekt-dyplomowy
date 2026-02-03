@@ -5,6 +5,7 @@ inherited FormProductList: TFormProductList
   inherited lcMain: TdxLayoutControl
     inherited gGridList: TcxGrid
       inherited gGridListTableView1: TcxGridTableView
+        OnCellDblClick = gGridListTableView1CellDblClick
         OptionsView.ColumnAutoWidth = True
         object clmnIdErp: TcxGridColumn
           Caption = 'ID ERP'

@@ -3,7 +3,8 @@ unit cItemWeighing;
 interface
 
 uses
-  OverbyteIcsSuperObject, cItemBase, cItemProduct, cItemCustomer, cItemUser;
+  OverbyteIcsSuperObject, cItemBase, cItemProduct, cItemCustomer, cItemUser,
+  cTypes;
 
 type
   TItemWeighing = class(TItemBase)
@@ -36,6 +37,8 @@ type
       FCarNo : String;
       FTrailerNo : String;
 
+      FWeighingType : TWeighingType;
+
       function GetCustomer: TItemCustomer;
       function GetProduct: TItemProduct;
       function GetUser: TItemUser;
@@ -54,6 +57,8 @@ type
       procedure SetTrailerNo(const Value: String);
       function GetMassNetto: Double;
       function GetMassTare: Double;
+      function GetWeighingType: TWeighingType;
+      procedure SetWeighingType(const Value: TWeighingType);
     public
       property Customer: TItemCustomer read GetCustomer;
       property Product: TItemProduct read GetProduct;
@@ -69,6 +74,8 @@ type
 
       property CarNo: String read GetCarNo write SetCarNo;
       property TrailerNo: String read GetTrailerNo write SetTrailerNo;
+
+      property WeighingType: TWeighingType read GetWeighingType write SetWeighingType;
 
       procedure SetDefaultValues(); override;
 
@@ -180,6 +187,11 @@ begin
   Result := Self.FUser;
 end;
 
+function TItemWeighing.GetWeighingType: TWeighingType;
+begin
+  Result := Self.FWeighingType;
+end;
+
 class function TItemWeighing.JsonToWeighing(
   pWeighingJson: ISuperObject): TItemWeighing;
 begin
@@ -247,6 +259,12 @@ procedure TItemWeighing.SetTrailerNo(const Value: String);
 begin
   if Value <> Self.TrailerNo then
     Self.FTrailerNo := Value;
+end;
+
+procedure TItemWeighing.SetWeighingType(const Value: TWeighingType);
+begin
+  if Value <> Self.WeighingType then
+    Self.FWeighingType := Value;
 end;
 
 function TItemWeighing.ToJson: ISuperObject;

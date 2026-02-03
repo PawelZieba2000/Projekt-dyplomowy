@@ -5,6 +5,7 @@ inherited FormCustomerList: TFormCustomerList
   inherited lcMain: TdxLayoutControl
     inherited gGridList: TcxGrid
       inherited gGridListTableView1: TcxGridTableView
+        OnCellDblClick = gGridListTableView1CellDblClick
         object clmnIdErp: TcxGridColumn
           Caption = 'ID ERP'
           DataBinding.ValueType = 'Integer'

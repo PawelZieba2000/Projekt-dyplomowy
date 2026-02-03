@@ -56,11 +56,16 @@ begin
   if not Assigned(pCombo) then
     Exit;
 
-  pCombo.Properties.Items.Clear;
-  for var tmpCustomer : TItemCustomer in TManagerCustomers.Instance.CustomerList do
-    pCombo.Properties.Items.AddObject(tmpCustomer.FullName, tmpCustomer);
+  pCombo.Properties.Items.BeginUpdate;
+  try
+    pCombo.Properties.Items.Clear;
+    for var tmpCustomer : TItemCustomer in TManagerCustomers.Instance.CustomerList do
+      pCombo.Properties.Items.AddObject(tmpCustomer.FullName, tmpCustomer);
 
-  pCombo.ItemIndex := -1;
+    pCombo.ItemIndex := -1;
+  finally
+    pCombo.Properties.Items.EndUpdate;
+  end;
 end;
 
 class procedure THelpFunctions.FillProductsCombo(pCombo: TcxComboBox);
@@ -68,11 +73,16 @@ begin
   if not Assigned(pCombo) then
     Exit;
 
-  pCombo.Properties.Items.Clear;
-  for var tmpProduct : TItemProduct in TManagerProducts.Instance.ProductList do
-    pCombo.Properties.Items.AddObject(tmpProduct.FullName, tmpProduct);
+  pCombo.Properties.Items.BeginUpdate;
+  try
+    pCombo.Properties.Items.Clear;
+    for var tmpProduct : TItemProduct in TManagerProducts.Instance.ProductList do
+      pCombo.Properties.Items.AddObject(tmpProduct.FullName, tmpProduct);
 
-  pCombo.ItemIndex := -1;
+    pCombo.ItemIndex := -1;
+  finally
+    pCombo.Properties.Items.EndUpdate;
+  end;
 end;
 
 class procedure THelpFunctions.FillScaleConnCombo(pCombo: TcxComboBox);
@@ -80,11 +90,16 @@ begin
   if not Assigned(pCombo) then
     Exit;
 
-  pCombo.Properties.Items.Clear;
-  for var item : TScaleConnType := Low(TScaleConnType) to High(TScaleConnType) do
-    pCombo.Properties.Items.Add(item.ToString);
+  pCombo.Properties.Items.BeginUpdate;
+  try
+    pCombo.Properties.Items.Clear;
+    for var item : TScaleConnType := Low(TScaleConnType) to High(TScaleConnType) do
+      pCombo.Properties.Items.Add(item.ToString);
 
-  pCombo.ItemIndex := 0;
+    pCombo.ItemIndex := 0;
+  finally
+    pCombo.Properties.Items.EndUpdate;
+  end;
 end;
 
 class procedure THelpFunctions.FillScaleProtocolsCombo(pCombo: TcxComboBox);
@@ -92,11 +107,16 @@ begin
   if not Assigned(pCombo) then
     Exit;
 
-  pCombo.Properties.Items.Clear;
-  for var item : TScaleProtocolType := Low(TScaleProtocolType) to High(TScaleProtocolType) do
-    pCombo.Properties.Items.Add(item.ToString);
+  pCombo.Properties.Items.BeginUpdate;
+  try
+    pCombo.Properties.Items.Clear;
+    for var item : TScaleProtocolType := Low(TScaleProtocolType) to High(TScaleProtocolType) do
+      pCombo.Properties.Items.Add(item.ToString);
 
-  pCombo.ItemIndex := 0;
+    pCombo.ItemIndex := 0;
+  finally
+    pCombo.Properties.Items.EndUpdate;
+  end;
 end;
 
 class procedure THelpFunctions.FillWeighingTypeCombo(pCombo: TcxComboBox);
@@ -104,11 +124,16 @@ begin
   if not Assigned(pCombo) then
     Exit;
 
-  pCombo.Properties.Items.Clear;
-  for var item : TWeighingType := Low(TWeighingType) to High(TWeighingType) do
-    pCombo.Properties.Items.Add(item.ToString);
+  pCombo.Properties.Items.BeginUpdate;
+  try
+    pCombo.Properties.Items.Clear;
+    for var item : TWeighingType := Low(TWeighingType) to High(TWeighingType) do
+      pCombo.Properties.Items.Add(item.ToString);
 
-  pCombo.ItemIndex := 0;
+    pCombo.ItemIndex := 0;
+  finally
+    pCombo.Properties.Items.EndUpdate;
+  end;
 end;
 
 class procedure THelpFunctions.SetControlEnable(pControl: TComponent;
