@@ -14,6 +14,7 @@ type
       INI_API_KEY_LOG_PATH = 'API_LOG_PATH';
 
       INI_SCALE_REGION = 'SCALE';
+      INI_SCALE_IS_ACTIVE = 'SCALE_IS_ACTIVE';
       INI_SCALE_CONN_TYPE = 'SCALE_CONN_TYPE';
       INI_SCALE_PROTOCOL_TYPE = 'SCALE_PROTOCOL_TYPE';
       INI_SCALE_KEY_IP = 'SCALE_IP';
@@ -108,6 +109,7 @@ begin
       Self.RestClientConfig.ApiUrl := ReadString(INI_API_REGION, INI_API_KEY_URL, EMPTY_STR);
       Self.RestClientConfig.ApiLogPath := ReadString(INI_API_REGION, INI_API_KEY_LOG_PATH, EMPTY_STR);
 
+      Self.ScaleConfig.IsActive := ReadBool(INI_SCALE_REGION, INI_SCALE_IS_ACTIVE, False);
       Self.ScaleConfig.ConnType := TScaleConnType(ReadInteger(INI_SCALE_REGION, INI_SCALE_CONN_TYPE, EMPTY_INT));
       Self.ScaleConfig.ScaleProtocolType := TScaleProtocolType(ReadInteger(INI_SCALE_REGION, INI_SCALE_PROTOCOL_TYPE, EMPTY_INT));
 
@@ -141,6 +143,7 @@ begin
       WriteString(INI_API_REGION, INI_API_KEY_URL, Self.RestClientConfig.ApiUrl);
       WriteString(INI_API_REGION, INI_API_KEY_LOG_PATH, Self.RestClientConfig.ApiLogPath);
 
+      WriteBool(INI_SCALE_REGION, INI_SCALE_IS_ACTIVE, Self.ScaleConfig.IsActive);
       WriteInteger(INI_SCALE_REGION, INI_SCALE_CONN_TYPE, Integer(Self.ScaleConfig.ConnType));
       WriteInteger(INI_SCALE_REGION, INI_SCALE_PROTOCOL_TYPE, Integer(Self.ScaleConfig.ScaleProtocolType));
       WriteString(INI_SCALE_REGION, INI_SCALE_KEY_IP, Self.ScaleConfig.TcpIpAddress);

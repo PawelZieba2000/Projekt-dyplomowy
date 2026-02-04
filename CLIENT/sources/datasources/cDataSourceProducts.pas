@@ -92,7 +92,7 @@ begin
   if (recordHanleInt < 0) or (recordHanleInt >= Self.FProductList.Count) then
     Exit;
 
-  var product := Self.FProductList[recordHanleInt];
+  var product : TItemProduct := Self.FProductList[recordHanleInt];
   var columnID : Integer := GetDefaultItemID(recordHanleInt);
 
   case columnID of

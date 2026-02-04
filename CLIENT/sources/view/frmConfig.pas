@@ -10,7 +10,7 @@ uses
   cxImageList, dxLayoutContainer, Vcl.StdCtrls, cxButtons, dxLayoutControl,
   dxLayoutcxEditAdapters, cxContainer, cxEdit, cxLabel, uModDispatcher,
   dxCoreGraphics, cxButtonEdit, cxMaskEdit, cxSpinEdit, cxTextEdit, dxSkinsCore,
-  dxSkinBasic;
+  dxSkinBasic, cxDropDownEdit, CPortCtl;
 
 type
   TFormConfig = class(TFormBase)
@@ -32,14 +32,37 @@ type
     liApiTest: TdxLayoutItem;
     btnApiTest: TcxButton;
     actApiTest: TAction;
+    lgScaleConnection: TdxLayoutGroup;
+    lgScaleConnIp: TdxLayoutGroup;
+    lgScaleConnSerial: TdxLayoutGroup;
+    liScaleSerialPort: TdxLayoutItem;
+    liScaleSerialBaudrate: TdxLayoutItem;
+    liScaleSerialParity: TdxLayoutItem;
+    liScaleSerialData: TdxLayoutItem;
+    liScaleSerialStopBits: TdxLayoutItem;
+    liScaleSerialFlowControl: TdxLayoutItem;
+    liChbScaleActive: TdxLayoutCheckBoxItem;
+    liScaleProtocol: TdxLayoutItem;
+    liScaleConnType: TdxLayoutItem;
+    cmbScaleProtocols: TcxComboBox;
+    cmbScaleConnType: TcxComboBox;
+    cmbScaleComPorts: TComComboBox;
+    cmbScaleBaudrate: TComComboBox;
+    cmbScaleParity: TComComboBox;
+    cmbScaleFlowControl: TComComboBox;
+    cmbScaleDataBits: TComComboBox;
+    cmbScaleStopBits: TComComboBox;
     procedure actOkExecute(Sender: TObject);
     procedure actCancelExecute(Sender: TObject);
     procedure edtbtnApiLogPathPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure actApiTestExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure cmbScaleConnTypePropertiesChange(Sender: TObject);
+    procedure liChbScaleActiveClick(Sender: TObject);
   private
     procedure FillControls();
+    function ValidateData() : Boolean;
   public
     class function CreateAndShowModal(AOwner : TComponent) : Integer;
   end;
@@ -50,7 +73,7 @@ var
 implementation
 
 uses
-  cManagerConfig, cHelpFunctions;
+  cManagerConfig, cHelpFunctions, cTypes, CPort, frmAppMessage;
 
 {$R *.dfm}
 
@@ -72,7 +95,8 @@ begin
     Exit;
 
   //valdiate data
-
+  if not ValidateData() then
+    Exit;
 
   //assign data
   with TManagerConfig.Instance.RestClientConfig do
@@ -83,13 +107,33 @@ begin
 
   with TManagerConfig.Instance.ScaleConfig do
   begin
+    IsActive := liChbScaleActive.Checked;
+
+    ScaleProtocolType := TScaleProtocolType.FromInteger(cmbScaleProtocols.ItemIndex);
+    ConnType := TScaleConnType.FromInteger(cmbScaleConnType.ItemIndex);
+
     TcpIpAddress := Trim(edtScaleIp.Text);
     TcpPort := seScalePort.Value;
+
+    ComPort := THelpFunctions.GetStringFromComCombo(cmbScaleComPorts);
+    BaudRate := StrToBaudRate(THelpFunctions.GetStringFromComCombo(cmbScaleBaudrate));
+    DataBits := StrToDataBits(THelpFunctions.GetStringFromComCombo(cmbScaleDataBits));
+    ParityBits := StrToParity(THelpFunctions.GetStringFromComCombo(cmbScaleParity));
+    StopBits := StrToStopBits(THelpFunctions.GetStringFromComCombo(cmbScaleStopBits));
+    FlowControl := StrToFlowControl(THelpFunctions.GetStringFromComCombo(cmbScaleFlowControl));
   end;
 
   TManagerConfig.Instance.SaveConfig;
 
   Self.ModalResult := mrOk;
+end;
+
+procedure TFormConfig.cmbScaleConnTypePropertiesChange(Sender: TObject);
+begin
+  var tmpConnType : TScaleConnType := TScaleConnType.FromInteger(Self.cmbScaleConnType.ItemIndex);
+
+  lgScaleConnIp.Visible := tmpConnType in [sctTcpIp];
+  lgScaleConnSerial.Visible := not lgScaleConnIp.Visible;
 end;
 
 class function TFormConfig.CreateAndShowModal(AOwner: TComponent): Integer;
@@ -138,14 +182,70 @@ begin
 
   with TManagerConfig.Instance.ScaleConfig do
   begin
+    liChbScaleActive.Checked := IsActive;
+    liChbScaleActiveClick(nil);
+
+    cmbScaleProtocols.ItemIndex := ScaleProtocolType.ToInteger;
+    cmbScaleConnType.ItemIndex := ConnType.ToInteger;
+
     edtScaleIp.Text := TcpIpAddress;
     seScalePort.Value := TcpPort;
+
+    THelpFunctions.SetComboItemIndex(cmbScaleComPorts, ComPort);
+
+    var tmpStr : String := BaudRateToStr(BaudRate);
+    THelpFunctions.SetComboItemIndex(cmbScaleBaudrate, tmpStr);
+
+    tmpStr := ParityToStr(ParityBits);
+    THelpFunctions.SetComboItemIndex(cmbScaleParity, tmpStr);
+
+    tmpStr := FlowControlToStr(FlowControl);
+    THelpFunctions.SetComboItemIndex(cmbScaleFlowControl, tmpStr);
+
+    tmpStr := DataBitsToStr(DataBits);
+    THelpFunctions.SetComboItemIndex(cmbScaleDataBits, tmpStr);
+
+    tmpStr := StopBitsToStr(StopBits);
+    THelpFunctions.SetComboItemIndex(cmbScaleStopBits, tmpStr);
   end;
 end;
 
 procedure TFormConfig.FormCreate(Sender: TObject);
 begin
+  THelpFunctions.FillScaleProtocolsCombo(Self.cmbScaleProtocols);
+  THelpFunctions.FillScaleConnCombo(Self.cmbScaleConnType);
+
   Self.FillControls;
+end;
+
+procedure TFormConfig.liChbScaleActiveClick(Sender: TObject);
+begin
+  self.cmbScaleProtocols.Enabled := liChbScaleActive.Checked;
+  self.cmbScaleConnType.Enabled := self.cmbScaleProtocols.Enabled;
+  self.edtScaleIp.Enabled := self.cmbScaleProtocols.Enabled;
+  self.seScalePort.Enabled := self.cmbScaleProtocols.Enabled;
+  self.cmbScaleComPorts.Enabled := self.cmbScaleProtocols.Enabled;
+  self.cmbScaleBaudrate.Enabled := self.cmbScaleProtocols.Enabled;
+  self.cmbScaleParity.Enabled := self.cmbScaleProtocols.Enabled;
+  self.cmbScaleFlowControl.Enabled := self.cmbScaleProtocols.Enabled;
+  self.cmbScaleDataBits.Enabled := self.cmbScaleProtocols.Enabled;
+  self.cmbScaleStopBits.Enabled := self.cmbScaleProtocols.Enabled;
+end;
+
+function TFormConfig.ValidateData: Boolean;
+begin
+  Result := False;
+
+  if liChbScaleActive.Checked then
+  begin
+    if (Self.cmbScaleProtocols.ItemIndex = -1) or (Self.cmbScaleProtocols.ItemIndex = sptNone.ToInteger) then
+    begin
+      TFormAppMessage.ShowWarning('Protokó³ komunikacyjny nie zosta³ wybrany!');
+      Exit;
+    end;
+  end;
+
+  Result := True;
 end;
 
 end.

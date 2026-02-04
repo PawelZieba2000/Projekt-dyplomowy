@@ -11,6 +11,8 @@ type
 
   TScaleConfig = class
     private
+      FIsActive : Boolean;
+
       FConnType : TScaleConnType;
       FScaleProtocolType : TScaleProtocolType;
 
@@ -24,6 +26,7 @@ type
       FStopBits : TStopBits;
       FFlowControl : TFlowControl;
     public
+      property IsActive : Boolean read FIsActive write FIsActive;
       property ConnType : TScaleConnType read FConnType write FConnType;
       property ScaleProtocolType : TScaleProtocolType read FScaleProtocolType write FScaleProtocolType;
 
@@ -74,6 +77,8 @@ end;
 
 procedure TScaleConfig.SetDefaultValues;
 begin
+  Self.IsActive := False;
+
   Self.ConnType := sctNone;
   Self.ScaleProtocolType := sptNone;
 

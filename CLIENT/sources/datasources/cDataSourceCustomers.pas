@@ -92,7 +92,7 @@ begin
   if (recordHanleInt < 0) or (recordHanleInt >= Self.FCustomerList.Count) then
     Exit;
 
-  var customer := Self.FCustomerList[recordHanleInt];
+  var customer : TItemCustomer := Self.FCustomerList[recordHanleInt];
   var columnID : Integer := GetDefaultItemID(recordHanleInt);
 
   case columnID of

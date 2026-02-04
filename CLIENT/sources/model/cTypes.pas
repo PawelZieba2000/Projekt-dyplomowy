@@ -64,7 +64,7 @@ end;
 
 function TScaleConnTypeHelper.ToString: String;
 begin
-  Result := '';
+  Result := '---';
   case Self of
     sctSerialPort: Result := 'COM';
     sctTcpIp: Result := 'TCP/IP';

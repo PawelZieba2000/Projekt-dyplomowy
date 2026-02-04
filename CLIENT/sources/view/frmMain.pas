@@ -45,7 +45,6 @@ type
     procedure actOpenWeighingHistoryExecute(Sender: TObject);
     procedure actOpenCustomersExecute(Sender: TObject);
     procedure actOpenProductsExecute(Sender: TObject);
-    procedure actOpenDictionariesExecute(Sender: TObject);
     procedure actOpenWeighingExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -63,7 +62,7 @@ implementation
 
 uses
   frmLogin, frmConfig, cHelpFunctions, System.StrUtils, cManagerUser, uConsts,
-  cManagerConfig;
+  cManagerConfig, frmWeighing, frmWeighingList, frmCustomerList, frmProductList;
 
 {$R *.dfm}
 
@@ -86,27 +85,22 @@ end;
 
 procedure TFormMain.actOpenCustomersExecute(Sender: TObject);
 begin
-//
-end;
-
-procedure TFormMain.actOpenDictionariesExecute(Sender: TObject);
-begin
-//
+  TFormCustomerList.CreateAndShowModal(nil);
 end;
 
 procedure TFormMain.actOpenProductsExecute(Sender: TObject);
 begin
-//
+  TFormProductList.CreateAndShowModal(nil);
 end;
 
 procedure TFormMain.actOpenWeighingExecute(Sender: TObject);
 begin
-//
+  TFormWeighing.CreateAndShowModal(nil);
 end;
 
 procedure TFormMain.actOpenWeighingHistoryExecute(Sender: TObject);
 begin
-//
+  TFormWeighingList.CreateAndShowModal(nil);
 end;
 
 procedure TFormMain.FormActivate(Sender: TObject);

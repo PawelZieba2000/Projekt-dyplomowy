@@ -33,7 +33,7 @@ type
       property FullName: String read GetFullName;
 
       procedure AssignValues(const pSource : TItemProduct); reintroduce;
-      procedure SetDefaultValues(); override;
+      procedure SetDefaultValues(); reintroduce;
 
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pProdJson : ISuperObject); reintroduce;

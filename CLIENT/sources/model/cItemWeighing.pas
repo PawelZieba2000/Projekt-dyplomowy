@@ -13,7 +13,13 @@ type
     {$REGION 'JSON FIELDS'}
         jf_customer : String = 'customer';
         jf_product : String = 'product';
-        jf_user_id : String = 'user_id';
+        jf_user_in_id : String = 'user_in_id';
+        jf_user_out_id : String = 'user_out_id';
+        jf_user_in_fname : String = 'user_in_fname';
+        jf_user_out_fname : String = 'user_out_fname';
+        jf_user_in_lname : String = 'user_in_lname';
+        jf_user_out_lname : String = 'user_out_lname';
+        jf_weighing_no : String = 'weighing_no';
         jf_mass_in : String = 'mass_in';
         jf_mass_out : String = 'mass_out';
         jf_mass_netto : String = 'mass_netto';
@@ -26,7 +32,10 @@ type
     private
       FCustomer : TItemCustomer;
       FProduct : TItemProduct;
-      FUser : TItemUser;
+      FUserIn : TItemUser;
+      FUserOut : TItemUser;
+
+      FWeighingNo : String;
 
       FMassIn : Double;
       FMassOut : Double;
@@ -41,7 +50,8 @@ type
 
       function GetCustomer: TItemCustomer;
       function GetProduct: TItemProduct;
-      function GetUser: TItemUser;
+      function GetUserIn: TItemUser;
+      function GetUserOut: TItemUser;
 
       function GetMassIn: Double;
       procedure SetMassIn(const Value: Double);
@@ -59,11 +69,15 @@ type
       function GetMassTare: Double;
       function GetWeighingType: TWeighingType;
       procedure SetWeighingType(const Value: TWeighingType);
+      function GetWeighingNo: String;
+      procedure SetWeighingNo(const Value: String);
     public
       property Customer: TItemCustomer read GetCustomer;
       property Product: TItemProduct read GetProduct;
-      property User: TItemUser read GetUser;
+      property UserIn: TItemUser read GetUserIn;
+      property UserOut: TItemUser read GetUserOut;
 
+      property WeighingNo: String read GetWeighingNo write SetWeighingNo;
       property MassIn: Double read GetMassIn write SetMassIn;
       property MassOut: Double read GetMassOut write SetMassOut;
       property MassNetto: Double read GetMassNetto;
@@ -77,7 +91,7 @@ type
 
       property WeighingType: TWeighingType read GetWeighingType write SetWeighingType;
 
-      procedure SetDefaultValues(); override;
+      procedure SetDefaultValues(); reintroduce;
 
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pWeighingJson : ISuperObject); reintroduce;
@@ -101,14 +115,16 @@ begin
 
   Self.FCustomer := TItemCustomer.Create;
   Self.FProduct := TItemProduct.Create;
-  Self.FUser := TItemUser.Create;
+  Self.FUserIn := TItemUser.Create;
+  Self.FUserOut := TItemUser.Create;
 end;
 
 destructor TItemWeighing.Destroy;
 begin
   Self.FCustomer.Free;
   Self.FProduct.Free;
-  Self.FUser.Free;
+  Self.FUserIn.Free;
+  Self.FUserOut.Free;
 
   inherited;
 end;
@@ -118,13 +134,19 @@ begin
   if not (Assigned(pWeighingJson) and (pWeighingJson.DataType = stObject)) then
     raise Exception.Create('wrong JSON format');
 
+  Self.WeighingNo := pWeighingJson.S[jf_weighing_no];
   Self.MassIn := pWeighingJson.D[jf_mass_in];
   Self.MassOut := pWeighingJson.D[jf_mass_out];
   Self.DateIn := pWeighingJson.DT[jf_date_in];
   Self.DateOut := pWeighingJson.DT[jf_date_out];
   Self.CarNo := pWeighingJson.S[jf_car_no];
   Self.TrailerNo := pWeighingJson.S[jf_trailer_no];
-  Self.User.Id := pWeighingJson.I[jf_user_id];
+  Self.UserIn.Id := pWeighingJson.I[jf_user_in_id];
+  Self.UserIn.FirstName := pWeighingJson.S[jf_user_in_fname];
+  Self.UserIn.LastName := pWeighingJson.S[jf_user_in_lname];
+  Self.UserOut.Id := pWeighingJson.I[jf_user_out_id];
+  Self.UserOut.FirstName := pWeighingJson.S[jf_user_out_fname];
+  Self.UserOut.LastName := pWeighingJson.S[jf_user_out_lname];
 
   Self.Customer.FromJson(pWeighingJson.O[jf_customer]);
   Self.Product.FromJson(pWeighingJson.O[jf_product]);
@@ -182,9 +204,19 @@ begin
   Result := Self.FTrailerNo;
 end;
 
-function TItemWeighing.GetUser: TItemUser;
+function TItemWeighing.GetUserIn: TItemUser;
 begin
-  Result := Self.FUser;
+  Result := Self.FUserIn;
+end;
+
+function TItemWeighing.GetUserOut: TItemUser;
+begin
+  Result := Self.FUserOut
+end;
+
+function TItemWeighing.GetWeighingNo: String;
+begin
+  Result := Self.FWeighingNo;
 end;
 
 function TItemWeighing.GetWeighingType: TWeighingType;
@@ -231,7 +263,8 @@ begin
 
   Self.Customer.SetDefaultValues();
   Self.Product.SetDefaultValues();
-  Self.User.SetDefaultValues();
+  Self.UserIn.SetDefaultValues();
+  Self.UserOut.SetDefaultValues();
 
   Self.MassIn := 0;
   Self.MassOut := 0;
@@ -261,6 +294,12 @@ begin
     Self.FTrailerNo := Value;
 end;
 
+procedure TItemWeighing.SetWeighingNo(const Value: String);
+begin
+  if Value <> Self.WeighingNo then
+    Self.FWeighingNo := Value;
+end;
+
 procedure TItemWeighing.SetWeighingType(const Value: TWeighingType);
 begin
   if Value <> Self.WeighingType then
@@ -273,8 +312,10 @@ begin
 
   Result.O[jf_customer] := Self.Customer.ToJson();
   Result.O[jf_product] := Self.Product.ToJson();
-  Result.I[jf_user_id] := Self.User.Id;
+  Result.I[jf_user_in_id] := Self.UserIn.Id;
+  Result.I[jf_user_out_id] := Self.UserOut.Id;
 
+  Result.S[jf_weighing_no] := Self.WeighingNo;
   Result.D[jf_mass_in] := Self.MassIn;
   Result.D[jf_mass_out] := Self.MassOut;
   Result.D[jf_mass_netto] := Self.MassNetto;

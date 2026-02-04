@@ -8,14 +8,14 @@ uses
 type
   TManagerProducts = class
     private
-      FProductCustomer : TObjectList<TItemProduct>;
+      FProductList : TObjectList<TItemProduct>;
       FProductsDS : TDataSourceProducts;
 
       class var FInstance : TManagerProducts;
       constructor CreateInstance;
       destructor Destroy(); override;
     public
-      property ProductList : TObjectList<TItemProduct> read FProductCustomer;
+      property ProductList : TObjectList<TItemProduct> read FProductList;
       property ProductsDS : TDataSourceProducts read FProductsDS;
 
       constructor Create(); overload;
@@ -41,13 +41,13 @@ constructor TManagerProducts.CreateInstance;
 begin
   inherited Create;
 
-  Self.FProductCustomer := TObjectList<TItemProduct>.Create();
-  Self.FProductsDS := TDataSourceProducts.Create(Self.FProductCustomer);
+  Self.FProductList := TObjectList<TItemProduct>.Create();
+  Self.FProductsDS := TDataSourceProducts.Create(Self.FProductList);
 end;
 
 destructor TManagerProducts.Destroy;
 begin
-  Self.FProductCustomer.Free;
+  Self.FProductList.Free;
   Self.FProductsDS.Free;
 
   inherited;

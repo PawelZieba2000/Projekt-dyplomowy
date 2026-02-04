@@ -101,6 +101,7 @@ type
     procedure SetScaleStable(const pMassStable : Boolean);
     procedure SetScaleMass(const pMass : Integer);
   public
+    class function CreateAndShowModal(AOwner : TComponent) : Integer;
 
     constructor Create(AOwner: TComponent); overload;
     destructor Destroy(); override;
@@ -228,6 +229,23 @@ begin
   THelpFunctions.FillWeighingTypeCombo(Self.cmbWeighingType);
   THelpFunctions.FillCustomersCombo(Self.cmbCustomer);
   THelpFunctions.FillProductsCombo(Self.cmbProduct);
+end;
+
+class function TFormWeighing.CreateAndShowModal(AOwner: TComponent): Integer;
+begin
+  Result := mrNone;
+  if Assigned(FormWeighing) then
+    Exit;
+
+  if not Assigned(AOwner) then
+    AOwner := THelpFunctions.GetActiveWindow;
+
+  FormWeighing := TFormWeighing.Create(AOwner);
+  try
+    Result := FormWeighing.ShowModal;
+  finally
+    FreeAndNil(FormWeighing);
+  end;
 end;
 
 destructor TFormWeighing.Destroy;

@@ -3,7 +3,7 @@ unit cHelpFunctions;
 interface
 
 uses
-  System.Classes, cxGridTableView, cxDropDownEdit;
+  System.Classes, cxGridTableView, cxDropDownEdit, Vcl.StdCtrls;
 
 type
   THelpFunctions = class
@@ -25,6 +25,10 @@ type
 
       class procedure FillCustomersCombo(pCombo : TcxComboBox);
       class procedure FillProductsCombo(pCombo : TcxComboBox);
+
+      class procedure SetComboItemIndex(pCombo : TCustomComboBox; const pText : String);
+
+      class function GetStringFromComCombo(const pCombo : TCustomComboBox) : String;
   end;
 
 implementation
@@ -49,6 +53,16 @@ end;
 class function THelpFunctions.GetCurrentDirectory: String;
 begin
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName));
+end;
+
+class function THelpFunctions.GetStringFromComCombo(
+  const pCombo: TCustomComboBox): String;
+begin
+  Result := '';
+  if not (Assigned(pCombo) and (pCombo.ItemIndex > -1) and (pCombo.ItemIndex < pCombo.Items.Count)) then
+    Exit;
+
+  Result := pCombo.Items[pCombo.ItemIndex];
 end;
 
 class procedure THelpFunctions.FillCustomersCombo(pCombo: TcxComboBox);
@@ -94,7 +108,12 @@ begin
   try
     pCombo.Properties.Items.Clear;
     for var item : TScaleConnType := Low(TScaleConnType) to High(TScaleConnType) do
+    begin
+      if item = sctNone then
+        Continue;
+
       pCombo.Properties.Items.Add(item.ToString);
+    end;
 
     pCombo.ItemIndex := 0;
   finally
@@ -128,11 +147,33 @@ begin
   try
     pCombo.Properties.Items.Clear;
     for var item : TWeighingType := Low(TWeighingType) to High(TWeighingType) do
+    begin
+      if item = wtNone then
+        Continue;
+
       pCombo.Properties.Items.Add(item.ToString);
+    end;
 
     pCombo.ItemIndex := 0;
   finally
     pCombo.Properties.Items.EndUpdate;
+  end;
+end;
+
+class procedure THelpFunctions.SetComboItemIndex(pCombo: TCustomComboBox;
+  const pText: String);
+begin
+  if not Assigned(pCombo) then
+    Exit;
+
+  pCombo.ItemIndex := -1;
+  for var I : Integer := 0 to pCombo.Items.Count - 1 do
+  begin
+    if pCombo.Items[I] <> pText then
+      Continue;
+
+    pCombo.ItemIndex := I;
+    Break;
   end;
 end;
 

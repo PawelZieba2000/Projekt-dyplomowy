@@ -33,7 +33,8 @@ uses
 
 procedure TManagerScale.ConnectWithScale;
 begin
-  Self.FScaleConn.Connect;
+  if TManagerConfig.Instance.ScaleConfig.IsActive then
+    Self.FScaleConn.Connect;
 end;
 
 constructor TManagerScale.Create;

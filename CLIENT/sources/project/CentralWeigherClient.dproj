@@ -197,6 +197,8 @@
             <Form>FormAppMessage</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\controller\cManagerWeighings.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceWeighings.pas"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>

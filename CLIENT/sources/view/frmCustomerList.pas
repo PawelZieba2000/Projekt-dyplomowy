@@ -140,7 +140,7 @@ begin
     Exit;
 
   var idErp : Integer := gGridListTableView1.Controller.FocusedRow.Values[clmnIdErp.Index];
-  for var customer in TManagerCustomers.Instance.CustomerList do
+  for var customer : TItemCustomer in TManagerCustomers.Instance.CustomerList do
   begin
     if idErp <> customer.IdErp then
       Continue;

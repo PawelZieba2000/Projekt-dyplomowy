@@ -1,58 +1,59 @@
 inherited FormConfig: TFormConfig
   Caption = 'Ustawienia'
-  ClientHeight = 361
-  ClientWidth = 384
-  Constraints.MaxHeight = 400
-  Constraints.MaxWidth = 400
-  Constraints.MinHeight = 400
-  Constraints.MinWidth = 400
+  ClientHeight = 481
+  ClientWidth = 434
+  Constraints.MaxHeight = 550
+  Constraints.MaxWidth = 450
+  Constraints.MinHeight = 520
+  Constraints.MinWidth = 450
   StyleElements = [seFont, seClient, seBorder]
   OnCreate = FormCreate
-  ExplicitWidth = 400
-  ExplicitHeight = 400
+  ExplicitWidth = 450
+  ExplicitHeight = 520
   TextHeight = 15
   inherited lcMain: TdxLayoutControl
-    Width = 384
-    Height = 361
+    Width = 434
+    Height = 481
     ExplicitWidth = 384
-    ExplicitHeight = 315
+    ExplicitHeight = 361
     inherited btnOk: TcxButton
-      Left = 215
-      Top = 324
-      TabOrder = 5
-      ExplicitLeft = 215
-      ExplicitTop = 324
+      Left = 248
+      Top = 515
+      TabOrder = 13
+      ExplicitLeft = 248
+      ExplicitTop = 515
     end
     inherited btnCancel: TcxButton
-      Left = 297
-      Top = 324
-      TabOrder = 6
-      ExplicitLeft = 297
-      ExplicitTop = 324
+      Left = 330
+      Top = 515
+      TabOrder = 14
+      ExplicitLeft = 330
+      ExplicitTop = 515
     end
     object edtApiUrl: TcxTextEdit [2]
-      Left = 129
-      Top = 95
+      Left = 161
+      Top = 41
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 0
-      Width = 229
+      Width = 230
     end
     object edtScaleIp: TcxTextEdit [3]
-      Left = 129
-      Top = 223
+      Left = 10000
+      Top = 10000
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 3
-      Width = 229
+      TabOrder = 11
+      Visible = False
+      Width = 235
     end
     object seScalePort: TcxSpinEdit [4]
-      Left = 129
-      Top = 253
+      Left = 10000
+      Top = 10000
       BiDiMode = bdLeftToRight
       ParentBiDiMode = False
       Properties.Alignment.Horz = taRightJustify
@@ -61,12 +62,13 @@ inherited FormConfig: TFormConfig
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 4
-      Width = 229
+      TabOrder = 12
+      Visible = False
+      Width = 235
     end
     object edtbtnApiLogPath: TcxButtonEdit [5]
-      Left = 129
-      Top = 125
+      Left = 161
+      Top = 71
       Properties.Buttons = <
         item
           Default = True
@@ -81,15 +83,106 @@ inherited FormConfig: TFormConfig
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
       TabOrder = 1
-      Width = 229
+      Width = 230
     end
     object btnApiTest: TcxButton [6]
-      Left = 283
-      Top = 156
-      Width = 75
+      Left = 286
+      Top = 102
+      Width = 105
       Height = 25
       Action = actApiTest
       TabOrder = 2
+    end
+    object cmbScaleProtocols: TcxComboBox [7]
+      Left = 161
+      Top = 194
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 3
+      Width = 230
+    end
+    object cmbScaleConnType: TcxComboBox [8]
+      Left = 161
+      Top = 224
+      Properties.OnChange = cmbScaleConnTypePropertiesChange
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 4
+      Width = 230
+    end
+    object cmbScaleComPorts: TComComboBox [9]
+      Left = 114
+      Top = 292
+      Width = 261
+      Height = 23
+      ComProperty = cpPort
+      Text = 'COM1'
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 5
+    end
+    object cmbScaleBaudrate: TComComboBox [10]
+      Left = 114
+      Top = 322
+      Width = 261
+      Height = 23
+      ComProperty = cpBaudRate
+      Text = 'Custom'
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 6
+    end
+    object cmbScaleParity: TComComboBox [11]
+      Left = 114
+      Top = 382
+      Width = 261
+      Height = 23
+      ComProperty = cpParity
+      Text = 'None'
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 8
+    end
+    object cmbScaleFlowControl: TComComboBox [12]
+      Left = 114
+      Top = 412
+      Width = 261
+      Height = 23
+      ComProperty = cpFlowControl
+      Text = 'Hardware'
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 9
+    end
+    object cmbScaleDataBits: TComComboBox [13]
+      Left = 114
+      Top = 352
+      Width = 261
+      Height = 23
+      ComProperty = cpDataBits
+      Text = '5'
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 7
+    end
+    object cmbScaleStopBits: TComComboBox [14]
+      Left = 114
+      Top = 442
+      Width = 261
+      Height = 23
+      ComProperty = cpStopBits
+      Text = '1'
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 10
     end
     inherited lgMain: TdxLayoutGroup
       ItemIndex = 2
@@ -126,6 +219,7 @@ inherited FormConfig: TFormConfig
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       AllowRemove = False
+      ItemIndex = 1
       ShowBorder = False
       Index = 2
     end
@@ -133,6 +227,7 @@ inherited FormConfig: TFormConfig
       Parent = lgTop
       AlignHorz = ahLeft
       AlignVert = avClient
+      AllowRemove = False
       Image.SourceDPI = 96
       Image.SourceHeight = 64
       Image.SourceWidth = 64
@@ -178,16 +273,19 @@ inherited FormConfig: TFormConfig
       AlignHorz = ahLeft
       AlignVert = avClient
       LayoutLookAndFeel = ModDispatcher.dxLayoutSkin_Title
+      AllowRemove = False
       CaptionOptions.Text = 'Ustawienia'
       Index = 1
     end
     object sprtrTop: TdxLayoutSeparatorItem
       Parent = lgMain
+      AllowRemove = False
       CaptionOptions.Text = 'Separator'
       Index = 1
     end
     object liApiUrl: TdxLayoutItem
       Parent = lgApiConfig
+      AllowRemove = False
       CaptionOptions.Text = 'Adres URL serwera'
       Control = edtApiUrl
       ControlOptions.OriginalHeight = 23
@@ -198,17 +296,19 @@ inherited FormConfig: TFormConfig
     object lgApiConfig: TdxLayoutGroup
       Parent = lgCenter
       CaptionOptions.Text = 'Po'#322#261'czenie do API'
-      ItemIndex = 2
+      AllowRemove = False
       Index = 0
     end
     object lgScaleConfig: TdxLayoutGroup
       Parent = lgCenter
       CaptionOptions.Text = 'Po'#322#261'czenie z miernikiem wagowym'
-      ItemIndex = 1
+      AllowRemove = False
+      ItemIndex = 3
       Index = 1
     end
     object liScaleIp: TdxLayoutItem
-      Parent = lgScaleConfig
+      Parent = lgScaleConnIp
+      AllowRemove = False
       CaptionOptions.Text = 'Adres IP miernika'
       Control = edtScaleIp
       ControlOptions.OriginalHeight = 23
@@ -217,7 +317,8 @@ inherited FormConfig: TFormConfig
       Index = 0
     end
     object liScalePort: TdxLayoutItem
-      Parent = lgScaleConfig
+      Parent = lgScaleConnIp
+      AllowRemove = False
       CaptionOptions.Text = 'Port miernika'
       Control = seScalePort
       ControlOptions.OriginalHeight = 23
@@ -227,6 +328,7 @@ inherited FormConfig: TFormConfig
     end
     object liApiLogPath: TdxLayoutItem
       Parent = lgApiConfig
+      AllowRemove = False
       CaptionOptions.Text = #346'cie'#380'ka do log'#243'w'
       Control = edtbtnApiLogPath
       ControlOptions.OriginalHeight = 24
@@ -237,11 +339,128 @@ inherited FormConfig: TFormConfig
     object liApiTest: TdxLayoutItem
       Parent = lgApiConfig
       AlignHorz = ahRight
+      SizeOptions.AssignedValues = [sovSizableHorz]
+      SizeOptions.SizableHorz = True
+      SizeOptions.Width = 105
+      AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = btnApiTest
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object lgScaleConnection: TdxLayoutGroup
+      Parent = lgScaleConfig
+      CaptionOptions.Text = 'COM'
+      AllowRemove = False
+      LayoutDirection = ldTabbed
+      ShowBorder = False
+      Index = 3
+    end
+    object lgScaleConnIp: TdxLayoutGroup
+      Parent = lgScaleConnection
+      CaptionOptions.Text = 'TCP/IP'
+      Visible = False
+      AllowRemove = False
+      ItemIndex = 1
+      ShowBorder = False
+      Index = 1
+    end
+    object lgScaleConnSerial: TdxLayoutGroup
+      Parent = lgScaleConnection
+      CaptionOptions.Text = 'COM'
+      Visible = False
+      AllowRemove = False
+      ItemIndex = 5
+      ShowBorder = False
+      Index = 0
+    end
+    object liScaleSerialPort: TdxLayoutItem
+      Parent = lgScaleConnSerial
+      AllowRemove = False
+      CaptionOptions.Text = 'Port COM'
+      Control = cmbScaleComPorts
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object liScaleSerialBaudrate: TdxLayoutItem
+      Parent = lgScaleConnSerial
+      AllowRemove = False
+      CaptionOptions.Text = 'Baudrate'
+      Control = cmbScaleBaudrate
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object liScaleSerialParity: TdxLayoutItem
+      Parent = lgScaleConnSerial
+      AllowRemove = False
+      CaptionOptions.Text = 'Parity'
+      Control = cmbScaleParity
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object liScaleSerialData: TdxLayoutItem
+      Parent = lgScaleConnSerial
+      AllowRemove = False
+      CaptionOptions.Text = 'Data bits'
+      Control = cmbScaleDataBits
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object liScaleSerialStopBits: TdxLayoutItem
+      Parent = lgScaleConnSerial
+      AllowRemove = False
+      CaptionOptions.Text = 'Stop bits'
+      Control = cmbScaleStopBits
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object liScaleSerialFlowControl: TdxLayoutItem
+      Parent = lgScaleConnSerial
+      AllowRemove = False
+      CaptionOptions.Text = 'Flow control'
+      Control = cmbScaleFlowControl
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object liChbScaleActive: TdxLayoutCheckBoxItem
+      Parent = lgScaleConfig
+      AllowRemove = False
+      CaptionOptions.Text = 'Waga aktywna'
+      OnClick = liChbScaleActiveClick
+      Index = 0
+    end
+    object liScaleProtocol: TdxLayoutItem
+      Parent = lgScaleConfig
+      AllowRemove = False
+      CaptionOptions.Text = 'Protok'#243#322' komunikacyjny'
+      Control = cmbScaleProtocols
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object liScaleConnType: TdxLayoutItem
+      Parent = lgScaleConfig
+      AllowRemove = False
+      CaptionOptions.Text = 'Spos'#243'b komunikacji'
+      Control = cmbScaleConnType
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end

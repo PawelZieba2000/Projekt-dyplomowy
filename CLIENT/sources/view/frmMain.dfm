@@ -2,8 +2,8 @@ object FormMain: TFormMain
   Left = 0
   Top = 0
   Caption = 'Central Weigher - klient'
-  ClientHeight = 441
-  ClientWidth = 624
+  ClientHeight = 550
+  ClientWidth = 871
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object FormMain: TFormMain
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
-    Width = 624
+    Width = 871
     Height = 124
     BarManager = barmngMain
     Style = rs2019
@@ -29,6 +29,7 @@ object FormMain: TFormMain
     Contexts = <>
     TabOrder = 0
     TabStop = False
+    ExplicitWidth = 624
     object dxRibbonTabMain: TdxRibbonTab
       Active = True
       Caption = 'Narz'#281'dzia g'#322#243'wne'
@@ -65,14 +66,16 @@ object FormMain: TFormMain
   end
   object stsbrBottom: TdxStatusBar
     Left = 0
-    Top = 421
-    Width = 624
+    Top = 530
+    Width = 871
     Height = 20
     Panels = <
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         Text = 'Zalogowano jako:'
       end>
+    ExplicitTop = 421
+    ExplicitWidth = 624
   end
   object actlstMain: TActionList
     Images = ModDispatcher.imgList32

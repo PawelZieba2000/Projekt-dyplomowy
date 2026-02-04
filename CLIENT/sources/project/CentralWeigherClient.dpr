@@ -34,7 +34,9 @@ uses
   cDataSourceProducts in '..\datasources\cDataSourceProducts.pas',
   frmWeighing in '..\view\frmWeighing.pas' {FormWeighing},
   cManagerScale in '..\controller\cManagerScale.pas',
-  frmAppMessage in '..\view\frmAppMessage.pas' {FormAppMessage};
+  frmAppMessage in '..\view\frmAppMessage.pas' {FormAppMessage},
+  cManagerWeighings in '..\controller\cManagerWeighings.pas',
+  cDataSourceWeighings in '..\datasources\cDataSourceWeighings.pas';
 
 {$R *.res}
 
@@ -43,7 +45,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TModDispatcher, ModDispatcher);
-  Application.CreateForm(TFormWeighing, FormWeighing);
-  Application.CreateForm(TFormAppMessage, FormAppMessage);
   Application.Run;
 end.

@@ -46,7 +46,7 @@ type
       property Country: String read GetCountry write SetCountry;
 
       procedure AssignValues(const pSource : TItemAddress); reintroduce;
-      procedure SetDefaultValues(); override;
+      procedure SetDefaultValues(); reintroduce;
 
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pAddressJson : ISuperObject); reintroduce;
