@@ -323,6 +323,7 @@ begin
   stsbrBottom.Font.Color := lblScaleMass.Style.Font.Color;
   pnlScaleStatusInfo.Color := pnlScaleMass.Color;
 
+  pnlScaleStatusInfo.Caption := scaleStatusInfo;
   lblScaleUnit.Caption := scaleUnit;
   stsbrBottom.Panels[0].Text := scaleStatusInfo;
 end;
@@ -351,6 +352,8 @@ begin
     lblScaleMass.Style.Font.Color := clYellow;
     pnlScaleMass.Color := clRed;
   end;
+
+  lblScaleUnit.Style.Font.Color := lblScaleMass.Style.Font.Color;
 end;
 
 function TFormWeighing.ValidateWeighingData: Boolean;
@@ -417,7 +420,7 @@ begin
     scaleStable := StrToIntDef(scaleMassArr[1], 0).ToBoolean;
   end;
 
-  var connected : Boolean := scaleMass = SCALE_WRONG_MASS;
+  var connected : Boolean := scaleMass <> SCALE_WRONG_MASS;
   Self.SetScaleConnection(connected);
   if connected then
   begin

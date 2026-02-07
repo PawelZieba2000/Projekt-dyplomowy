@@ -140,18 +140,18 @@ inherited FormWeighing: TFormWeighing
       end
     end
     object pnlScaleInfo: TPanel [7]
-      Left = 165
-      Top = 284
-      Width = 393
-      Height = 48
+      Left = 179
+      Top = 271
+      Width = 365
+      Height = 47
       BevelOuter = bvNone
       TabOrder = 14
       object pnlScaleMass: TPanel
         AlignWithMargins = True
         Left = 5
         Top = 5
-        Width = 383
-        Height = 38
+        Width = 355
+        Height = 37
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -186,12 +186,12 @@ inherited FormWeighing: TFormWeighing
           Style.IsFontAssigned = True
           Properties.Alignment.Horz = taRightJustify
           Properties.Alignment.Vert = taVCenter
-          AnchorX = 346
+          AnchorX = 318
           AnchorY = 19
         end
         object lblScaleUnit: TcxLabel
           AlignWithMargins = True
-          Left = 351
+          Left = 323
           Top = 0
           Margins.Left = 0
           Margins.Top = 0
@@ -212,17 +212,17 @@ inherited FormWeighing: TFormWeighing
       end
     end
     object btnDoWeighing: TcxButton [8]
-      Left = 565
-      Top = 284
+      Left = 551
+      Top = 271
       Width = 75
-      Height = 48
+      Height = 47
       Action = actDoWeighing
       TabOrder = 15
     end
     object pnlScaleStatus: TPanel [9]
-      Left = 165
-      Top = 339
-      Width = 475
+      Left = 179
+      Top = 325
+      Width = 447
       Height = 28
       BevelOuter = bvNone
       TabOrder = 16
@@ -230,7 +230,7 @@ inherited FormWeighing: TFormWeighing
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 469
+        Width = 441
         Height = 22
         Align = alClient
         BevelOuter = bvNone
@@ -256,7 +256,7 @@ inherited FormWeighing: TFormWeighing
       Style.TransparentBorder = False
       TabOrder = 1
       Height = 25
-      Width = 230
+      Width = 187
     end
     object edtTrailerNo: TcxTextEdit [11]
       Left = 122
@@ -266,11 +266,11 @@ inherited FormWeighing: TFormWeighing
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 4
-      Width = 324
+      Width = 281
     end
     object seTare: TcxSpinEdit [12]
-      Left = 539
-      Top = 93
+      Left = 496
+      Top = 123
       Properties.Alignment.Horz = taRightJustify
       Properties.SpinButtons.Visible = False
       Properties.ValueType = vtFloat
@@ -279,12 +279,12 @@ inherited FormWeighing: TFormWeighing
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 5
-      Width = 101
+      TabOrder = 6
+      Width = 144
     end
     object seNetto: TcxSpinEdit [13]
-      Left = 48
-      Top = 284
+      Left = 62
+      Top = 271
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Properties.SpinButtons.Visible = False
@@ -298,8 +298,8 @@ inherited FormWeighing: TFormWeighing
       Width = 110
     end
     object cmbWeighingType: TcxComboBox [14]
-      Left = 539
-      Top = 123
+      Left = 496
+      Top = 93
       Properties.OnChange = cmbWeighingTypePropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -307,8 +307,8 @@ inherited FormWeighing: TFormWeighing
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 6
-      Width = 101
+      TabOrder = 5
+      Width = 144
     end
     object stsbrBottom: TdxStatusBar [15]
       Left = 12
@@ -322,7 +322,7 @@ inherited FormWeighing: TFormWeighing
         end>
     end
     object btnSearchCar: TcxButton [16]
-      Left = 359
+      Left = 316
       Top = 93
       Width = 40
       Height = 25
@@ -354,7 +354,7 @@ inherited FormWeighing: TFormWeighing
       Width = 354
     end
     object btnClearData: TcxButton [19]
-      Left = 406
+      Left = 363
       Top = 93
       Width = 40
       Height = 25
@@ -496,13 +496,13 @@ inherited FormWeighing: TFormWeighing
       AlignHorz = ahClient
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
+      CaptionOptions.Visible = False
       SizeOptions.AssignedValues = [sovSizableVert]
       SizeOptions.SizableVert = True
-      SizeOptions.Height = 83
+      SizeOptions.Height = 117
       AllowRemove = False
       ItemIndex = 1
       LayoutDirection = ldHorizontal
-      ShowBorder = False
       Index = 6
     end
     object lgWeighingData: TdxLayoutGroup
@@ -594,6 +594,7 @@ inherited FormWeighing: TFormWeighing
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       AllowRemove = False
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
@@ -634,9 +635,8 @@ inherited FormWeighing: TFormWeighing
       CaptionOptions.Text = 'New Group'
       SizeOptions.AssignedValues = [sovSizableHorz]
       SizeOptions.SizableHorz = True
-      SizeOptions.Width = 187
+      SizeOptions.Width = 230
       AllowRemove = False
-      ItemIndex = 1
       ShowBorder = False
       Index = 1
     end
@@ -648,7 +648,7 @@ inherited FormWeighing: TFormWeighing
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object liNetto: TdxLayoutItem
       Parent = lgWeighingData
@@ -671,7 +671,7 @@ inherited FormWeighing: TFormWeighing
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object liStatusBar: TdxLayoutItem
       Parent = lgBottom
@@ -715,7 +715,7 @@ inherited FormWeighing: TFormWeighing
       CaptionOptions.Visible = False
       Control = btnClearData
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 40
       ControlOptions.ShowBorder = False
       Index = 2
     end

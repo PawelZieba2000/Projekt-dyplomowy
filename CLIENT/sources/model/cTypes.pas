@@ -122,11 +122,11 @@ end;
 
 function TWeighingTypeHelper.ToInteger: Integer;
 begin
-  Result := 0;
+  Result := -1;
   case Self of
-    wtFirst: Result := 1;
-    wtSecond: Result := 2;
-    wtSingle: Result := 3;
+    wtFirst: Result := 0;
+    wtSecond: Result := 1;
+    wtSingle: Result := 2;
   end;
 end;
 

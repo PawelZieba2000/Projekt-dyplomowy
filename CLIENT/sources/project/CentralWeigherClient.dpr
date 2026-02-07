@@ -36,7 +36,8 @@ uses
   cManagerScale in '..\controller\cManagerScale.pas',
   frmAppMessage in '..\view\frmAppMessage.pas' {FormAppMessage},
   cManagerWeighings in '..\controller\cManagerWeighings.pas',
-  cDataSourceWeighings in '..\datasources\cDataSourceWeighings.pas';
+  cDataSourceWeighings in '..\datasources\cDataSourceWeighings.pas',
+  cScaleTranssRhewa84 in '..\transsmision\cScaleTranssRhewa84.pas';
 
 {$R *.res}
 

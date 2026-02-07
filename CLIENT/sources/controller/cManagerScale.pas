@@ -27,7 +27,8 @@ type
 implementation
 
 uses
-  cScaleTranssRinstrumC520, System.SysUtils, cManagerConfig, cTypes;
+  cScaleTranssRinstrumC520, System.SysUtils, cManagerConfig, cTypes,
+  cScaleTranssRhewa84;
 
 { TManagerScale }
 
@@ -50,7 +51,7 @@ begin
 
   case TManagerConfig.Instance.ScaleConfig.ScaleProtocolType of
     sptRinstrumC520 : Self.FScaleConn := TTransRinstrumC520.Create(TManagerConfig.Instance.ScaleConfig);
-    sptRhewaDisplay : ;
+    sptRhewaDisplay : Self.FScaleConn := TTransRhewa84.Create(TManagerConfig.Instance.ScaleConfig);
   end;
 end;
 
