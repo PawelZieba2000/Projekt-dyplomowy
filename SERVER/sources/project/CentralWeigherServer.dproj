@@ -133,6 +133,79 @@
             <Form>Form2</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\view\frmAppMessage.pas">
+            <Form>FormAppMessage</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmConfig.pas">
+            <Form>FormConfig</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmCustomerList.pas">
+            <Form>FormCustomerList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmLogin.pas">
+            <Form>FormLogin</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmProductList.pas">
+            <Form>FormProductList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmWeighing.pas">
+            <Form>FormWeighing</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmWeighingList.pas">
+            <Form>FormWeighingList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\controller\cManagerConfig.pas"/>
+        <DCCReference Include="..\controller\cManagerCustomers.pas"/>
+        <DCCReference Include="..\controller\cManagerProducts.pas"/>
+        <DCCReference Include="..\controller\cManagerUser.pas"/>
+        <DCCReference Include="..\controller\cManagerWeighings.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceCustomers.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceProducts.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceWeighings.pas"/>
+        <DCCReference Include="..\helper\cHelpFunctions.pas"/>
+        <DCCReference Include="..\model\cConfig.pas"/>
+        <DCCReference Include="..\model\cItemAddress.pas"/>
+        <DCCReference Include="..\model\cItemBase.pas"/>
+        <DCCReference Include="..\model\cItemCustomer.pas"/>
+        <DCCReference Include="..\model\cItemProduct.pas"/>
+        <DCCReference Include="..\model\cItemUser.pas"/>
+        <DCCReference Include="..\model\cItemWeighing.pas"/>
+        <DCCReference Include="..\model\cTypes.pas"/>
+        <DCCReference Include="..\modules\uModDispatcher.pas">
+            <Form>ModDispatcher</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\units\uConsts.pas"/>
+        <DCCReference Include="..\view\baseForm\frmBase.pas">
+            <Form>FormBase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\baseForm\frmBaseAddEdit.pas">
+            <Form>FormBaseAddEdit</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\baseForm\frmBaseList.pas">
+            <Form>FormBaseList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\modules\uWebModule.pas">
+            <Form>WebModuleMain</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\modules\uModDatabase.pas">
+            <Form>ModuleDataBase</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="ModelSupport_CentralWeigherServer\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherServer\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherServer\frmMain\default.txvpck"/>
