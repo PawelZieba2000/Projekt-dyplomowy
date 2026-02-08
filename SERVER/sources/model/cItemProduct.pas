@@ -3,7 +3,7 @@ unit cItemProduct;
 interface
 
 uses
-  cItemBase, OverbyteIcsSuperObject;
+  cItemBase, OverbyteIcsSuperObject, Uni;
 
 type
   TItemProduct = class(TItemBase)
@@ -38,7 +38,10 @@ type
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pProdJson : ISuperObject); reintroduce;
 
+      procedure FromQuery(pProdQuery : TCustomUniDataSet);
+
       class function JsonToProduct(pProdJson : ISuperObject) : TItemProduct;
+      class function QueryToProduct(pProdQuery : TCustomUniDataSet) : TItemProduct;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -86,6 +89,15 @@ begin
   inherited FromJson(pProdJson);
 end;
 
+procedure TItemProduct.FromQuery(pProdQuery: TCustomUniDataSet);
+begin
+  Self.Name := pProdQuery.FieldByName('').AsString;
+  Self.Code := pProdQuery.FieldByName('').AsString;
+  Self.Price := pProdQuery.FieldByName('').AsFloat;
+  Self.Id := pProdQuery.FieldByName('').AsInteger;
+  Self.LocationId := pProdQuery.FieldByName('').AsInteger;
+end;
+
 class function TItemProduct.JsonToProduct(pProdJson: ISuperObject): TItemProduct;
 begin
   Result := nil;
@@ -95,6 +107,21 @@ begin
   Result := TItemProduct.Create;
   try
     Result.FromJson(pProdJson);
+  except
+    FreeAndNil(Result);
+  end;
+end;
+
+class function TItemProduct.QueryToProduct(
+  pProdQuery: TCustomUniDataSet): TItemProduct;
+begin
+  Result := nil;
+  if not Assigned(pProdQuery) then
+    Exit;
+
+  Result := TItemProduct.Create;
+  try
+    Result.FromQuery(pProdQuery);
   except
     FreeAndNil(Result);
   end;

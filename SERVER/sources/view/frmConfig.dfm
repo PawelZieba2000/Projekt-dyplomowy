@@ -1,46 +1,36 @@
 inherited FormConfig: TFormConfig
   Caption = 'Ustawienia'
-  ClientHeight = 481
-  ClientWidth = 434
-  Constraints.MaxHeight = 550
-  Constraints.MaxWidth = 450
-  Constraints.MinHeight = 520
-  Constraints.MinWidth = 450
+  ClientHeight = 471
+  ClientWidth = 384
+  Constraints.MaxHeight = 510
+  Constraints.MaxWidth = 400
+  Constraints.MinHeight = 510
+  Constraints.MinWidth = 400
   StyleElements = [seFont, seClient, seBorder]
   OnCreate = FormCreate
-  ExplicitWidth = 450
-  ExplicitHeight = 520
+  ExplicitWidth = 400
+  ExplicitHeight = 510
   TextHeight = 15
   inherited lcMain: TdxLayoutControl
-    Width = 434
-    Height = 481
+    Width = 384
+    Height = 471
     ExplicitWidth = 434
     ExplicitHeight = 481
     inherited btnOk: TcxButton
-      Left = 265
-      Top = 444
-      TabOrder = 3
-      ExplicitLeft = 265
-      ExplicitTop = 444
+      Left = 215
+      Top = 434
+      TabOrder = 8
+      ExplicitLeft = 215
+      ExplicitTop = 434
     end
     inherited btnCancel: TcxButton
-      Left = 347
-      Top = 444
-      TabOrder = 4
-      ExplicitLeft = 347
-      ExplicitTop = 444
+      Left = 297
+      Top = 434
+      TabOrder = 9
+      ExplicitLeft = 297
+      ExplicitTop = 434
     end
-    object edtApiUrl: TcxTextEdit [2]
-      Left = 129
-      Top = 95
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.TransparentBorder = False
-      TabOrder = 0
-      Width = 279
-    end
-    object edtbtnApiLogPath: TcxButtonEdit [3]
+    object edtbtnApiLogPath: TcxButtonEdit [2]
       Left = 129
       Top = 125
       Properties.Buttons = <
@@ -57,20 +47,97 @@ inherited FormConfig: TFormConfig
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
       TabOrder = 1
-      Width = 279
+      Width = 229
     end
-    object btnApiTest: TcxButton [4]
-      Left = 303
-      Top = 156
+    object btnDbConnTest: TcxButton [3]
+      Left = 253
+      Top = 366
       Width = 105
       Height = 25
-      Action = actApiTest
+      Action = actDbConnTest
+      TabOrder = 7
+    end
+    object seRestApiPort: TcxSpinEdit [4]
+      Left = 129
+      Top = 95
+      Properties.Alignment.Horz = taRightJustify
+      Properties.MaxValue = 99999.000000000000000000
+      Properties.MinValue = 1.000000000000000000
+      Properties.SpinButtons.Visible = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 0
+      Value = 80
+      Width = 121
+    end
+    object edtDbServerAddress: TcxTextEdit [5]
+      Left = 129
+      Top = 216
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
       TabOrder = 2
+      Width = 229
+    end
+    object seDbServerPort: TcxSpinEdit [6]
+      Left = 129
+      Top = 246
+      Properties.Alignment.Horz = taRightJustify
+      Properties.MaxValue = 99999.000000000000000000
+      Properties.MinValue = 1.000000000000000000
+      Properties.SpinButtons.Visible = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 3
+      Value = 3052
+      Width = 121
+    end
+    object edtDbPath: TcxTextEdit [7]
+      Left = 129
+      Top = 276
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 4
+      Width = 229
+    end
+    object edtDbUsername: TcxTextEdit [8]
+      Left = 129
+      Top = 306
+      Properties.EchoMode = eemPassword
+      Properties.ShowPasswordRevealButton = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 5
+      Width = 229
+    end
+    object edtDbPassword: TcxTextEdit [9]
+      Left = 129
+      Top = 336
+      Properties.EchoMode = eemPassword
+      Properties.ShowPasswordRevealButton = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 6
+      Width = 229
     end
     inherited lgMain: TdxLayoutGroup
       ItemIndex = 2
     end
     inherited lgBottom: TdxLayoutGroup
+      ItemIndex = 1
       Index = 3
     end
     inherited lgBottomButtons: TdxLayoutGroup
@@ -165,11 +232,12 @@ inherited FormConfig: TFormConfig
       CaptionOptions.Text = 'Separator'
       Index = 1
     end
-    object liApiUrl: TdxLayoutItem
+    object liApiPort: TdxLayoutItem
       Parent = lgApiConfig
+      AlignHorz = ahLeft
       AllowRemove = False
       CaptionOptions.Text = 'Adres URL serwera'
-      Control = edtApiUrl
+      Control = seRestApiPort
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
@@ -179,6 +247,7 @@ inherited FormConfig: TFormConfig
       Parent = lgCenter
       CaptionOptions.Text = 'Po'#322#261'czenie do API'
       AllowRemove = False
+      ItemIndex = 2
       Index = 0
     end
     object liApiLogPath: TdxLayoutItem
@@ -191,8 +260,8 @@ inherited FormConfig: TFormConfig
       ControlOptions.ShowBorder = False
       Index = 1
     end
-    object liApiTest: TdxLayoutItem
-      Parent = lgApiConfig
+    object liDbConnTest: TdxLayoutItem
+      Parent = lgDbConfig
       AlignHorz = ahRight
       SizeOptions.AssignedValues = [sovSizableHorz]
       SizeOptions.SizableHorz = True
@@ -200,10 +269,79 @@ inherited FormConfig: TFormConfig
       AllowRemove = False
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
-      Control = btnApiTest
+      Control = btnDbConnTest
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 105
       ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object lgDbConfig: TdxLayoutGroup
+      Parent = lgCenter
+      CaptionOptions.Text = 'Po'#322#261'czenie do bazy danych'
+      AllowRemove = False
+      ItemIndex = 4
+      Index = 1
+    end
+    object liDbPath: TdxLayoutItem
+      Parent = lgDbConfig
+      AlignHorz = ahClient
+      AllowRemove = False
+      CaptionOptions.Text = #346'cie'#380'ka do pliku'
+      Control = edtDbPath
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object liDbServerAddress: TdxLayoutItem
+      Parent = lgDbConfig
+      AlignHorz = ahClient
+      AllowRemove = False
+      CaptionOptions.Text = 'Serwer'
+      Control = edtDbServerAddress
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object liDbServerPort: TdxLayoutItem
+      Parent = lgDbConfig
+      AlignHorz = ahLeft
+      AllowRemove = False
+      CaptionOptions.Text = 'Port'
+      Control = seDbServerPort
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object liDbUsername: TdxLayoutItem
+      Parent = lgDbConfig
+      AlignHorz = ahClient
+      AllowRemove = False
+      CaptionOptions.Text = 'U'#380'ytkownik'
+      Control = edtDbUsername
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object liDbPassword: TdxLayoutItem
+      Parent = lgDbConfig
+      AlignHorz = ahClient
+      AllowRemove = False
+      CaptionOptions.Text = 'Has'#322'o'
+      Control = edtDbPassword
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object liChbApiUseSSL: TdxLayoutCheckBoxItem
+      Parent = lgApiConfig
+      AllowRemove = False
+      CaptionOptions.Text = 'U'#380'ywaj SSL'
+      CaptionOptions.Layout = clLeft
       Index = 2
     end
   end
@@ -214,9 +352,9 @@ inherited FormConfig: TFormConfig
     inherited actOk: TAction
       Caption = 'Zapisz'
     end
-    object actApiTest: TAction
+    object actDbConnTest: TAction
       Caption = 'Test po'#322#261'czenia'
-      OnExecute = actApiTestExecute
+      OnExecute = actDbConnTestExecute
     end
   end
 end

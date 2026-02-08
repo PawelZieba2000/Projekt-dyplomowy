@@ -11,8 +11,17 @@ type
 
   TDataBaseConfig = class
     private
-      //user, login, œcie¿ka do bazy danych, adres, port
+      FDbServer : String;
+      FDbPort : Integer;
+      FDbPath : String;
+      FDbUsername : String;
+      FDbPassword : String;
     public
+      property DbServer : String read FDbServer write FDbServer;
+      property DbPort : Integer read FDbPort write FDbPort;
+      property DbPath : String read FDbPath write FDbPath;
+      property DbUsername : String read FDbUsername write FDbUsername;
+      property DbPassword : String read FDbPassword write FDbPassword;
 
       procedure SetDefaultValues();
 
@@ -22,12 +31,13 @@ type
 
   TRestServerConfig = class
     private
-      //co tu w sumie potrzeba, ip, port, https chyba tyle
-      FApiUrl : String;
+      FApPort : Integer;
       FApiLogPath : String;
+      FApiUseSSL : Boolean;
     public
-      property ApiUrl : String read FApiUrl write FApiUrl;
+      property ApiPort : Integer read FApPort write FApPort;
       property ApiLogPath : String read FApiLogPath write FApiLogPath;
+      property ApiUseSSL : Boolean read FApiUseSSL write FApiUseSSL;
 
       procedure SetDefaultValues();
 
@@ -52,8 +62,9 @@ end;
 
 procedure TRestServerConfig.SetDefaultValues;
 begin
-  Self.ApiUrl := '';
+  Self.ApiPort := 0;
   Self.ApiLogPath := '';
+  Self.ApiUseSSL := False;
 end;
 
 { TDataBaseConfig }
@@ -71,7 +82,11 @@ end;
 
 procedure TDataBaseConfig.SetDefaultValues;
 begin
-//
+  Self.DbServer := '';
+  Self.DbPort := 3052;
+  Self.DbPath := '';
+  Self.DbUsername := '';
+  Self.DbPassword := '';
 end;
 
 end.

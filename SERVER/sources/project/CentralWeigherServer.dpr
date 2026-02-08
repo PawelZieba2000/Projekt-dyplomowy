@@ -2,6 +2,8 @@ program CentralWeigherServer;
 
 uses
   Vcl.Forms,
+  Web.WebReq,
+  IdHTTPWebBrokerBridge,
   frmMain in '..\view\frmMain.pas' {Form2},
   frmAppMessage in '..\view\frmAppMessage.pas' {FormAppMessage},
   frmConfig in '..\view\frmConfig.pas' {FormConfig},
@@ -38,6 +40,9 @@ uses
 {$R *.res}
 
 begin
+  if WebRequestHandler.WebModuleClass <> nil then
+    WebRequestHandler.WebModuleClass := WebModuleMain;
+
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMain, FormMain);

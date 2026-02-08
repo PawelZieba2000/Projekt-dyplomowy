@@ -18,6 +18,8 @@ type
       property ProductList : TObjectList<TItemProduct> read FProductList;
       property ProductsDS : TDataSourceProducts read FProductsDS;
 
+      procedure GetProductsFromDb();
+
       constructor Create(); overload;
       class function Instance : TManagerProducts;
       class procedure ReleaseInstance;
@@ -27,7 +29,7 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, uModDatabase, Uni;
 
 { TManagerProducts }
 
@@ -51,6 +53,31 @@ begin
   Self.FProductsDS.Free;
 
   inherited;
+end;
+
+procedure TManagerProducts.GetProductsFromDb;
+begin
+  Self.FProductList.Clear;
+  var sql : String := 'SELECT P.* FROM PRODUCTS P WHERE P.IS_DELETED = 0';
+  var tmpQuery : TUniQuery := ModuleDataBase.OpenSql(sql);
+  if not Assigned(tmpQuery) then
+    Exit;
+
+  try
+    tmpQuery.First;
+
+    while not tmpQuery.Eof do
+    begin
+      var tmpProduct : TItemProduct := TItemProduct.QueryToProduct(tmpQuery);
+      if Assigned(tmpProduct) then
+        Self.FProductList.Add(tmpProduct);
+
+      tmpQuery.Next;
+    end;
+  finally
+    tmpQuery.Close;
+    tmpQuery.Free;
+  end;
 end;
 
 class function TManagerProducts.Instance: TManagerProducts;

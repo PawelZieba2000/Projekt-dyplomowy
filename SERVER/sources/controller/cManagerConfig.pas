@@ -10,24 +10,18 @@ type
     private
     const
       INI_API_REGION = 'API';
-      INI_API_KEY_URL = 'API_URL';
+      INI_API_KEY_PORT = 'API_PORT';
       INI_API_KEY_LOG_PATH = 'API_LOG_PATH';
+      INI_API_KEY_USE_SSL = 'API_USE_SSL';
 
-      INI_SCALE_REGION = 'SCALE';
-      INI_SCALE_IS_ACTIVE = 'SCALE_IS_ACTIVE';
-      INI_SCALE_CONN_TYPE = 'SCALE_CONN_TYPE';
-      INI_SCALE_PROTOCOL_TYPE = 'SCALE_PROTOCOL_TYPE';
-      INI_SCALE_KEY_IP = 'SCALE_IP';
-      INI_SCALE_KEY_PORT = 'SCALE_PORT';
-
-      INI_SCALE_COM_PORT = 'SCALE_COM_PORT';
-      INI_SCALE_BAUD_RATE = 'SCALE_BAUD_RATE';
-      INI_SCALE_DATA_BITS = 'SCALE_DATA_BITS';
-      INI_SCALE_PARITY_BITS = 'SCALE_PARITY_BITS';
-      INI_SCALE_STOP_BITS = 'SCALE_STOP_BITS';
-      INI_SCALE_FLOW_CONTROL = 'SCALE_FLOW_CONTROL';
+      INI_DATABASE_REGION = 'DATABASE';
+      INI_DATABASE_KEY_DB_SERVER = 'DB_SERVER';
+      INI_DATABASE_KEY_DB_PORT = 'DB_PORT';
+      INI_DATABASE_KEY_DB_PATH = 'DB_PATH';
+      INI_DATABASE_KEY_DB_USERNAME = 'DB_USERNAME';
+      INI_DATABASE_KEY_DB_PASSWORD = 'DB_PASSWORD';
     private
-      FRestClientConfig : TRestServerConfig;
+      FRestServerConfig : TRestServerConfig;
       FDatabaseConfig : TDataBaseConfig;
 
       function GetConfigFilePath() : String;
@@ -38,7 +32,7 @@ type
       constructor CreateInstance;
       destructor Destroy(); override;
     public
-      property RestClientConfig : TRestServerConfig read FRestClientConfig write FRestClientConfig;
+      property RestServerConfig : TRestServerConfig read FRestServerConfig write FRestServerConfig;
       property DatabaseConfig : TDataBaseConfig read FDatabaseConfig write FDatabaseConfig;
 
       procedure SaveConfig();
@@ -69,13 +63,13 @@ constructor TManagerConfig.CreateInstance;
 begin
   inherited Create;
 
-  Self.FRestClientConfig := TRestServerConfig.Create();
+  Self.FRestServerConfig := TRestServerConfig.Create();
   Self.FDatabaseConfig := TDataBaseConfig.Create();
 end;
 
 destructor TManagerConfig.Destroy;
 begin
-  Self.FRestClientConfig.Free;
+  Self.FRestServerConfig.Free;
   Self.FDatabaseConfig.Free;
 
   inherited;
@@ -106,12 +100,15 @@ begin
   try
     with confIniFile do
     begin
-      Self.RestClientConfig.ApiUrl := ReadString(INI_API_REGION, INI_API_KEY_URL, EMPTY_STR);
-      Self.RestClientConfig.ApiLogPath := ReadString(INI_API_REGION, INI_API_KEY_LOG_PATH, EMPTY_STR);
+      Self.RestServerConfig.ApiPort := ReadInteger(INI_API_REGION, INI_API_KEY_PORT, EMPTY_INT);
+      Self.RestServerConfig.ApiLogPath := ReadString(INI_API_REGION, INI_API_KEY_LOG_PATH, EMPTY_STR);
+      Self.RestServerConfig.ApiUseSSL := ReadBool(INI_API_REGION, INI_API_KEY_USE_SSL, EMPTY_BOOL);
 
-//      Self.DatabaseConfig.IsActive := ReadBool(INI_SCALE_REGION, INI_SCALE_IS_ACTIVE, False);
-//      Self.DatabaseConfig.ConnType := TScaleConnType(ReadInteger(INI_SCALE_REGION, INI_SCALE_CONN_TYPE, EMPTY_INT));
-//      Self.DatabaseConfig.ScaleProtocolType := TScaleProtocolType(ReadInteger(INI_SCALE_REGION, INI_SCALE_PROTOCOL_TYPE, EMPTY_INT));
+      Self.DatabaseConfig.DbServer := ReadString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_SERVER, EMPTY_STR);
+      Self.DatabaseConfig.DbPort := ReadInteger(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PORT, EMPTY_INT);
+      Self.DatabaseConfig.DbPath := ReadString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PATH, EMPTY_STR);
+      Self.DatabaseConfig.DbUsername := ReadString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_USERNAME, EMPTY_STR);
+      Self.DatabaseConfig.DbPassword := ReadString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PASSWORD, EMPTY_STR);
     end;
   finally
     confIniFile.Free;
@@ -130,20 +127,15 @@ begin
   try
     with confIniFile do
     begin
-      WriteString(INI_API_REGION, INI_API_KEY_URL, Self.RestClientConfig.ApiUrl);
-      WriteString(INI_API_REGION, INI_API_KEY_LOG_PATH, Self.RestClientConfig.ApiLogPath);
+      WriteInteger(INI_API_REGION, INI_API_KEY_PORT, Self.RestServerConfig.ApiPort);
+      WriteString(INI_API_REGION, INI_API_KEY_LOG_PATH, Self.RestServerConfig.ApiLogPath);
+      WriteBool(INI_API_REGION, INI_API_KEY_USE_SSL, Self.RestServerConfig.ApiUseSSL);
 
-      //WriteBool(INI_SCALE_REGION, INI_SCALE_IS_ACTIVE, Self.FDatabaseConfig.IsActive);
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_CONN_TYPE, Integer(Self.FDatabaseConfig.ConnType));
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_PROTOCOL_TYPE, Integer(Self.FDatabaseConfig.ScaleProtocolType));
-      //WriteString(INI_SCALE_REGION, INI_SCALE_KEY_IP, Self.FDatabaseConfig.TcpIpAddress);
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_KEY_PORT, Self.FDatabaseConfig.TcpPort);
-      //WriteString(INI_SCALE_REGION, INI_SCALE_COM_PORT, Self.FDatabaseConfig.ComPort);
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_BAUD_RATE, Integer(Self.FDatabaseConfig.BaudRate));
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_DATA_BITS, Integer(Self.FDatabaseConfig.DataBits));
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_PARITY_BITS, Integer(Self.FDatabaseConfig.ParityBits));
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_STOP_BITS, Integer(Self.FDatabaseConfig.StopBits));
-      //WriteInteger(INI_SCALE_REGION, INI_SCALE_FLOW_CONTROL, Integer(Self.FDatabaseConfig.FlowControl));
+      WriteString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_SERVER, Self.DatabaseConfig.DbServer);
+      WriteInteger(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PORT, Self.DatabaseConfig.DbPort);
+      WriteString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PATH, Self.DatabaseConfig.DbPath);
+      WriteString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_USERNAME, Self.DatabaseConfig.DbUsername);
+      WriteString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PASSWORD, Self.DatabaseConfig.DbPassword);
     end;
   finally
     confIniFile.Free;

@@ -131,35 +131,27 @@
         </DelphiCompile>
         <DCCReference Include="..\view\frmMain.pas">
             <Form>Form2</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmAppMessage.pas">
             <Form>FormAppMessage</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmConfig.pas">
             <Form>FormConfig</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmCustomerList.pas">
             <Form>FormCustomerList</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmLogin.pas">
             <Form>FormLogin</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmProductList.pas">
             <Form>FormProductList</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmWeighing.pas">
             <Form>FormWeighing</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\frmWeighingList.pas">
             <Form>FormWeighingList</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\controller\cManagerConfig.pas"/>
         <DCCReference Include="..\controller\cManagerCustomers.pas"/>
@@ -180,30 +172,24 @@
         <DCCReference Include="..\model\cTypes.pas"/>
         <DCCReference Include="..\modules\uModDispatcher.pas">
             <Form>ModDispatcher</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\units\uConsts.pas"/>
         <DCCReference Include="..\view\baseForm\frmBase.pas">
             <Form>FormBase</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\baseForm\frmBaseAddEdit.pas">
             <Form>FormBaseAddEdit</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\view\baseForm\frmBaseList.pas">
             <Form>FormBaseList</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\modules\uWebModule.pas">
             <Form>WebModuleMain</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\modules\uModDatabase.pas">
             <Form>ModuleDataBase</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <None Include="ModelSupport_CentralWeigherServer\default.txaPackage"/>

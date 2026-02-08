@@ -10,7 +10,7 @@ uses
   cxImageList, dxLayoutContainer, Vcl.StdCtrls, cxButtons, dxLayoutControl,
   dxLayoutcxEditAdapters, cxContainer, cxEdit, cxLabel, uModDispatcher,
   dxCoreGraphics, cxButtonEdit, cxMaskEdit, cxSpinEdit, cxTextEdit, dxSkinsCore,
-  dxSkinBasic, cxDropDownEdit, CPortCtl;
+  dxSkinBasic, cxDropDownEdit, CPortCtl, cConfig;
 
 type
   TFormConfig = class(TFormBase)
@@ -19,23 +19,36 @@ type
     imgTittle: TdxLayoutImageItem;
     liLblTitle: TdxLayoutLabeledItem;
     sprtrTop: TdxLayoutSeparatorItem;
-    liApiUrl: TdxLayoutItem;
+    liApiPort: TdxLayoutItem;
     lgApiConfig: TdxLayoutGroup;
-    edtApiUrl: TcxTextEdit;
     liApiLogPath: TdxLayoutItem;
     edtbtnApiLogPath: TcxButtonEdit;
-    liApiTest: TdxLayoutItem;
-    btnApiTest: TcxButton;
-    actApiTest: TAction;
+    liDbConnTest: TdxLayoutItem;
+    btnDbConnTest: TcxButton;
+    actDbConnTest: TAction;
+    lgDbConfig: TdxLayoutGroup;
+    seRestApiPort: TcxSpinEdit;
+    liDbPath: TdxLayoutItem;
+    liDbServerAddress: TdxLayoutItem;
+    liDbServerPort: TdxLayoutItem;
+    liDbUsername: TdxLayoutItem;
+    liDbPassword: TdxLayoutItem;
+    edtDbServerAddress: TcxTextEdit;
+    seDbServerPort: TcxSpinEdit;
+    edtDbPath: TcxTextEdit;
+    edtDbUsername: TcxTextEdit;
+    edtDbPassword: TcxTextEdit;
+    liChbApiUseSSL: TdxLayoutCheckBoxItem;
     procedure actOkExecute(Sender: TObject);
     procedure actCancelExecute(Sender: TObject);
     procedure edtbtnApiLogPathPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
-    procedure actApiTestExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure actDbConnTestExecute(Sender: TObject);
   private
     procedure FillControls();
     function ValidateData() : Boolean;
+    procedure SetDbConfig(pDbConf : TDataBaseConfig);
   public
     class function CreateAndShowModal(AOwner : TComponent) : Integer;
   end;
@@ -46,25 +59,45 @@ var
 implementation
 
 uses
-  cManagerConfig, cHelpFunctions, cTypes, CPort, frmAppMessage;
+  cManagerConfig, cHelpFunctions, cTypes, frmAppMessage, uModDatabase;
 
 {$R *.dfm}
 
 { TFormConfig }
-
-procedure TFormConfig.actApiTestExecute(Sender: TObject);
-begin
-//
-end;
 
 procedure TFormConfig.actCancelExecute(Sender: TObject);
 begin
   Self.ModalResult := mrCancel;
 end;
 
+procedure TFormConfig.actDbConnTestExecute(Sender: TObject);
+begin
+  var tmpDbConf : TDataBaseConfig := TDataBaseConfig.Create;
+  try
+    Self.SetDbConfig(tmpDbConf);
+    var res : Boolean := False;
+    try
+      res := ModuleDataBase.CheckConnection(tmpDbConf);
+    except
+      on E: Exception do
+      begin
+        TFormAppMessage.ShowError('Nie uda³o siê po³¹czyæ z baz¹ danych' + sLineBreak + '[Error]: ' + E.Message);
+        Exit;
+      end;
+    end;
+
+    if res then
+      TFormAppMessage.ShowInfo('Po³¹czono z baz¹ danych')
+    else
+      TFormAppMessage.ShowWarning('Nie uda³o siê po³¹czyæ z baz¹ danych');
+  finally
+    tmpDbConf.Free;
+  end;
+end;
+
 procedure TFormConfig.actOkExecute(Sender: TObject);
 begin
-  if MessageDlg('Czy na pewno chcesz zapisaæ ustawienia?', mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0) <> mrYes then
+  if not TFormAppMessage.ShowQusetion('Czy na pewno chcesz zapisaæ ustawienia?') then
     Exit;
 
   //valdiate data
@@ -72,29 +105,22 @@ begin
     Exit;
 
   //assign data
-  with TManagerConfig.Instance.RestClientConfig do
+  with TManagerConfig.Instance.RestServerConfig do
   begin
-    ApiUrl := Trim(edtApiUrl.Text);
+    ApiPort := seRestApiPort.Value;
     ApiLogPath := Trim(edtbtnApiLogPath.Text);
+    ApiUseSSL := liChbApiUseSSL.Checked;
   end;
 
-  with TManagerConfig.Instance.DatabaseConfig do
-  begin
-//    IsActive := liChbScaleActive.Checked;
-//
-//    ScaleProtocolType := TScaleProtocolType.FromInteger(cmbScaleProtocols.ItemIndex);
-//    ConnType := TScaleConnType.FromInteger(cmbScaleConnType.ItemIndex);
-//
-//    TcpIpAddress := Trim(edtScaleIp.Text);
-//    TcpPort := seScalePort.Value;
-//
-//    ComPort := THelpFunctions.GetStringFromComCombo(cmbScaleComPorts);
-//    BaudRate := StrToBaudRate(THelpFunctions.GetStringFromComCombo(cmbScaleBaudrate));
-//    DataBits := StrToDataBits(THelpFunctions.GetStringFromComCombo(cmbScaleDataBits));
-//    ParityBits := StrToParity(THelpFunctions.GetStringFromComCombo(cmbScaleParity));
-//    StopBits := StrToStopBits(THelpFunctions.GetStringFromComCombo(cmbScaleStopBits));
-//    FlowControl := StrToFlowControl(THelpFunctions.GetStringFromComCombo(cmbScaleFlowControl));
-  end;
+  SetDbConfig(TManagerConfig.Instance.DatabaseConfig);
+//  with TManagerConfig.Instance.DatabaseConfig do
+//  begin
+//    DbServer := Trim(edtDbServerAddress.Text);
+//    DbPort := seDbServerPort.Value;
+//    DbPath := Trim(edtDbPath.Text);
+//    DbUsername := Trim(edtDbUsername.Text);
+//    DbPassword := Trim(edtDbPassword.Text);
+//  end;
 
   TManagerConfig.Instance.SaveConfig;
 
@@ -115,7 +141,7 @@ begin
   try
     Result := FormConfig.ShowModal;
   finally
-    FormConfig.Free;
+    FreeAndNil(FormConfig);
   end;
 end;
 
@@ -139,46 +165,44 @@ end;
 
 procedure TFormConfig.FillControls;
 begin
-  with TManagerConfig.Instance.RestClientConfig do
+  with TManagerConfig.Instance.RestServerConfig do
   begin
-    edtApiUrl.Text := ApiUrl;
+    seRestApiPort.Value := ApiPort;
     edtbtnApiLogPath.Text := ApiLogPath;
+    liChbApiUseSSL.Checked := ApiUseSSL;
   end;
 
-//  with TManagerConfig.Instance.ScaleConfig do
-//  begin
-//    liChbScaleActive.Checked := IsActive;
-//    liChbScaleActiveClick(nil);
-//
-//    cmbScaleProtocols.ItemIndex := ScaleProtocolType.ToInteger;
-//    cmbScaleConnType.ItemIndex := ConnType.ToInteger;
-//
-//    edtScaleIp.Text := TcpIpAddress;
-//    seScalePort.Value := TcpPort;
-//
-//    THelpFunctions.SetComboItemIndex(cmbScaleComPorts, ComPort);
-//
-//    var tmpStr : String := BaudRateToStr(BaudRate);
-//    THelpFunctions.SetComboItemIndex(cmbScaleBaudrate, tmpStr);
-//
-//    tmpStr := ParityToStr(ParityBits);
-//    THelpFunctions.SetComboItemIndex(cmbScaleParity, tmpStr);
-//
-//    tmpStr := FlowControlToStr(FlowControl);
-//    THelpFunctions.SetComboItemIndex(cmbScaleFlowControl, tmpStr);
-//
-//    tmpStr := DataBitsToStr(DataBits);
-//    THelpFunctions.SetComboItemIndex(cmbScaleDataBits, tmpStr);
-//
-//    tmpStr := StopBitsToStr(StopBits);
-//    THelpFunctions.SetComboItemIndex(cmbScaleStopBits, tmpStr);
-//  end;
+  with TManagerConfig.Instance.DatabaseConfig do
+  begin
+    edtDbServerAddress.Text := DbServer;
+    seDbServerPort.Value := DbPort;
+    edtDbPath.Text := DbPath;
+    edtDbUsername.Text := DbUsername;
+    edtDbPassword.Text := DbPassword;
+  end;
 end;
 
 procedure TFormConfig.FormCreate(Sender: TObject);
 begin
-
   Self.FillControls;
+end;
+
+procedure TFormConfig.SetDbConfig(pDbConf: TDataBaseConfig);
+begin
+  if not Assigned(pDbConf) then
+  begin
+    TFormAppMessage.ShowError('Obiekt ustawieñ nie istnieje!');
+    Exit;
+  end;
+
+  with pDbConf do
+  begin
+    DbServer := Trim(edtDbServerAddress.Text);
+    DbPort := seDbServerPort.Value;
+    DbPath := Trim(edtDbPath.Text);
+    DbUsername := Trim(edtDbUsername.Text);
+    DbPassword := Trim(edtDbPassword.Text);
+  end;
 end;
 
 function TFormConfig.ValidateData: Boolean;

@@ -8,7 +8,8 @@ uses
   Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   dxCore, dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxSkinsCore,
   dxSkinOffice2019Colorful, dxSkinBasic, dxDockControl, uModDispatcher,
-  System.ImageList, Vcl.ImgList, cxImageList, dxStatusBar;
+  System.ImageList, Vcl.ImgList, cxImageList, dxStatusBar,
+  IdHTTPWebBrokerBridge;
 
 type
   TFormMain = class(TForm)
@@ -50,7 +51,12 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
   private
-    { Private declarations }
+    FServer : TIdHTTPWebBrokerBridge;
+
+    procedure StartServer();
+    procedure StopServer();
+
+    procedure OnGetSSLPassword(var APassword: String);
   public
     { Public declarations }
   end;
@@ -62,7 +68,8 @@ implementation
 
 uses
   frmLogin, frmConfig, cHelpFunctions, System.StrUtils, cManagerUser, uConsts,
-  cManagerConfig, frmWeighing, frmWeighingList, frmCustomerList, frmProductList;
+  cManagerConfig, frmWeighing, frmWeighingList, frmCustomerList, frmProductList,
+  IdSSLOpenSSL;
 
 {$R *.dfm}
 
@@ -117,12 +124,58 @@ procedure TFormMain.FormCreate(Sender: TObject);
 begin
   TManagerConfig.Instance.LoadConfig();
   TManagerUser.Instance;
+
+  FServer := TIdHTTPWebBrokerBridge.Create(Self);
 end;
 
 procedure TFormMain.FormDestroy(Sender: TObject);
 begin
+  Self.StopServer();
+  FreeAndNil(Self.FServer);
   TManagerConfig.ReleaseInstance;
   TManagerUser.ReleaseInstance;
+end;
+
+procedure TFormMain.OnGetSSLPassword(var APassword: String);
+begin
+//
+end;
+
+procedure TFormMain.StartServer;
+begin
+  if FServer.Active then
+    Exit;
+
+  FServer.Bindings.Clear;
+  FServer.DefaultPort := TManagerConfig.Instance.RestServerConfig.ApiPort;
+  FServer.Active := True;
+
+  if TManagerConfig.Instance.RestServerConfig.ApiUseSSL then
+  begin
+    var LIOHandleSSL : TIdServerIOHandlerSSLOpenSSL;
+    LIOHandleSSL := TIdServerIOHandlerSSLOpenSSL.Create(FServer);
+
+    LIOHandleSSL.SSLOptions.CertFile := '';
+    LIOHandleSSL.SSLOptions.RootCertFile := '';
+    LIOHandleSSL.SSLOptions.KeyFile := '';
+
+    LIOHandleSSL.SSLOptions.SSLVersions := [sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2];
+    LIOHandleSSL.SSLOptions.Mode := sslmServer;
+
+    LIOHandleSSL.OnGetPassword := OnGetSSLPassword;
+    FServer.IOHandler := LIOHandleSSL;
+  end else if Assigned(FServer.IOHandler) and (FServer.IOHandler is TIdServerIOHandlerSSLOpenSSL) then
+  begin
+    FServer.IOHandler.Free;
+    FServer.IOHandler := nil;
+  end;
+
+end;
+
+procedure TFormMain.StopServer;
+begin
+  FServer.Active := False;
+  FServer.Bindings.Clear;
 end;
 
 end.
