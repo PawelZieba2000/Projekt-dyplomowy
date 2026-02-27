@@ -6,7 +6,7 @@ SET SQL DIALECT 3;
 
 SET NAMES UTF8;
 
-CREATE DATABASE '127.0.0.1/3052:C:\Programy12\MODYFIKACJE\IN¯YNIERKA\SOURCES\SERVER\database\CENTRAL_WEIGHER.fdb'
+CREATE DATABASE '127.0.0.1/3052:c:\Programy12\MODYFIKACJE\INZYNIERKA\SOURCES\SERVER\database\CENTRAL_WEIGHER.FDB'
 USER 'SYSDBA' PASSWORD 'masterkey'
 PAGE_SIZE 16384
 DEFAULT CHARACTER SET UTF8 COLLATION UTF8;
@@ -33,11 +33,11 @@ VARCHAR(10);
 CREATE DOMAIN TEXT_100 AS
 VARCHAR(100);
 
-CREATE DOMAIN TEXT_50 AS
-VARCHAR(50);
-
 CREATE DOMAIN TEXT_25 AS
 VARCHAR(25);
+
+CREATE DOMAIN TEXT_50 AS
+VARCHAR(50);
 
 
 
@@ -46,61 +46,250 @@ VARCHAR(25);
 /******************************************************************************/
 
 CREATE GENERATOR GEN_ADDRESSES_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_ADDRESSES_ID TO 0;
+SET GENERATOR GEN_ADDRESSES_ID TO 1;
 
 CREATE GENERATOR GEN_CUSTOMERS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_CUSTOMERS_ID TO 0;
-
-CREATE GENERATOR GEN_LOCATIONS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_LOCATIONS_ID TO 0;
-
-CREATE GENERATOR GEN_PRODUCTS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_PRODUCTS_ID TO 0;
-
-CREATE GENERATOR GEN_USERS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_USERS_ID TO 0;
-
-CREATE GENERATOR GEN_WEIGHINGS_ADDRESSESS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_WEIGHINGS_ADDRESSESS_ID TO 0;
-
-CREATE GENERATOR GEN_WEIGHINGS_CUSTOMERS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_WEIGHINGS_CUSTOMERS_ID TO 0;
-
-CREATE GENERATOR GEN_WEIGHINGS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_WEIGHINGS_ID TO 0;
-
-CREATE GENERATOR GEN_WEIGHINGS_PRODUCTS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_WEIGHINGS_PRODUCTS_ID TO 0;
-
-CREATE GENERATOR GEN_PRODUCTS_LOCATIONS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_PRODUCTS_LOCATIONS_ID TO 0;
+SET GENERATOR GEN_CUSTOMERS_ID TO 1;
 
 CREATE GENERATOR GEN_CUSTOMERS_LOCATIONS_ID START WITH 1 INCREMENT BY 1;
-SET GENERATOR GEN_CUSTOMERS_LOCATIONS_ID TO 0;
+SET GENERATOR GEN_CUSTOMERS_LOCATIONS_ID TO 1;
+
+CREATE GENERATOR GEN_LOCATIONS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_LOCATIONS_ID TO 1;
+
+CREATE GENERATOR GEN_PRODUCTS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_PRODUCTS_ID TO 1;
+
+CREATE GENERATOR GEN_PRODUCTS_LOCATIONS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_PRODUCTS_LOCATIONS_ID TO 1;
+
+CREATE GENERATOR GEN_USERS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_USERS_ID TO 1;
+
+CREATE GENERATOR GEN_WEIGHINGS_ADDRESSESS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_WEIGHINGS_ADDRESSESS_ID TO 1;
+
+CREATE GENERATOR GEN_WEIGHINGS_CUSTOMERS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_WEIGHINGS_CUSTOMERS_ID TO 1;
+
+CREATE GENERATOR GEN_WEIGHINGS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_WEIGHINGS_ID TO 1;
+
+CREATE GENERATOR GEN_WEIGHINGS_PRODUCTS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_WEIGHINGS_PRODUCTS_ID TO 1;
+
+CREATE GENERATOR GEN_WEIGHING_NUMBERS_ID START WITH 1 INCREMENT BY 1;
+SET GENERATOR GEN_WEIGHING_NUMBERS_ID TO 0;
 
 
 
 /******************************************************************************/
-/****                           Package headers                            ****/
+/****                          Stored procedures                           ****/
 /******************************************************************************/
 
 
 
 SET TERM ^ ;
 
-CREATE PACKAGE RDB$BLOB_UTIL
+CREATE PROCEDURE GET_ADDRESSES (
+    ID_IN INTEGER)
+RETURNS (
+    ID_OUT INTEGER,
+    STREET_OUT TEXT_50,
+    HOUSE_NO_OUT TEXT_10,
+    LOCAL_NO_OUT TEXT_10,
+    POST_CODE_OUT TEXT_10,
+    CITY_OUT TEXT_50,
+    COUNTRY_OUT TEXT_50,
+    ID_USER_INSERT_OUT INTEGER,
+    ID_USER_MODIF_OUT INTEGER,
+    MODIFICATION_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL)
 AS
-^
+BEGIN
+  SUSPEND;
+END^
 
 
-CREATE PACKAGE RDB$PROFILER
+
+
+
+CREATE PROCEDURE GET_CUSTOMERS (
+    ID_IN INTEGER,
+    ID_LOCATION_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER,
+    CODE_OUT TEXT_10,
+    NAME_OUT TEXT_50,
+    NIP_OUT TEXT_25,
+    PHONE_NO_OUT TEXT_25,
+    ID_ADDRESS_OUT INTEGER,
+    ID_USER_INSERT_OUT INTEGER,
+    ID_USER_MODIF_OUT INTEGER,
+    MODIFICATION_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL)
 AS
-^
+BEGIN
+  SUSPEND;
+END^
 
 
-CREATE PACKAGE RDB$TIME_ZONE_UTIL
+
+
+
+CREATE PROCEDURE GET_NEXT_WEIGHING_NO
+RETURNS (
+    WEIGHING_NO_OUT TEXT_25)
 AS
-^
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE GET_PRODUCTS (
+    ID_IN INTEGER,
+    ID_LOCATION_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER,
+    CODE_OUT TEXT_10,
+    NAME_OUT TEXT_50,
+    PRICE_OUT NUMERIC_15_2,
+    ID_USER_INSERT_OUT INTEGER,
+    ID_USER_MODIF_OUT INTEGER,
+    MODIFICATION_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE INSERT_UPDATE_ADDRESS (
+    ID_IN INTEGER NOT NULL,
+    STREET_IN TEXT_50,
+    HOUSE_NO_IN TEXT_10,
+    LOCAL_NO_IN TEXT_10,
+    POST_CODE_IN TEXT_10,
+    CITY_IN TEXT_50,
+    COUNTRY_IN TEXT_50,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE INSERT_UPDATE_CUSTOMER (
+    ID_IN INTEGER NOT NULL,
+    CODE_IN TEXT_10,
+    NAME_IN TEXT_50,
+    NIP_IN TEXT_25,
+    PHONE_NO_IN TEXT_25,
+    ID_ADDRESS_IN INTEGER,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE INSERT_UPDATE_LOCATION (
+    ID_IN INTEGER NOT NULL,
+    ID_ADDRESS_IN INTEGER,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE INSERT_UPDATE_PRODUCT (
+    ID_IN INTEGER NOT NULL,
+    CODE_IN TEXT_10,
+    NAME_IN TEXT_50,
+    PRICE_IN NUMERIC_15_2,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE INSERT_UPDATE_USER (
+    ID_IN INTEGER NOT NULL,
+    LOGIN_IN TEXT_50,
+    USER_PASSWORD_IN TEXT_50,
+    FIRST_NAME_IN TEXT_25,
+    LAST_NAME_IN TEXT_25,
+    ID_LOCATION_IN INTEGER,
+    IS_DELETED_IN FLAG NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE INSERT_UPDATE_WEIGHING (
+    ID_IN INTEGER NOT NULL,
+    CAR_NO_IN TEXT_25,
+    TRAILER_NO_IN TEXT_25,
+    MASS_IN_IN NUMERIC_15_2,
+    DATE_IN_IN DATE_TIME,
+    MASS_OUT_IN NUMERIC_15_2,
+    DATE_OUT_IN DATE_TIME,
+    WEIGHING_TYPE_IN SMALLINT,
+    ID_CUSTOMER_IN INTEGER,
+    ID_PRODUCT_IN INTEGER,
+    ID_USER_IN_IN INTEGER,
+    ID_USER_OUT_IN INTEGER,
+    ID_LOCATION_IN INTEGER,
+    IS_DELETED_IN FLAG NOT NULL)
+RETURNS (
+    ID_OUT INTEGER,
+    WEIGHING_NO_OUT TEXT_25,
+    ERROR_CODE_OUT INTEGER)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
 
 
 
@@ -115,135 +304,144 @@ SET TERM ; ^
 
 
 CREATE TABLE ADDRESSES (
-    ID  INTEGER NOT NULL,
-    STREET  TEXT_50,
-    HOUSE_NO  TEXT_10,
-    LOCAL_NO  TEXT_10,
-    POST_CODE  TEXT_10,
-    CITY  TEXT_50,
-    COUNTRY  TEXT_50,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
+    ID                 INTEGER NOT NULL,
+    STREET             TEXT_50,
+    HOUSE_NO           TEXT_10,
+    LOCAL_NO           TEXT_10,
+    POST_CODE          TEXT_10,
+    CITY               TEXT_50,
+    COUNTRY            TEXT_50,
+    ID_USER_INSERT     INTEGER,
+    ID_USER_MODIF      INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
 );
 
 CREATE TABLE CUSTOMERS (
-    ID  INTEGER NOT NULL,
-    CODE  TEXT_10,
-    NAME  TEXT_50,
-    NIP  TEXT_25,
-    PHONE_NO  TEXT_25,
-    ID_ADDRESS  INTEGER,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
+    ID                 INTEGER NOT NULL,
+    CODE               TEXT_10,
+    NAME               TEXT_50,
+    NIP                TEXT_25,
+    PHONE_NO           TEXT_25,
+    ID_ADDRESS         INTEGER,
+    ID_USER_INSERT     INTEGER,
+    ID_USER_MODIF      INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
 );
 
 CREATE TABLE CUSTOMERS_LOCATIONS (
-    ID  INTEGER NOT NULL,
-	ID_CUSTOMER  INTEGER NOT NULL,
-	ID_LOCATION  INTEGER NOT NULL
+    ID           INTEGER NOT NULL,
+    ID_CUSTOMER  INTEGER NOT NULL,
+    ID_LOCATION  INTEGER NOT NULL
 );
 
 CREATE TABLE LOCATIONS (
-    ID  INTEGER NOT NULL,
-    ID_ADDRESS  INTEGER,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
+    ID                 INTEGER NOT NULL,
+    ID_ADDRESS         INTEGER,
+    ID_USER_INSERT     INTEGER,
+    ID_USER_MODIF      INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
 );
 
 CREATE TABLE PRODUCTS (
-    ID  INTEGER NOT NULL,
-    CODE  TEXT_10,
-    NAME  TEXT_50,
-    PRICE  NUMERIC_15_2,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
+    ID                 INTEGER NOT NULL,
+    CODE               TEXT_10,
+    NAME               TEXT_50,
+    PRICE              NUMERIC_15_2,
+    ID_USER_INSERT     INTEGER,
+    ID_USER_MODIF      INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
 );
 
 CREATE TABLE PRODUCTS_LOCATIONS (
-    ID INTEGER  NOT NULL,
-	ID_PRODUCT  INTEGER NOT NULL,
-	ID_LOCATION  INTEGER NOT NULL
+    ID           INTEGER NOT NULL,
+    ID_PRODUCT   INTEGER NOT NULL,
+    ID_LOCATION  INTEGER NOT NULL
 );
 
 CREATE TABLE USERS (
-    ID  INTEGER NOT NULL,
-	LOGIN  TEXT_50,
-	PASSWORD  TEXT_50,
-	FIRST_NAME  TEXT_25,
-	LAST_NAME  TEXT_25,
-	ID_LOCATION  INTEGER,
+    ID                 INTEGER NOT NULL,
+    LOGIN              TEXT_50,
+    USER_PASSWORD      TEXT_50,
+    FIRST_NAME         TEXT_25,
+    LAST_NAME          TEXT_25,
+    ID_LOCATION        INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
+);
+
+CREATE TABLE WEIGHING_NUMBERS (
+    ID            INTEGER NOT NULL,
+    WEIGHINGS_NO  INTEGER NOT NULL,
+    MONTH_NO      INTEGER NOT NULL,
+    YEAR_NO       INTEGER NOT NULL
 );
 
 CREATE TABLE WEIGHINGS (
-    ID  INTEGER NOT NULL,
-    WEIGHING_NO  TEXT_25,
-    CAR_NO  TEXT_25,
-    TRAILER_NO  TEXT_25,
-    MASS_IN  NUMERIC_15_2,
-    DATE_IN  DATE_TIME,
-    MASS_OUT  NUMERIC_15_2,
-    DATE_OUT  DATE_TIME,
-    WEIGHING_TYPE  SMALLINT,
-	ID_CUSTOMER  INTEGER,
-	ID_CUSTOMER_WEIGHING  INTEGER,
-    ID_USER_IN  INTEGER,
-    ID_USER_OUT  INTEGER,
-    ID_LOCATION  INTEGER,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
-    MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    ID                    INTEGER NOT NULL,
+    WEIGHING_NO           TEXT_25,
+    CAR_NO                TEXT_25,
+    TRAILER_NO            TEXT_25,
+    MASS_IN               NUMERIC_15_2,
+    DATE_IN               DATE_TIME,
+    MASS_OUT              NUMERIC_15_2,
+    DATE_OUT              DATE_TIME,
+    WEIGHING_TYPE         SMALLINT,
+    ID_CUSTOMER           INTEGER,
+    ID_CUSTOMER_WEIGHING  INTEGER,
+    ID_PRODUCT            INTEGER,
+    ID_PRODUCT_WEIGHING   INTEGER,
+    ID_USER_IN            INTEGER,
+    ID_USER_OUT           INTEGER,
+    ID_LOCATION           INTEGER,
+    ID_USER_INSERT        INTEGER,
+    ID_USER_MODIF         INTEGER,
+    MODIFICATION_TIME     DATE_TIME,
+    IS_DELETED            FLAG NOT NULL
 );
 
 CREATE TABLE WEIGHINGS_ADDRESSESS (
-    ID  INTEGER NOT NULL,
-    ID_ADDRESS  INTEGER NOT NULL,
-    STREET  TEXT_50,
-    HOUSE_NO  TEXT_10,
-    LOCAL_NO  TEXT_10,
-    POST_CODE  TEXT_10,
-    CITY  TEXT_50,
-    COUNTRY  TEXT_50,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
+    ID                 INTEGER NOT NULL,
+    ID_ADDRESS         INTEGER NOT NULL,
+    STREET             TEXT_50,
+    HOUSE_NO           TEXT_10,
+    LOCAL_NO           TEXT_10,
+    POST_CODE          TEXT_10,
+    CITY               TEXT_50,
+    COUNTRY            TEXT_50,
+    ID_USER_INSERT     INTEGER,
+    ID_USER_MODIF      INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
 );
 
 CREATE TABLE WEIGHINGS_CUSTOMERS (
-    ID  INTEGER NOT NULL,
-    ID_CUSTOMER  INTEGER NOT NULL,
-    CODE  TEXT_10,
-    NAME  TEXT_50,
-    NIP  TEXT_25,
-    PHONE_NO  TEXT_25,
+    ID                   INTEGER NOT NULL,
+    ID_CUSTOMER          INTEGER NOT NULL,
+    CODE                 TEXT_10,
+    NAME                 TEXT_50,
+    NIP                  TEXT_25,
+    PHONE_NO             TEXT_25,
     ID_ADDRESS_WEIGHING  INTEGER,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
-    MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    ID_USER_INSERT       INTEGER,
+    ID_USER_MODIF        INTEGER,
+    MODIFICATION_TIME    DATE_TIME,
+    IS_DELETED           FLAG NOT NULL
 );
 
 CREATE TABLE WEIGHINGS_PRODUCTS (
-    ID  INTEGER NOT NULL,
-    ID_PRODUCT  INTEGER NOT NULL,
-    CODE  TEXT_10,
-    NAME  TEXT_50,
-    PRICE  NUMERIC_15_2,
-    ID_USER_INSERT  INTEGER,
-    ID_USER_MODIF  INTEGER,
+    ID                 INTEGER NOT NULL,
+    ID_PRODUCT         INTEGER NOT NULL,
+    CODE               TEXT_10,
+    NAME               TEXT_50,
+    PRICE              NUMERIC_15_2,
+    ID_USER_INSERT     INTEGER,
+    ID_USER_MODIF      INTEGER,
     MODIFICATION_TIME  DATE_TIME,
-    IS_DELETED  FLAG NOT NULL
+    IS_DELETED         FLAG NOT NULL
 );
 
 
@@ -254,15 +452,16 @@ CREATE TABLE WEIGHINGS_PRODUCTS (
 
 ALTER TABLE ADDRESSES ADD CONSTRAINT PK_ADDRESSES PRIMARY KEY (ID);
 ALTER TABLE CUSTOMERS ADD CONSTRAINT PK_CUSTOMERS PRIMARY KEY (ID);
+ALTER TABLE CUSTOMERS_LOCATIONS ADD CONSTRAINT PK_CUSTOMERS_LOCATIONS PRIMARY KEY (ID);
 ALTER TABLE LOCATIONS ADD CONSTRAINT PK_LOCATIONS PRIMARY KEY (ID);
 ALTER TABLE PRODUCTS ADD CONSTRAINT PK_PRODUCTS PRIMARY KEY (ID);
+ALTER TABLE PRODUCTS_LOCATIONS ADD CONSTRAINT PK_PRODUCTS_LOCATIONS PRIMARY KEY (ID);
 ALTER TABLE USERS ADD CONSTRAINT PK_USERS PRIMARY KEY (ID);
 ALTER TABLE WEIGHINGS ADD CONSTRAINT PK_WEIGHINGS PRIMARY KEY (ID);
 ALTER TABLE WEIGHINGS_ADDRESSESS ADD CONSTRAINT PK_WEIGHINGS_ADDRESSESS PRIMARY KEY (ID);
 ALTER TABLE WEIGHINGS_CUSTOMERS ADD CONSTRAINT PK_WEIGHINGS_CUSTOMERS PRIMARY KEY (ID);
 ALTER TABLE WEIGHINGS_PRODUCTS ADD CONSTRAINT PK_WEIGHINGS_PRODUCTS PRIMARY KEY (ID);
-ALTER TABLE CUSTOMERS_LOCATIONS ADD CONSTRAINT PK_PRODUCTS_LOCATIONS PRIMARY KEY (ID);
-ALTER TABLE PRODUCTS_LOCATIONS ADD CONSTRAINT PK_PRODUCTS_LOCATIONS PRIMARY KEY (ID);
+ALTER TABLE WEIGHING_NUMBERS ADD CONSTRAINT PK_WEIGHING_NUMBERS PRIMARY KEY (ID);
 
 
 /******************************************************************************/
@@ -341,13 +540,13 @@ begin
 end
 ^
 
-/* Trigger: WEIGHINGS_BI */
-CREATE TRIGGER WEIGHINGS_BI FOR WEIGHINGS
+/* Trigger: USERS_BI */
+CREATE TRIGGER USERS_BI FOR USERS
 ACTIVE BEFORE INSERT POSITION 0
 as
 begin
   if (new.id is null) then
-    new.id = gen_id(gen_weighings_id,1);
+    new.id = gen_id(gen_users_id,1);
 end
 ^
 
@@ -358,6 +557,16 @@ as
 begin
   if (new.id is null) then
     new.id = gen_id(gen_weighings_addressess_id,1);
+end
+^
+
+/* Trigger: WEIGHINGS_BI */
+CREATE TRIGGER WEIGHINGS_BI FOR WEIGHINGS
+ACTIVE BEFORE INSERT POSITION 0
+as
+begin
+  if (new.id is null) then
+    new.id = gen_id(gen_weighings_id,1);
 end
 ^
 
@@ -381,13 +590,13 @@ begin
 end
 ^
 
-/* Trigger: USERS_BI */
-CREATE TRIGGER USERS_BI FOR USERS
+/* Trigger: WEIGHING_NUMBERS_BI */
+CREATE TRIGGER WEIGHING_NUMBERS_BI FOR WEIGHING_NUMBERS
 ACTIVE BEFORE INSERT POSITION 0
 as
 begin
   if (new.id is null) then
-    new.id = gen_id(gen_users_id,1);
+    new.id = gen_id(gen_weighing_numbers_id,1);
 end
 ^
 SET TERM ; ^
@@ -395,39 +604,606 @@ SET TERM ; ^
 
 
 /******************************************************************************/
-/****                           Package headers                            ****/
+/****                          Stored procedures                           ****/
 /******************************************************************************/
 
 
 
 SET TERM ^ ;
 
-
-SET TERM ; ^
-
-
-
-/******************************************************************************/
-/****                            Package bodies                            ****/
-/******************************************************************************/
-
-
-
-SET TERM ^ ;
-
-CREATE PACKAGE BODY RDB$BLOB_UTIL
+ALTER PROCEDURE GET_ADDRESSES (
+    ID_IN INTEGER)
+RETURNS (
+    ID_OUT INTEGER,
+    STREET_OUT TEXT_50,
+    HOUSE_NO_OUT TEXT_10,
+    LOCAL_NO_OUT TEXT_10,
+    POST_CODE_OUT TEXT_10,
+    CITY_OUT TEXT_50,
+    COUNTRY_OUT TEXT_50,
+    ID_USER_INSERT_OUT INTEGER,
+    ID_USER_MODIF_OUT INTEGER,
+    MODIFICATION_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL)
 AS
-^
+begin
+  if (:id_in != 0) then
+  begin
+    SELECT
+      ID, STREET, HOUSE_NO, LOCAL_NO, POST_CODE, CITY, COUNTRY, ID_USER_INSERT,
+      ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED
+    FROM ADDRESSES
+    WHERE
+      (ID = :id_in) and (is_deleted = 0)
+    INTO
+      :id_out, :street_out, :house_no_out, :local_no_out, :post_code_out, :city_out,
+      :country_out, :id_user_insert_out, :id_user_modif_out, :modification_time_out,
+      :is_deleted_out;
+    suspend;
+    exit;
+  end else
+  begin
+    FOR SELECT
+      ID, STREET, HOUSE_NO, LOCAL_NO, POST_CODE, CITY, COUNTRY, ID_USER_INSERT,
+      ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED
+    FROM ADDRESSES
+    WHERE
+      (is_deleted = 0)
+    INTO
+      :id_out, :street_out, :house_no_out, :local_no_out, :post_code_out, :city_out,
+      :country_out, :id_user_insert_out, :id_user_modif_out, :modification_time_out,
+      :is_deleted_out
+    do begin
+      suspend;
+      id_out = null; street_out = null; house_no_out = null; local_no_out = null;
+      post_code_out = null; city_out = null; country_out = null; id_user_insert_out = null;
+      id_user_modif_out = null; modification_time_out = null; is_deleted_out = null;
+    end
+  end
+end^
 
 
-CREATE PACKAGE BODY RDB$PROFILER
+ALTER PROCEDURE GET_CUSTOMERS (
+    ID_IN INTEGER,
+    ID_LOCATION_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER,
+    CODE_OUT TEXT_10,
+    NAME_OUT TEXT_50,
+    NIP_OUT TEXT_25,
+    PHONE_NO_OUT TEXT_25,
+    ID_ADDRESS_OUT INTEGER,
+    ID_USER_INSERT_OUT INTEGER,
+    ID_USER_MODIF_OUT INTEGER,
+    MODIFICATION_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL)
 AS
-^
+begin
+  if (:id_in != 0) then
+  begin
+    SELECT
+      C.ID, C.CODE, C.NAME, C.NIP, C.PHONE_NO, C.ID_ADDRESS, C.ID_USER_INSERT,
+      C.ID_USER_MODIF, C.MODIFICATION_TIME, C.IS_DELETED
+    FROM customers C
+    LEFT join customers_locations CL on CL.id_customer = C.ID
+    WHERE
+      (C.ID = :id_in) and (C.is_deleted = 0) and (coalesce(CL.id_location, 0) = :id_location_in)
+    INTO
+      :id_out, :code_out, :name_out, :nip_out, :phone_no_out, :id_address_out,
+      :id_user_insert_out, :id_user_modif_out, :modification_time_out, :is_deleted_out;
+    suspend;
+    exit;
+  end else
+  begin
+    FOR SELECT
+      C.ID, C.CODE, C.NAME, C.NIP, C.PHONE_NO, C.ID_ADDRESS, C.ID_USER_INSERT,
+      C.ID_USER_MODIF, C.MODIFICATION_TIME, C.IS_DELETED
+    FROM customers C
+    LEFT join customers_locations CL on CL.id_customer = C.ID
+    WHERE
+      (C.is_deleted = 0) and (coalesce(CL.id_location, 0) = :id_location_in)
+    INTO
+      :id_out, :code_out, :name_out, :nip_out, :phone_no_out, :id_address_out,
+      :id_user_insert_out, :id_user_modif_out, :modification_time_out, :is_deleted_out
+    do begin
+      suspend;
+      id_out = null; code_out = null; name_out = null; nip_out = null; phone_no_out = null;
+      id_address_out = null; id_user_insert_out = null; id_user_modif_out = null;
+      modification_time_out = null; is_deleted_out = null;
+    end
+  end
+end^
 
 
-CREATE PACKAGE BODY RDB$TIME_ZONE_UTIL
+ALTER PROCEDURE GET_NEXT_WEIGHING_NO
+RETURNS (
+    WEIGHING_NO_OUT TEXT_25)
 AS
-^
+declare variable TMP_MONTH integer;
+declare variable TMP_YEAR integer;
+declare variable TMP_DT DATE_TIME;
+declare variable TMP_WEIGHING_NO integer;
+begin
+  tmp_dt = 'now';
+  tmp_year = extract(year from tmp_dt);
+  tmp_month = extract(month from tmp_dt);
+
+  select
+    weighings_no
+  from weighing_numbers
+  where
+    (month_no = :tmp_month) and (year_no = :tmp_year)
+  into
+    :tmp_weighing_no;
+
+  if (coalesce(:tmp_weighing_no, 0) = 0) then
+  begin
+    tmp_weighing_no = 1;
+    INSERT INTO WEIGHING_NUMBERS
+      (WEIGHINGS_NO, MONTH_NO, YEAR_NO)
+    VALUES
+      (:tmp_weighing_no, :tmp_month, :tmp_year);
+  end else
+  begin
+    tmp_weighing_no = :tmp_weighing_no + 1;
+    UPDATE weighing_numbers
+    SET weighings_no = :tmp_weighing_no
+    where
+      (month_no = :tmp_month) and (year_no = :tmp_year);
+  end
+
+  weighing_no_out = LEFT(CAST(tmp_weighing_no as text_10) || '/' || cast(tmp_month as varchar(5)) || '/' || CAST(tmp_year as varchar(5)), 25);
+  suspend;
+end^
+
+
+ALTER PROCEDURE GET_PRODUCTS (
+    ID_IN INTEGER,
+    ID_LOCATION_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER,
+    CODE_OUT TEXT_10,
+    NAME_OUT TEXT_50,
+    PRICE_OUT NUMERIC_15_2,
+    ID_USER_INSERT_OUT INTEGER,
+    ID_USER_MODIF_OUT INTEGER,
+    MODIFICATION_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL)
+AS
+begin
+  if (:id_in != 0) then
+  begin
+    SELECT
+      P.ID, P.CODE, P.NAME, P.PRICE, P.ID_USER_INSERT, P.ID_USER_MODIF,
+      P.MODIFICATION_TIME, P.IS_DELETED
+    FROM products P
+    LEFT join products_locations PL on PL.id_product = P.ID
+    WHERE
+      (P.ID = :id_in) and (P.is_deleted = 0) and (coalesce(PL.id_location, 0) = :id_location_in)
+    INTO
+      :id_out, :code_out, :name_out, :price_out, :id_user_insert_out,
+      :id_user_modif_out, :modification_time_out, :is_deleted_out;
+    suspend;
+    exit;
+  end else
+  begin
+    FOR SELECT
+      P.ID, P.CODE, P.NAME, P.PRICE, P.ID_USER_INSERT, P.ID_USER_MODIF,
+      P.MODIFICATION_TIME, P.IS_DELETED
+    FROM products P
+    LEFT join products_locations PL on PL.id_product = P.ID
+    WHERE
+      (P.is_deleted = 0) and (coalesce(PL.id_location, 0) = :id_location_in)
+    INTO
+      :id_out, :code_out, :name_out, :price_out, :id_user_insert_out,
+      :id_user_modif_out, :modification_time_out, :is_deleted_out
+    do begin
+      suspend;
+      id_out = null; code_out = null; name_out = null; price_out = null;
+      id_user_insert_out = null; id_user_modif_out = null; modification_time_out = null;
+      is_deleted_out = null;
+    end
+  end
+end^
+
+
+ALTER PROCEDURE INSERT_UPDATE_ADDRESS (
+    ID_IN INTEGER NOT NULL,
+    STREET_IN TEXT_50,
+    HOUSE_NO_IN TEXT_10,
+    LOCAL_NO_IN TEXT_10,
+    POST_CODE_IN TEXT_10,
+    CITY_IN TEXT_50,
+    COUNTRY_IN TEXT_50,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+begin
+  if (:id_in = 0) then
+  begin
+    id_out = gen_id(gen_addresses_id, 1);
+    INSERT INTO ADDRESSES (ID, STREET, HOUSE_NO, LOCAL_NO, POST_CODE, CITY, COUNTRY, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+      VALUES (:id_out, :street_in, :house_no_in, :local_no_in, :post_code_in, :city_in, :country_in, :id_user_in, :id_user_in, 'NOW', 0);
+  end else
+  begin
+    id_out = :id_in;
+    if (:is_deleted_in = 0) then
+    begin
+      UPDATE ADDRESSES
+      SET STREET = :street_in,
+          HOUSE_NO = :house_no_in,
+          LOCAL_NO = :local_no_in,
+          POST_CODE = :post_code_in,
+          CITY = :city_in,
+          COUNTRY = :country_in,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in) and (is_deleted = 0);
+    end else
+    begin
+      UPDATE addresses
+      SET is_deleted = 1,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in);
+    end
+  end
+  suspend;
+end^
+
+
+ALTER PROCEDURE INSERT_UPDATE_CUSTOMER (
+    ID_IN INTEGER NOT NULL,
+    CODE_IN TEXT_10,
+    NAME_IN TEXT_50,
+    NIP_IN TEXT_25,
+    PHONE_NO_IN TEXT_25,
+    ID_ADDRESS_IN INTEGER,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+begin
+  if (:id_in = 0) then
+  begin
+    id_out = gen_id(gen_customers_id, 1);
+    INSERT INTO CUSTOMERS (ID, CODE, NAME, NIP, PHONE_NO, ID_ADDRESS, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+      VALUES(:id_out, :code_in, :name_in, :nip_in, :phone_no_in, :id_address_in, :id_user_in, :id_user_in, 'now', 0);
+  end else
+  begin
+    id_out = :id_in;
+    if (:is_deleted_in = 0) then
+    begin
+      UPDATE customers
+      SET CODE = :CODE_IN,
+          NAME = :NAME_IN,
+          NIP = :NIP_IN,
+          PHONE_NO = :PHONE_NO_IN,
+          ID_ADDRESS = :ID_ADDRESS_IN,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in) and (is_deleted = 0);
+    end else
+    begin
+      UPDATE customers
+      SET is_deleted = 1,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in);
+    end
+  end
+  suspend;
+end^
+
+
+ALTER PROCEDURE INSERT_UPDATE_LOCATION (
+    ID_IN INTEGER NOT NULL,
+    ID_ADDRESS_IN INTEGER,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+begin
+  if (:id_in = 0) then
+  begin
+    id_out = gen_id(gen_locations_id, 1);
+    INSERT INTO LOCATIONS (ID, ID_ADDRESS, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+      VALUES (:id_out, :id_address_in, :id_user_in, :id_user_in, 'now', 0);
+  end else
+  begin
+    id_out = :id_in;
+    if (:is_deleted_in = 0) then
+    begin
+      UPDATE LOCATIONS
+      SET ID_ADDRESS = :id_address_in,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in) and (is_deleted = 0);
+    end else
+    begin
+      UPDATE locations
+      SET is_deleted = 1,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in);
+    end
+  end
+  suspend;
+end^
+
+
+ALTER PROCEDURE INSERT_UPDATE_PRODUCT (
+    ID_IN INTEGER NOT NULL,
+    CODE_IN TEXT_10,
+    NAME_IN TEXT_50,
+    PRICE_IN NUMERIC_15_2,
+    IS_DELETED_IN FLAG,
+    ID_USER_IN INTEGER NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+begin
+  if (:id_in = 0) then
+  begin
+    id_out = gen_id(gen_products_id, 1);
+    INSERT INTO PRODUCTS (ID, CODE, NAME, PRICE, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+      VALUES(:id_out, :code_in, :name_in, :price_in, :id_user_in, :id_user_in, 'NOW', 0);
+  end else
+  begin
+    id_out = :id_in;
+    if (:is_deleted_in = 0) then
+    begin
+      UPDATE PRODUCTS
+      SET CODE = :code_in,
+          NAME = :name_in,
+          PRICE = :price_in,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in) and (is_deleted = 0);
+    end else
+    begin
+      UPDATE PRODUCTS
+      SET is_deleted = 1,
+          ID_USER_MODIF = :id_user_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in);
+    end
+  end
+  suspend;
+end^
+
+
+ALTER PROCEDURE INSERT_UPDATE_USER (
+    ID_IN INTEGER NOT NULL,
+    LOGIN_IN TEXT_50,
+    USER_PASSWORD_IN TEXT_50,
+    FIRST_NAME_IN TEXT_25,
+    LAST_NAME_IN TEXT_25,
+    ID_LOCATION_IN INTEGER,
+    IS_DELETED_IN FLAG NOT NULL)
+RETURNS (
+    ID_OUT INTEGER)
+AS
+begin
+  if (:id_in = 0) then
+  begin
+    id_out = gen_id(gen_users_id, 1);
+    INSERT INTO USERS (ID, LOGIN, USER_PASSWORD, FIRST_NAME, LAST_NAME, ID_LOCATION, MODIFICATION_TIME, IS_DELETED)
+      VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  end else
+  begin
+    id_out = :id_in;
+    if (:is_deleted_in = 0) then
+    begin
+      UPDATE users
+      SET LOGIN = :login_in,
+          USER_PASSWORD = :user_password_in,
+          FIRST_NAME = :first_name_in,
+          LAST_NAME = :last_name_in,
+          ID_LOCATION = :id_location_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in) and (is_deleted = 0);
+    end else
+    begin
+      UPDATE users
+      SET is_deleted = 1,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in);
+    end
+  end
+  suspend;
+end^
+
+
+ALTER PROCEDURE INSERT_UPDATE_WEIGHING (
+    ID_IN INTEGER NOT NULL,
+    CAR_NO_IN TEXT_25,
+    TRAILER_NO_IN TEXT_25,
+    MASS_IN_IN NUMERIC_15_2,
+    DATE_IN_IN DATE_TIME,
+    MASS_OUT_IN NUMERIC_15_2,
+    DATE_OUT_IN DATE_TIME,
+    WEIGHING_TYPE_IN SMALLINT,
+    ID_CUSTOMER_IN INTEGER,
+    ID_PRODUCT_IN INTEGER,
+    ID_USER_IN_IN INTEGER,
+    ID_USER_OUT_IN INTEGER,
+    ID_LOCATION_IN INTEGER,
+    IS_DELETED_IN FLAG NOT NULL)
+RETURNS (
+    ID_OUT INTEGER,
+    WEIGHING_NO_OUT TEXT_25,
+    ERROR_CODE_OUT INTEGER)
+AS
+declare variable TMP_WEIGHING_NO TEXT_25;
+declare variable TMP_CUSTOMER_CODE TEXT_10;
+declare variable TMP_CUSTOMER_NAME TEXT_50;
+declare variable TMP_CUSTOMER_NIP TEXT_25;
+declare variable TMP_CUSTOMER_PHONE_NO TEXT_25;
+declare variable TMP_ID_ADDRESS integer;
+declare variable TMP_ADDRESS_STREET TEXT_50;
+declare variable TMP_ADDRESS_HOUSE_NO TEXT_10;
+declare variable TMP_ADDRESS_LOCAL_NO TEXT_10;
+declare variable TMP_ADDRESS_POST_CODE TEXT_10;
+declare variable TMP_ADDRESS_CITY TEXT_50;
+declare variable TMP_ADDRESS_COUNTRY TEXT_50;
+declare variable TMP_PRODUCT_CODE TEXT_10;
+declare variable TMP_PRODUCT_NAME TEXT_50;
+declare variable TMP_PRODUCT_PRICE NUMERIC_15_2;
+declare variable TMP_ID1 integer;
+declare variable TMP_ID2 integer;
+begin
+  id_out = 0;
+  error_code_out = 1;
+  weighing_no_out = '';
+  if (:id_in = 0) then
+  begin
+    if (:weighing_type_in = 1) then
+    begin
+      error_code_out = -1; -- drugie wazenie przy braku pierwszego wazenia
+      suspend;
+      exit;
+    end else if (:weighing_type_in in (0, 2)) then
+    begin
+      if (coalesce(:id_location_in, 0) = 0)  then
+      begin
+        error_code_out = -2;
+        suspend;
+        exit;
+      end
+
+      -- POBRANIE DANYCH KARTOTEK
+      -- KONTRAHENT
+      if (coalesce(:id_customer_in, 0) = 0)  then
+      begin
+        error_code_out = -3;
+        suspend;
+        exit;
+      end
+
+      SELECT
+        CODE_OUT, NAME_OUT, NIP_OUT, PHONE_NO_OUT, ID_ADDRESS_OUT
+      FROM get_customers(:id_customer_in, :id_location_in)
+      INTO
+        :tmp_customer_code, :tmp_customer_name, :tmp_customer_nip, :tmp_customer_phone_no,
+        :tmp_id_address;
+
+      SELECT
+        STREET_OUT, HOUSE_NO_OUT, LOCAL_NO_OUT, POST_CODE_OUT, CITY_OUT, COUNTRY_OUT
+      FROM get_addresses(:tmp_id_address)
+      INTO
+        :tmp_address_street, :tmp_address_house_no, :tmp_address_local_no, :tmp_address_post_code,
+        :tmp_address_city, :tmp_address_country;
+
+      -- PRODUKT
+      if (coalesce(:id_product_in, 0) = 0)  then
+      begin
+        error_code_out = -4;
+        suspend;
+        exit;
+      end
+
+      SELECT
+        CODE_OUT, NAME_OUT, PRICE_OUT
+      FROM get_products(:id_product_in, :id_location_in)
+      INTO
+        :tmp_product_code, :tmp_product_name, :tmp_product_price;
+
+      -- insert adres
+      tmp_id1 = gen_id(gen_weighings_addressess_id, 1);
+      INSERT INTO WEIGHINGS_ADDRESSESS
+        (ID, ID_ADDRESS, STREET, HOUSE_NO, LOCAL_NO, POST_CODE, CITY, COUNTRY, ID_USER_INSERT,
+         ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+      VALUES
+        (:tmp_id1, :tmp_id_address, :tmp_address_street, :tmp_address_house_no, :tmp_address_local_no,
+         :tmp_address_post_code, :tmp_address_city, :tmp_address_country, :id_user_in_in,
+         :id_user_in_in, 'now', 0);
+
+      -- insert customer
+      tmp_id2 = gen_id(gen_weighings_customers_id, 1);
+      INSERT INTO WEIGHINGS_CUSTOMERS
+        (ID, ID_CUSTOMER, CODE, NAME, NIP, PHONE_NO, ID_ADDRESS_WEIGHING, ID_USER_INSERT,
+         ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+      VALUES
+        (:tmp_id2, :id_customer_in, :tmp_customer_code, :tmp_customer_name, :tmp_customer_nip,
+         :tmp_customer_phone_no, :tmp_id1, :id_user_in_in, :id_user_in_in, 'now', 0);
+
+      -- insert product
+      tmp_id1 = gen_id(gen_weighings_products_id, 1);
+      INSERT INTO WEIGHINGS_PRODUCTS
+        (ID, ID_PRODUCT, CODE, NAME, PRICE, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME,
+         IS_DELETED)
+      VALUES
+        (:tmp_id1, :id_product_in, :tmp_product_code, :tmp_product_name, :tmp_product_price,
+         :id_user_in_in, :id_user_in_in, 'now', 0);
+
+      -- numer wazenia
+      SELECT weighing_no_out FROM get_next_weighing_no into :tmp_weighing_no;
+
+      -- wazenie
+      id_out = gen_id(gen_weighings_id, 1);
+      if (:weighing_type_in = 0) then
+      begin
+        -- PIERWSZE WAZENIE
+        INSERT INTO WEIGHINGS
+          (ID, WEIGHING_NO, CAR_NO, TRAILER_NO, MASS_IN, DATE_IN, MASS_OUT, DATE_OUT, WEIGHING_TYPE,
+           ID_CUSTOMER, ID_CUSTOMER_WEIGHING, ID_PRODUCT, ID_PRODUCT_WEIGHING, ID_USER_IN, ID_USER_OUT,
+           ID_LOCATION, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+        VALUES
+          (:id_out, :tmp_weighing_no, :car_no_in, :trailer_no_in, :mass_in_in, :date_in_in, NULL, NULL,
+           :weighing_type_in, :id_customer_in, :tmp_id2, :id_product_in, :tmp_id1, :id_user_in_in, NULL,
+           :id_location_in, :id_user_in_in, :id_user_in_in, 'now', 0);
+
+        weighing_no_out = :tmp_weighing_no;
+      end else if (:weighing_type_in = 2) then
+      begin
+        -- WAZENIE POJEDYNCZE
+        INSERT INTO WEIGHINGS
+          (ID, WEIGHING_NO, CAR_NO, TRAILER_NO, MASS_IN, DATE_IN, MASS_OUT, DATE_OUT, WEIGHING_TYPE,
+           ID_CUSTOMER, ID_CUSTOMER_WEIGHING, ID_PRODUCT, ID_PRODUCT_WEIGHING, ID_USER_IN, ID_USER_OUT,
+           ID_LOCATION, ID_USER_INSERT, ID_USER_MODIF, MODIFICATION_TIME, IS_DELETED)
+        VALUES
+          (:id_out, :tmp_weighing_no, :car_no_in, :trailer_no_in, :mass_in_in, :date_in_in, :mass_out_in,
+           NULL, :weighing_type_in, :id_customer_in, :tmp_id2, :id_product_in, :tmp_id1, :id_user_in_in,
+           NULL, :id_location_in, :id_user_in_in, :id_user_in_in, 'now', 0);
+
+        weighing_no_out = :tmp_weighing_no;
+      end
+    end
+  end else
+  begin
+    if ((:is_deleted_in = 0) and (:weighing_type_in = 1)) then
+    begin
+      -- DRUGIE WAZENIE
+      UPDATE weighings
+      SET MASS_OUT = :mass_out_in,
+          DATE_OUT = :date_out_in,
+          ID_USER_OUT = :id_user_out_in,
+          WEIGHING_TYPE = :weighing_type_in,
+          ID_USER_MODIF = :id_user_out_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in) and (WEIGHING_TYPE = 0) and (is_deleted = 0);
+      id_out = :id_in;
+    end else if (:is_deleted_in = 1) then
+    begin
+      UPDATE weighings
+      SET is_deleted = 1,
+          ID_USER_MODIF = :id_user_in_in,
+          MODIFICATION_TIME = 'now'
+      WHERE (ID = :id_in);
+
+      id_out = :id_in;
+    end else
+    begin
+      error_code_out = -5;
+    end
+  end
+  suspend;
+end^
 
 
 
