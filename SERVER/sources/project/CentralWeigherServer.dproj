@@ -192,6 +192,7 @@
             <Form>ModuleDataBase</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\controller\cManagerAddresses.pas"/>
         <None Include="ModelSupport_CentralWeigherServer\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherServer\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherServer\frmMain\default.txvpck"/>

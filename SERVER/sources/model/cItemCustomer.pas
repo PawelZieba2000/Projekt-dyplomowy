@@ -3,7 +3,7 @@ unit cItemCustomer;
 interface
 
 uses
-  cItemBase, cItemAddress, OverbyteIcsSuperObject;
+  cItemBase, cItemAddress, OverbyteIcsSuperObject, Uni;
 
 type
   TItemCustomer = class(TItemBase)
@@ -47,7 +47,10 @@ type
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pCustomerJson : ISuperObject); reintroduce;
 
+      procedure FromQuery(pCustomerQuery : TCustomUniDataSet);
+
       class function JsonToCustomer(pCustomerJson : ISuperObject) : TItemCustomer;
+      class function QueryToCustomer(pCustomerQuery : TCustomUniDataSet) : TItemCustomer;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -56,7 +59,7 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, cManagerAddresses;
 
 { TItemCustomer }
 
@@ -100,6 +103,27 @@ begin
   Self.Address.FromJson(pCustomerJson.O[jf_address]);
 
   inherited FromJson(pCustomerJson);
+end;
+
+procedure TItemCustomer.FromQuery(pCustomerQuery: TCustomUniDataSet);
+begin
+  Self.Name := pCustomerQuery.FieldByName('NAME_OUT').AsString;
+  Self.Code := pCustomerQuery.FieldByName('CODE_OUT').AsString;
+  Self.NIP := pCustomerQuery.FieldByName('NIP_OUT').AsString;
+  Self.PhoneNo := pCustomerQuery.FieldByName('PHONE_NO_OUT').AsString;
+  Self.Id := pCustomerQuery.FieldByName('ID_OUT').AsInteger;
+  Self.LocationId := pCustomerQuery.FieldByName('').AsInteger;
+  Self.Address.id := pCustomerQuery.FieldByName('ID_ADDRESS_OUT').AsInteger;
+
+  var tmpAddress : TItemAddress := nil;
+  try
+    tmpAddress := TManagerAddresses.Instance.GetAddressFromDbById(Self.Address.id);
+    if Assigned(tmpAddress) then
+      Self.Address.AssignValues(tmpAddress);
+  finally
+    if Assigned(tmpAddress) then
+      tmpAddress.Free;
+  end;
 end;
 
 function TItemCustomer.GetAddress: TItemAddress;
@@ -146,6 +170,21 @@ Result := nil;
   Result := TItemCustomer.Create;
   try
     Result.FromJson(pCustomerJson);
+  except
+    FreeAndNil(Result);
+  end;
+end;
+
+class function TItemCustomer.QueryToCustomer(
+  pCustomerQuery: TCustomUniDataSet): TItemCustomer;
+begin
+  Result := nil;
+  if not Assigned(pCustomerQuery) then
+    Exit;
+
+  Result := TItemCustomer.Create;
+  try
+    Result.FromQuery(pCustomerQuery);
   except
     FreeAndNil(Result);
   end;

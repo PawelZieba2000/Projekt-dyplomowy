@@ -35,7 +35,8 @@ uses
   frmBaseAddEdit in '..\view\baseForm\frmBaseAddEdit.pas' {FormBaseAddEdit},
   frmBaseList in '..\view\baseForm\frmBaseList.pas' {FormBaseList},
   uWebModule in '..\modules\uWebModule.pas' {WebModuleMain: TDataModule},
-  uModDatabase in '..\modules\uModDatabase.pas' {ModuleDataBase: TDataModule};
+  uModDatabase in '..\modules\uModDatabase.pas' {ModuleDataBase: TDataModule},
+  cManagerAddresses in '..\controller\cManagerAddresses.pas';
 
 {$R *.res}
 

@@ -19,6 +19,8 @@ type
       property ProductsDS : TDataSourceProducts read FProductsDS;
 
       procedure GetProductsFromDb();
+      procedure InsertUpdateProduct(pProduct: TItemProduct);
+
 
       constructor Create(); overload;
       class function Instance : TManagerProducts;
@@ -29,7 +31,7 @@ type
 implementation
 
 uses
-  System.SysUtils, uModDatabase, Uni;
+  System.SysUtils, uModDatabase, Uni, cManagerUser;
 
 { TManagerProducts }
 
@@ -58,25 +60,85 @@ end;
 procedure TManagerProducts.GetProductsFromDb;
 begin
   Self.FProductList.Clear;
-  var sql : String := 'SELECT P.* FROM PRODUCTS P WHERE P.IS_DELETED = 0';
-  var tmpQuery : TUniQuery := ModuleDataBase.OpenSql(sql);
-  if not Assigned(tmpQuery) then
-    Exit;
 
+  if not ModuleDataBase.connDatabase.Connected then
+    raise Exception.Create('Database is not connected');
+
+  var sql : String := 'SELECT * FROM GET_PRODUCTS(:ID_IN, :ID_LOCATION_IN) ';
+  var query : TUniQuery := TUniQuery.Create(nil);
   try
-    tmpQuery.First;
+    try
+      ModuleDataBase.PrepareQuery(query, sql);
+      query.ParamByName('ID_IN').Value := 0;
+      query.ParamByName('ID_LOCATION_IN').Value := 0;
 
-    while not tmpQuery.Eof do
-    begin
-      var tmpProduct : TItemProduct := TItemProduct.QueryToProduct(tmpQuery);
-      if Assigned(tmpProduct) then
-        Self.FProductList.Add(tmpProduct);
+      query.Open;
+      query.First;
 
-      tmpQuery.Next;
+      while not query.Eof do
+      begin
+        var tmpProduct : TItemProduct := TItemProduct.QueryToProduct(query);
+        if Assigned(tmpProduct) then
+          Self.FProductList.Add(tmpProduct);
+
+        query.Next;
+      end;
+    except
+      on E: Exception do
+      begin
+        E.Message := 'Error in ' + Self.ClassName + '.GetProductsFromDb():' + sLineBreak +
+                     E.Message;
+        raise;
+      end;
     end;
   finally
-    tmpQuery.Close;
-    tmpQuery.Free;
+    if query.Active then
+      query.Close;
+    query.Free;
+  end;
+end;
+
+procedure TManagerProducts.InsertUpdateProduct(pProduct: TItemProduct);
+begin
+  if not ModuleDataBase.connDatabase.Connected then
+    raise Exception.Create('Database is not connected');
+
+  if not Assigned(pProduct) then
+    raise Exception.Create('Product not assigned');
+
+  var transaction : TUniTransaction := TUniTransaction.Create(nil);
+  var storedProc : TUniStoredProc := TUniStoredProc.Create(nil);
+
+  try
+    try
+      ModuleDataBase.PrepareStoredProcedure(storedProc, 'INSERT_UPDATE_PRODUCT', transaction);
+
+      storedProc.ParamByName('ID_IN').Value := pProduct.Id;
+      storedProc.ParamByName('CODE_IN').Value := pProduct.Code;
+      storedProc.ParamByName('NAME_IN').Value := pProduct.Name;
+      storedProc.ParamByName('PRICE_IN').Value := pProduct.Price;
+      storedProc.ParamByName('IS_DELETED_IN').Value := pProduct.IsDeleted;
+      storedProc.ParamByName('ID_USER_IN').Value := TManagerUser.Instance.LoggedUser.Id;
+
+      storedProc.ExecProc;
+
+      pProduct.Id := storedProc.FieldByName('ID_OUT').AsInteger;
+
+      transaction.Commit;
+    except
+      on E: Exception do
+      begin
+        if transaction.Active then
+          transaction.Rollback;
+
+        E.Message := 'Error in ' + Self.ClassName + '.InsertUpdateProduct():' + sLineBreak +
+                     E.Message;
+        raise;
+      end;
+    end;
+  finally
+    transaction.Free;
+    storedProc.Free;
   end;
 end;
 

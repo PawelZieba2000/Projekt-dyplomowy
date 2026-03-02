@@ -3,7 +3,7 @@ unit cItemAddress;
 interface
 
 uses
-  cItemBase, OverbyteIcsSuperObject;
+  cItemBase, OverbyteIcsSuperObject, Uni;
 
 type
   TItemAddress = class(TItemBase)
@@ -50,8 +50,10 @@ type
 
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pAddressJson : ISuperObject); reintroduce;
+      procedure FromQuery(pAddressQuery : TCustomUniDataSet);
 
       class function JsonToAddress(pAddressJson : ISuperObject) : TItemAddress;
+      class function QueryToAddress(pAddressQuery : TCustomUniDataSet) : TItemAddress;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -105,6 +107,17 @@ begin
   inherited FromJson(pAddressJson);
 end;
 
+procedure TItemAddress.FromQuery(pAddressQuery: TCustomUniDataSet);
+begin
+  Self.Street := pAddressQuery.FieldByName('STREET_OUT').AsString;
+  Self.HouseNo := pAddressQuery.FieldByName('HOUSE_NO_OUT').AsString;
+  Self.LocalNo := pAddressQuery.FieldByName('LOCAL_NO_OUT').AsString;
+  Self.PostCode := pAddressQuery.FieldByName('POST_CODE_OUT').AsString;
+  Self.City := pAddressQuery.FieldByName('CITY_OUT').AsString;
+  Self.Country := pAddressQuery.FieldByName('COUNTRY_OUT').AsString;
+  Self.Id := pAddressQuery.FieldByName('ID_OUT').AsInteger;
+end;
+
 function TItemAddress.GetCity: String;
 begin
   Result := Self.FCity;
@@ -145,6 +158,21 @@ begin
   Result := TItemAddress.Create;
   try
     Result.FromJson(pAddressJson);
+  except
+    FreeAndNil(Result);
+  end;
+end;
+
+class function TItemAddress.QueryToAddress(
+  pAddressQuery: TCustomUniDataSet): TItemAddress;
+begin
+  Result := nil;
+  if not Assigned(pAddressQuery) then
+    Exit;
+
+  Result := TItemAddress.Create;
+  try
+    Result.FromQuery(pAddressQuery);
   except
     FreeAndNil(Result);
   end;
