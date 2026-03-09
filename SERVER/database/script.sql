@@ -94,17 +94,17 @@ SET TERM ^ ;
 CREATE PROCEDURE GET_ADDRESSES (
     ID_IN INTEGER)
 RETURNS (
-    ID_OUT INTEGER,
-    STREET_OUT TEXT_50,
-    HOUSE_NO_OUT TEXT_10,
-    LOCAL_NO_OUT TEXT_10,
-    POST_CODE_OUT TEXT_10,
-    CITY_OUT TEXT_50,
-    COUNTRY_OUT TEXT_50,
-    ID_USER_INSERT_OUT INTEGER,
-    ID_USER_MODIF_OUT INTEGER,
-    MODIFICATION_TIME_OUT DATE_TIME,
-    IS_DELETED_OUT FLAG NOT NULL)
+    ADDRESS_ID_OUT INTEGER,
+    ADDRESS_STREET_OUT TEXT_50,
+    ADDRESS_HOUSE_NO_OUT TEXT_10,
+    ADDRESS_LOCAL_NO_OUT TEXT_10,
+    ADDRESS_POST_CODE_OUT TEXT_10,
+    ADDRESS_CITY_OUT TEXT_50,
+    ADDRESS_COUNTRY_OUT TEXT_50,
+    ADDRESS_ID_USER_INSERT_OUT INTEGER,
+    ADDRESS_ID_USER_MODIF_OUT INTEGER,
+    ADDRESS_MODIF_TIME_OUT DATE_TIME,
+    ADDRESS_IS_DELETED_OUT FLAG NOT NULL)
 AS
 BEGIN
   SUSPEND;
@@ -118,16 +118,16 @@ CREATE PROCEDURE GET_CUSTOMERS (
     ID_IN INTEGER,
     ID_LOCATION_IN INTEGER NOT NULL)
 RETURNS (
-    ID_OUT INTEGER,
-    CODE_OUT TEXT_10,
-    NAME_OUT TEXT_50,
-    NIP_OUT TEXT_25,
-    PHONE_NO_OUT TEXT_25,
-    ID_ADDRESS_OUT INTEGER,
-    ID_USER_INSERT_OUT INTEGER,
-    ID_USER_MODIF_OUT INTEGER,
-    MODIFICATION_TIME_OUT DATE_TIME,
-    IS_DELETED_OUT FLAG NOT NULL)
+    CUST_ID_OUT INTEGER,
+    CUST_CODE_OUT TEXT_10,
+    CUST_NAME_OUT TEXT_50,
+    CUST_NIP_OUT TEXT_25,
+    CUST_PHONE_NO_OUT TEXT_25,
+    CUST_ID_ADDRESS_OUT INTEGER,
+    CUST_ID_USER_INSERT_OUT INTEGER,
+    CUST_ID_USER_MODIF_OUT INTEGER,
+    CUST_MODIF_TIME_OUT DATE_TIME,
+    CUST_IS_DELETED_OUT FLAG NOT NULL)
 AS
 BEGIN
   SUSPEND;
@@ -153,14 +153,74 @@ CREATE PROCEDURE GET_PRODUCTS (
     ID_IN INTEGER,
     ID_LOCATION_IN INTEGER NOT NULL)
 RETURNS (
+    PROD_ID_OUT INTEGER,
+    PROD_CODE_OUT TEXT_10,
+    PROD_NAME_OUT TEXT_50,
+    PROD_PRICE_OUT NUMERIC_15_2,
+    PROD_ID_USER_INSERT_OUT INTEGER,
+    PROD_ID_USER_MODIF_OUT INTEGER,
+    PROD_MODIF_TIME_OUT DATE_TIME,
+    PROD_IS_DELETED_OUT FLAG NOT NULL)
+AS
+BEGIN
+  SUSPEND;
+END^
+
+
+
+
+
+CREATE PROCEDURE GET_WEIGHINGS (
+    ID_IN INTEGER NOT NULL,
+    ID_LOCATION_IN INTEGER)
+RETURNS (
     ID_OUT INTEGER,
-    CODE_OUT TEXT_10,
-    NAME_OUT TEXT_50,
-    PRICE_OUT NUMERIC_15_2,
+    WEIGHING_NO_OUT TEXT_25,
+    CAR_NO_OUT TEXT_25,
+    TRAILER_NO_OUT TEXT_25,
+    MASS_IN_OUT NUMERIC_15_2,
+    DATE_IN_OUT DATE_TIME,
+    MASS_OUT_OUT NUMERIC_15_2,
+    DATE_OUT_OUT DATE_TIME,
+    WEIGHING_TYPE_OUT SMALLINT,
+    ID_USER_IN_OUT INTEGER,
+    ID_USER_OUT_OUT INTEGER,
+    ID_LOCATION_OUT INTEGER,
     ID_USER_INSERT_OUT INTEGER,
     ID_USER_MODIF_OUT INTEGER,
-    MODIFICATION_TIME_OUT DATE_TIME,
-    IS_DELETED_OUT FLAG NOT NULL)
+    MODIF_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG NOT NULL,
+    PROD_ID_OUT INTEGER,
+    PROD_WEIGHING_ID_OUT INTEGER,
+    PROD_CODE_OUT TEXT_10,
+    PROD_NAME_OUT TEXT_50,
+    PROD_PRICE_OUT NUMERIC_15_2,
+    PROD_ID_USER_INSERT_OUT INTEGER,
+    PROD_ID_USER_MODIF_OUT INTEGER,
+    PROD_MODIF_TIME_OUT DATE_TIME,
+    PROD_IS_DELETED_OUT FLAG NOT NULL,
+    ADDRESS_ID_OUT INTEGER,
+    ADDRESS_STREET_OUT TEXT_50,
+    ADDRESS_HOUSE_NO_OUT TEXT_10,
+    ADDRESS_LOCAL_NO_OUT TEXT_10,
+    ADDRESS_POST_CODE_OUT TEXT_10,
+    ADDRESS_CITY_OUT TEXT_50,
+    ADDRESS_COUNTRY_OUT TEXT_50,
+    ADDRESS_ID_USER_INSERT_OUT INTEGER,
+    ADDRESS_ID_USER_MODIF_OUT INTEGER,
+    ADDRESS_MODIF_TIME_OUT DATE_TIME,
+    ADDRESS_IS_DELETED_OUT FLAG NOT NULL,
+    CUST_ID_OUT INTEGER,
+    CUST_WEIGHING_ID_OUT INTEGER,
+    CUST_CODE_OUT TEXT_10,
+    CUST_NAME_OUT TEXT_50,
+    CUST_NIP_OUT TEXT_25,
+    CUST_PHONE_NO_OUT TEXT_25,
+    CUST_ID_ADDRESS_OUT INTEGER,
+    CUST_ID_USER_INSERT_OUT INTEGER,
+    CUST_ID_USER_MODIF_OUT INTEGER,
+    CUST_MODIF_TIME_OUT DATE_TIME,
+    CUST_IS_DELETED_OUT FLAG NOT NULL)
 AS
 BEGIN
   SUSPEND;
@@ -614,17 +674,17 @@ SET TERM ^ ;
 ALTER PROCEDURE GET_ADDRESSES (
     ID_IN INTEGER)
 RETURNS (
-    ID_OUT INTEGER,
-    STREET_OUT TEXT_50,
-    HOUSE_NO_OUT TEXT_10,
-    LOCAL_NO_OUT TEXT_10,
-    POST_CODE_OUT TEXT_10,
-    CITY_OUT TEXT_50,
-    COUNTRY_OUT TEXT_50,
-    ID_USER_INSERT_OUT INTEGER,
-    ID_USER_MODIF_OUT INTEGER,
-    MODIFICATION_TIME_OUT DATE_TIME,
-    IS_DELETED_OUT FLAG NOT NULL)
+    ADDRESS_ID_OUT INTEGER,
+    ADDRESS_STREET_OUT TEXT_50,
+    ADDRESS_HOUSE_NO_OUT TEXT_10,
+    ADDRESS_LOCAL_NO_OUT TEXT_10,
+    ADDRESS_POST_CODE_OUT TEXT_10,
+    ADDRESS_CITY_OUT TEXT_50,
+    ADDRESS_COUNTRY_OUT TEXT_50,
+    ADDRESS_ID_USER_INSERT_OUT INTEGER,
+    ADDRESS_ID_USER_MODIF_OUT INTEGER,
+    ADDRESS_MODIF_TIME_OUT DATE_TIME,
+    ADDRESS_IS_DELETED_OUT FLAG NOT NULL)
 AS
 begin
   if (:id_in != 0) then
@@ -636,9 +696,10 @@ begin
     WHERE
       (ID = :id_in) and (is_deleted = 0)
     INTO
-      :id_out, :street_out, :house_no_out, :local_no_out, :post_code_out, :city_out,
-      :country_out, :id_user_insert_out, :id_user_modif_out, :modification_time_out,
-      :is_deleted_out;
+      :address_id_out, :address_street_out, :address_house_no_out,
+      :address_local_no_out, :address_post_code_out, :address_city_out,
+      :address_country_out, :address_id_user_insert_out, :address_id_user_modif_out,
+      :address_modif_time_out, :address_is_deleted_out;
     suspend;
     exit;
   end else
@@ -650,14 +711,16 @@ begin
     WHERE
       (is_deleted = 0)
     INTO
-      :id_out, :street_out, :house_no_out, :local_no_out, :post_code_out, :city_out,
-      :country_out, :id_user_insert_out, :id_user_modif_out, :modification_time_out,
-      :is_deleted_out
+      :address_id_out, :address_street_out, :address_house_no_out,
+      :address_local_no_out, :address_post_code_out, :address_city_out,
+      :address_country_out, :address_id_user_insert_out, :address_id_user_modif_out,
+      :address_modif_time_out, :address_is_deleted_out
     do begin
       suspend;
-      id_out = null; street_out = null; house_no_out = null; local_no_out = null;
-      post_code_out = null; city_out = null; country_out = null; id_user_insert_out = null;
-      id_user_modif_out = null; modification_time_out = null; is_deleted_out = null;
+      address_id_out = null; address_street_out = null; address_house_no_out = null;
+      address_local_no_out = null; address_post_code_out = null; address_city_out = null;
+      address_country_out = null; address_id_user_insert_out = null; address_id_user_modif_out = null;
+      address_modif_time_out = null; address_is_deleted_out = null;
     end
   end
 end^
@@ -667,16 +730,16 @@ ALTER PROCEDURE GET_CUSTOMERS (
     ID_IN INTEGER,
     ID_LOCATION_IN INTEGER NOT NULL)
 RETURNS (
-    ID_OUT INTEGER,
-    CODE_OUT TEXT_10,
-    NAME_OUT TEXT_50,
-    NIP_OUT TEXT_25,
-    PHONE_NO_OUT TEXT_25,
-    ID_ADDRESS_OUT INTEGER,
-    ID_USER_INSERT_OUT INTEGER,
-    ID_USER_MODIF_OUT INTEGER,
-    MODIFICATION_TIME_OUT DATE_TIME,
-    IS_DELETED_OUT FLAG NOT NULL)
+    CUST_ID_OUT INTEGER,
+    CUST_CODE_OUT TEXT_10,
+    CUST_NAME_OUT TEXT_50,
+    CUST_NIP_OUT TEXT_25,
+    CUST_PHONE_NO_OUT TEXT_25,
+    CUST_ID_ADDRESS_OUT INTEGER,
+    CUST_ID_USER_INSERT_OUT INTEGER,
+    CUST_ID_USER_MODIF_OUT INTEGER,
+    CUST_MODIF_TIME_OUT DATE_TIME,
+    CUST_IS_DELETED_OUT FLAG NOT NULL)
 AS
 begin
   if (:id_in != 0) then
@@ -689,8 +752,9 @@ begin
     WHERE
       (C.ID = :id_in) and (C.is_deleted = 0) and (coalesce(CL.id_location, 0) = :id_location_in)
     INTO
-      :id_out, :code_out, :name_out, :nip_out, :phone_no_out, :id_address_out,
-      :id_user_insert_out, :id_user_modif_out, :modification_time_out, :is_deleted_out;
+      :cust_id_out, :cust_code_out, :cust_name_out, :cust_nip_out, :cust_phone_no_out,
+      :cust_id_address_out, :cust_id_user_insert_out, :cust_id_user_modif_out,
+      :cust_modif_time_out, :cust_is_deleted_out;
     suspend;
     exit;
   end else
@@ -703,13 +767,14 @@ begin
     WHERE
       (C.is_deleted = 0) and (coalesce(CL.id_location, 0) = :id_location_in)
     INTO
-      :id_out, :code_out, :name_out, :nip_out, :phone_no_out, :id_address_out,
-      :id_user_insert_out, :id_user_modif_out, :modification_time_out, :is_deleted_out
+      :cust_id_out, :cust_code_out, :cust_name_out, :cust_nip_out, :cust_phone_no_out,
+      :cust_id_address_out, :cust_id_user_insert_out, :cust_id_user_modif_out,
+      :cust_modif_time_out, :cust_is_deleted_out;
     do begin
       suspend;
-      id_out = null; code_out = null; name_out = null; nip_out = null; phone_no_out = null;
-      id_address_out = null; id_user_insert_out = null; id_user_modif_out = null;
-      modification_time_out = null; is_deleted_out = null;
+      cust_id_out = null; cust_code_out = null; cust_name_out = null; cust_nip_out = null;
+      cust_phone_no_out = null; cust_id_address_out = null; cust_id_user_insert_out = null;
+      cust_id_user_modif_out = null; cust_modif_time_out = null; cust_is_deleted_out = null;
     end
   end
 end^
@@ -761,14 +826,14 @@ ALTER PROCEDURE GET_PRODUCTS (
     ID_IN INTEGER,
     ID_LOCATION_IN INTEGER NOT NULL)
 RETURNS (
-    ID_OUT INTEGER,
-    CODE_OUT TEXT_10,
-    NAME_OUT TEXT_50,
-    PRICE_OUT NUMERIC_15_2,
-    ID_USER_INSERT_OUT INTEGER,
-    ID_USER_MODIF_OUT INTEGER,
-    MODIFICATION_TIME_OUT DATE_TIME,
-    IS_DELETED_OUT FLAG NOT NULL)
+    PROD_ID_OUT INTEGER,
+    PROD_CODE_OUT TEXT_10,
+    PROD_NAME_OUT TEXT_50,
+    PROD_PRICE_OUT NUMERIC_15_2,
+    PROD_ID_USER_INSERT_OUT INTEGER,
+    PROD_ID_USER_MODIF_OUT INTEGER,
+    PROD_MODIF_TIME_OUT DATE_TIME,
+    PROD_IS_DELETED_OUT FLAG NOT NULL)
 AS
 begin
   if (:id_in != 0) then
@@ -781,8 +846,8 @@ begin
     WHERE
       (P.ID = :id_in) and (P.is_deleted = 0) and (coalesce(PL.id_location, 0) = :id_location_in)
     INTO
-      :id_out, :code_out, :name_out, :price_out, :id_user_insert_out,
-      :id_user_modif_out, :modification_time_out, :is_deleted_out;
+      :prod_id_out, :prod_code_out, :prod_name_out, :prod_price_out, :prod_id_user_insert_out,
+      :prod_id_user_modif_out, :prod_modif_time_out, :prod_is_deleted_out;
     suspend;
     exit;
   end else
@@ -795,13 +860,178 @@ begin
     WHERE
       (P.is_deleted = 0) and (coalesce(PL.id_location, 0) = :id_location_in)
     INTO
-      :id_out, :code_out, :name_out, :price_out, :id_user_insert_out,
-      :id_user_modif_out, :modification_time_out, :is_deleted_out
+      :prod_id_out, :prod_code_out, :prod_name_out, :prod_price_out, :prod_id_user_insert_out,
+      :prod_id_user_modif_out, :prod_modif_time_out, :prod_is_deleted_out
     do begin
       suspend;
-      id_out = null; code_out = null; name_out = null; price_out = null;
-      id_user_insert_out = null; id_user_modif_out = null; modification_time_out = null;
-      is_deleted_out = null;
+      prod_id_out = null; prod_code_out = null; prod_name_out = null; prod_price_out = null;
+      prod_id_user_insert_out = null; prod_id_user_modif_out = null; prod_modif_time_out = null;
+      prod_is_deleted_out = null;
+    end
+  end
+end^
+
+
+ALTER PROCEDURE GET_WEIGHINGS (
+    ID_IN integer not null,
+    ID_LOCATION_IN integer)
+returns (
+    ID_OUT integer,
+    WEIGHING_NO_OUT TEXT_25,
+    CAR_NO_OUT TEXT_25,
+    TRAILER_NO_OUT TEXT_25,
+    MASS_IN_OUT NUMERIC_15_2,
+    DATE_IN_OUT DATE_TIME,
+    MASS_OUT_OUT NUMERIC_15_2,
+    DATE_OUT_OUT DATE_TIME,
+    WEIGHING_TYPE_OUT smallint,
+    ID_USER_IN_OUT integer,
+    ID_USER_OUT_OUT integer,
+    ID_LOCATION_OUT integer,
+    ID_USER_INSERT_OUT integer,
+    ID_USER_MODIF_OUT integer,
+    MODIF_TIME_OUT DATE_TIME,
+    IS_DELETED_OUT FLAG not null,
+    PROD_ID_OUT INTEGER,
+    PROD_WEIGHING_ID_OUT INTEGER,
+    PROD_CODE_OUT TEXT_10,
+    PROD_NAME_OUT TEXT_50,
+    PROD_PRICE_OUT NUMERIC_15_2,
+    PROD_ID_USER_INSERT_OUT INTEGER,
+    PROD_ID_USER_MODIF_OUT INTEGER,
+    PROD_MODIF_TIME_OUT DATE_TIME,
+    PROD_IS_DELETED_OUT FLAG NOT NULL,
+    ADDRESS_ID_OUT INTEGER,
+    ADDRESS_STREET_OUT TEXT_50,
+    ADDRESS_HOUSE_NO_OUT TEXT_10,
+    ADDRESS_LOCAL_NO_OUT TEXT_10,
+    ADDRESS_POST_CODE_OUT TEXT_10,
+    ADDRESS_CITY_OUT TEXT_50,
+    ADDRESS_COUNTRY_OUT TEXT_50,
+    ADDRESS_ID_USER_INSERT_OUT INTEGER,
+    ADDRESS_ID_USER_MODIF_OUT INTEGER,
+    ADDRESS_MODIF_TIME_OUT DATE_TIME,
+    ADDRESS_IS_DELETED_OUT FLAG NOT NULL,
+    CUST_ID_OUT INTEGER,
+    CUST_WEIGHING_ID_OUT INTEGER,
+    CUST_CODE_OUT TEXT_10,
+    CUST_NAME_OUT TEXT_50,
+    CUST_NIP_OUT TEXT_25,
+    CUST_PHONE_NO_OUT TEXT_25,
+    CUST_ID_ADDRESS_OUT INTEGER,
+    CUST_ID_USER_INSERT_OUT INTEGER,
+    CUST_ID_USER_MODIF_OUT INTEGER,
+    CUST_MODIF_TIME_OUT DATE_TIME,
+    CUST_IS_DELETED_OUT FLAG NOT NULL)
+as
+begin
+  if (:id_in != 0) then
+  begin
+    SELECT
+       W.ID, W.WEIGHING_NO, W.CAR_NO, W.TRAILER_NO, W.MASS_IN, W.DATE_IN,
+       W.MASS_OUT, W.DATE_OUT, W.WEIGHING_TYPE, W.ID_USER_IN, W.ID_USER_OUT,
+       W.ID_LOCATION, W.ID_USER_INSERT, W.ID_USER_MODIF, W.MODIFICATION_TIME,
+       W.IS_DELETED,
+
+       WP.ID, WP.ID_PRODUCT, WP.CODE, WP.NAME, WP.PRICE, WP.ID_USER_INSERT,
+       WP.ID_USER_MODIF, WP.MODIFICATION_TIME, WP.IS_DELETED,
+
+       WC.ID, WC.ID_CUSTOMER, WC.CODE, WC.NAME, WC.NIP, WC.PHONE_NO, WC.ID_ADDRESS_WEIGHING,
+       WC.ID_USER_INSERT, WC.ID_USER_MODIF, WC.MODIFICATION_TIME, WC.IS_DELETED,
+
+       ADDRSS.ID, ADDRSS.STREET, ADDRSS.HOUSE_NO, ADDRSS.LOCAL_NO, ADDRSS.POST_CODE,
+       ADDRSS.CITY, ADDRSS.COUNTRY, ADDRSS.ID_USER_INSERT, ADDRSS.ID_USER_MODIF,
+       ADDRSS.MODIFICATION_TIME, ADDRSS.IS_DELETED
+    FROM
+      WEIGHINGS W
+    LEFT JOIN WEIGHINGS_PRODUCTS WP ON WP.ID = W.ID_PRODUCT_WEIGHING
+    LEFT JOIN WEIGHINGS_CUSTOMERS WC ON WC.ID = W.ID_CUSTOMER_WEIGHING
+    LEFT JOIN ADDRESSES ADDRSS ON ADDRSS.ID = WC.id_address_weighing
+    WHERE
+      (W.ID = :id_in) and (W.is_deleted = 0) and (coalesce(W.id_location, 0) = :id_location_in)
+    INTO
+      :ID_OUT, :WEIGHING_NO_OUT, :CAR_NO_OUT, :TRAILER_NO_OUT, :MASS_IN_OUT, :DATE_IN_OUT,
+      :MASS_OUT_OUT, :DATE_OUT_OUT, :WEIGHING_TYPE_OUT, :ID_USER_IN_OUT, :ID_USER_OUT_OUT,
+      :ID_LOCATION_OUT, :ID_USER_INSERT_OUT, :ID_USER_MODIF_OUT, :MODIF_TIME_OUT, :IS_DELETED_OUT,
+
+      :PROD_WEIGHING_ID_OUT, :PROD_ID_OUT, :PROD_CODE_OUT, :PROD_NAME_OUT, :PROD_PRICE_OUT,
+      :PROD_ID_USER_INSERT_OUT, :PROD_ID_USER_MODIF_OUT, :PROD_MODIF_TIME_OUT,
+      :PROD_IS_DELETED_OUT,
+
+      :CUST_WEIGHING_ID_OUT, :CUST_ID_OUT, :CUST_CODE_OUT, :CUST_NAME_OUT,
+      :CUST_NIP_OUT, :CUST_PHONE_NO_OUT, :CUST_ID_ADDRESS_OUT, :CUST_ID_USER_INSERT_OUT,
+      :CUST_ID_USER_MODIF_OUT, :CUST_MODIF_TIME_OUT, :CUST_IS_DELETED_OUT,
+
+      :ADDRESS_ID_OUT, :ADDRESS_STREET_OUT, :ADDRESS_HOUSE_NO_OUT,
+      :ADDRESS_LOCAL_NO_OUT, :ADDRESS_POST_CODE_OUT, :ADDRESS_CITY_OUT,
+      :ADDRESS_COUNTRY_OUT, :ADDRESS_ID_USER_INSERT, :ADDRESS_ID_USER_MODIF_OUT,
+      :ADDRESS_MODIF_TIME_OUT, :ADDRESS_IS_DELETED_OUT;
+
+    suspend;
+    exit;
+  end else
+  begin
+    FOR SELECT
+       W.ID, W.WEIGHING_NO, W.CAR_NO, W.TRAILER_NO, W.MASS_IN, W.DATE_IN,
+       W.MASS_OUT, W.DATE_OUT, W.WEIGHING_TYPE, W.ID_USER_IN, W.ID_USER_OUT,
+       W.ID_LOCATION, W.ID_USER_INSERT, W.ID_USER_MODIF, W.MODIFICATION_TIME,
+       W.IS_DELETED,
+
+       WP.ID, WP.ID_PRODUCT, WP.CODE, WP.NAME, WP.PRICE, WP.ID_USER_INSERT,
+       WP.ID_USER_MODIF, WP.MODIFICATION_TIME, WP.IS_DELETED,
+
+       WC.ID, WC.ID_CUSTOMER, WC.CODE, WC.NAME, WC.NIP, WC.PHONE_NO, WC.ID_ADDRESS_WEIGHING,
+       WC.ID_USER_INSERT, WC.ID_USER_MODIF, WC.MODIFICATION_TIME, WC.IS_DELETED,
+
+       ADDRSS.ID, ADDRSS.STREET, ADDRSS.HOUSE_NO, ADDRSS.LOCAL_NO, ADDRSS.POST_CODE,
+       ADDRSS.CITY, ADDRSS.COUNTRY, ADDRSS.ID_USER_INSERT, ADDRSS.ID_USER_MODIF,
+       ADDRSS.MODIFICATION_TIME, ADDRSS.IS_DELETED
+    FROM
+      WEIGHINGS W
+    LEFT JOIN WEIGHINGS_PRODUCTS WP ON WP.ID = W.ID_PRODUCT_WEIGHING
+    LEFT JOIN WEIGHINGS_CUSTOMERS WC ON WC.ID = W.ID_CUSTOMER_WEIGHING
+    LEFT JOIN ADDRESSES ADDRSS ON ADDRSS.ID = WC.id_address_weighing
+    WHERE
+      (W.is_deleted = 0) and (coalesce(W.id_location, 0) = :id_location_in)
+    INTO
+      :ID_OUT, :WEIGHING_NO_OUT, :CAR_NO_OUT, :TRAILER_NO_OUT, :MASS_IN_OUT, :DATE_IN_OUT,
+      :MASS_OUT_OUT, :DATE_OUT_OUT, :WEIGHING_TYPE_OUT, :ID_USER_IN_OUT, :ID_USER_OUT_OUT,
+      :ID_LOCATION_OUT, :ID_USER_INSERT_OUT, :ID_USER_MODIF_OUT, :MODIF_TIME_OUT, :IS_DELETED_OUT,
+
+      :PROD_WEIGHING_ID_OUT, :PROD_ID_OUT, :PROD_CODE_OUT, :PROD_NAME_OUT, :PROD_PRICE_OUT,
+      :PROD_ID_USER_INSERT_OUT, :PROD_ID_USER_MODIF_OUT, :PROD_MODIF_TIME_OUT,
+      :PROD_IS_DELETED_OUT,
+
+      :CUST_WEIGHING_ID_OUT, :CUST_ID_OUT, :CUST_CODE_OUT, :CUST_NAME_OUT,
+      :CUST_NIP_OUT, :CUST_PHONE_NO_OUT, :CUST_ID_ADDRESS_OUT, :CUST_ID_USER_INSERT_OUT,
+      :CUST_ID_USER_MODIF_OUT, :CUST_MODIF_TIME_OUT, :CUST_IS_DELETED_OUT,
+
+      :ADDRESS_ID_OUT, :ADDRESS_STREET_OUT, :ADDRESS_HOUSE_NO_OUT,
+      :ADDRESS_LOCAL_NO_OUT, :ADDRESS_POST_CODE_OUT, :ADDRESS_CITY_OUT,
+      :ADDRESS_COUNTRY_OUT, :ADDRESS_ID_USER_INSERT, :ADDRESS_ID_USER_MODIF_OUT,
+      :ADDRESS_MODIF_TIME_OUT, :ADDRESS_IS_DELETED_OUT
+    do begin
+      suspend;
+      ID_OUT = null; WEIGHING_NO_OUT = null; CAR_NO_OUT = null; TRAILER_NO_OUT = null; MASS_IN_OUT = null;
+      DATE_IN_OUT = null; MASS_OUT_OUT = null; DATE_OUT_OUT = null; WEIGHING_TYPE_OUT = null;
+      ID_USER_IN_OUT = null; ID_USER_OUT_OUT = null; ID_LOCATION_OUT = null; ID_USER_INSERT_OUT = null;
+      ID_USER_MODIF_OUT = null; MODIF_TIME_OUT = null; IS_DELETED_OUT = null;
+        
+      PROD_WEIGHING_ID_OUT = null; PROD_ID_OUT = null; PROD_CODE_OUT = null; PROD_NAME_OUT = null;
+      PROD_PRICE_OUT = null; PROD_ID_USER_INSERT_OUT = null; PROD_ID_USER_MODIF_OUT = null;
+      PROD_MODIF_TIME_OUT = null; PROD_IS_DELETED_OUT = null;
+        
+      CUST_WEIGHING_ID_OUT = null; CUST_ID_OUT = null; CUST_CODE_OUT = null;
+      CUST_NAME_OUT = null; CUST_NIP_OUT = null; CUST_PHONE_NO_OUT = null;
+      CUST_ID_ADDRESS_OUT = null; CUST_ID_USER_INSERT_OUT = null; CUST_ID_USER_MODIF_OUT = null;
+      CUST_MODIF_TIME_OUT = null; CUST_IS_DELETED_OUT = null;
+        
+      ADDRESS_ID_OUT = null; ADDRESS_STREET_OUT = null;
+      ADDRESS_HOUSE_NO_OUT = null; ADDRESS_LOCAL_NO_OUT = null;
+      ADDRESS_POST_CODE_OUT = null; ADDRESS_CITY_OUT = null;
+      ADDRESS_COUNTRY_OUT = null; ADDRESS_ID_USER_INSERT = null;
+      ADDRESS_ID_USER_MODIF_OUT = null; ADDRESS_MODIF_TIME_OUT = null;
+      ADDRESS_IS_DELETED_OUT = null;
     end
   end
 end^
@@ -1086,14 +1316,15 @@ begin
       end
 
       SELECT
-        CODE_OUT, NAME_OUT, NIP_OUT, PHONE_NO_OUT, ID_ADDRESS_OUT
+        CUST_CODE_OUT, CUST_NAME_OUT, CUST_NIP_OUT, CUST_PHONE_NO_OUT, CUST_ID_ADDRESS_OUT
       FROM get_customers(:id_customer_in, :id_location_in)
       INTO
         :tmp_customer_code, :tmp_customer_name, :tmp_customer_nip, :tmp_customer_phone_no,
         :tmp_id_address;
 
       SELECT
-        STREET_OUT, HOUSE_NO_OUT, LOCAL_NO_OUT, POST_CODE_OUT, CITY_OUT, COUNTRY_OUT
+        ADDRESS_STREET_OUT, ADDRESS_HOUSE_NO_OUT, ADDRESS_LOCAL_NO_OUT, ADDRESS_POST_CODE_OUT,
+        ADDRESS_CITY_OUT, ADDRESS_COUNTRY_OUT
       FROM get_addresses(:tmp_id_address)
       INTO
         :tmp_address_street, :tmp_address_house_no, :tmp_address_local_no, :tmp_address_post_code,
@@ -1108,7 +1339,7 @@ begin
       end
 
       SELECT
-        CODE_OUT, NAME_OUT, PRICE_OUT
+        PROD_CODE_OUT, PROD_NAME_OUT, PROD_PRICE_OUT
       FROM get_products(:id_product_in, :id_location_in)
       INTO
         :tmp_product_code, :tmp_product_name, :tmp_product_price;

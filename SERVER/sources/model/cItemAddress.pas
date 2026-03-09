@@ -109,13 +109,13 @@ end;
 
 procedure TItemAddress.FromQuery(pAddressQuery: TCustomUniDataSet);
 begin
-  Self.Street := pAddressQuery.FieldByName('STREET_OUT').AsString;
-  Self.HouseNo := pAddressQuery.FieldByName('HOUSE_NO_OUT').AsString;
-  Self.LocalNo := pAddressQuery.FieldByName('LOCAL_NO_OUT').AsString;
-  Self.PostCode := pAddressQuery.FieldByName('POST_CODE_OUT').AsString;
-  Self.City := pAddressQuery.FieldByName('CITY_OUT').AsString;
-  Self.Country := pAddressQuery.FieldByName('COUNTRY_OUT').AsString;
-  Self.Id := pAddressQuery.FieldByName('ID_OUT').AsInteger;
+  Self.Street := pAddressQuery.FieldByName('ADDRESS_STREET_OUT').AsString;
+  Self.HouseNo := pAddressQuery.FieldByName('ADDRESS_HOUSE_NO_OUT').AsString;
+  Self.LocalNo := pAddressQuery.FieldByName('ADDRESS_LOCAL_NO_OUT').AsString;
+  Self.PostCode := pAddressQuery.FieldByName('ADDRESS_POST_CODE_OUT').AsString;
+  Self.City := pAddressQuery.FieldByName('ADDRESS_CITY_OUT').AsString;
+  Self.Country := pAddressQuery.FieldByName('ADDRESS_COUNTRY_OUT').AsString;
+  Self.Id := pAddressQuery.FieldByName('ADDRESS_ID_OUT').AsInteger;
 end;
 
 function TItemAddress.GetCity: String;

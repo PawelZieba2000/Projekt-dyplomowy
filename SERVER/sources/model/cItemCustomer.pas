@@ -107,13 +107,13 @@ end;
 
 procedure TItemCustomer.FromQuery(pCustomerQuery: TCustomUniDataSet);
 begin
-  Self.Name := pCustomerQuery.FieldByName('NAME_OUT').AsString;
-  Self.Code := pCustomerQuery.FieldByName('CODE_OUT').AsString;
-  Self.NIP := pCustomerQuery.FieldByName('NIP_OUT').AsString;
-  Self.PhoneNo := pCustomerQuery.FieldByName('PHONE_NO_OUT').AsString;
-  Self.Id := pCustomerQuery.FieldByName('ID_OUT').AsInteger;
+  Self.Name := pCustomerQuery.FieldByName('CUST_NAME_OUT').AsString;
+  Self.Code := pCustomerQuery.FieldByName('CUST_CODE_OUT').AsString;
+  Self.NIP := pCustomerQuery.FieldByName('CUST_NIP_OUT').AsString;
+  Self.PhoneNo := pCustomerQuery.FieldByName('CUST_PHONE_NO_OUT').AsString;
+  Self.Id := pCustomerQuery.FieldByName('CUST_ID_OUT').AsInteger;
   Self.LocationId := pCustomerQuery.FieldByName('').AsInteger;
-  Self.Address.id := pCustomerQuery.FieldByName('ID_ADDRESS_OUT').AsInteger;
+  Self.Address.id := pCustomerQuery.FieldByName('CUST_ID_ADDRESS_OUT').AsInteger;
 
   var tmpAddress : TItemAddress := nil;
   try

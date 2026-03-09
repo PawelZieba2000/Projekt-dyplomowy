@@ -4,7 +4,7 @@ interface
 
 uses
   OverbyteIcsSuperObject, cItemBase, cItemProduct, cItemCustomer, cItemUser,
-  cTypes;
+  cTypes, Uni;
 
 type
   TItemWeighing = class(TItemBase)
@@ -95,8 +95,10 @@ type
 
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pWeighingJson : ISuperObject); reintroduce;
+      procedure FromQuery(pWeighingQuery : TCustomUniDataSet);
 
       class function JsonToWeighing(pWeighingJson : ISuperObject) : TItemWeighing;
+      class function QueryToWeighing(pWeighingQuery : TCustomUniDataSet) : TItemWeighing;
 
       constructor Create(); overload;
       destructor Destroy(); override;
@@ -152,6 +154,23 @@ begin
   Self.Product.FromJson(pWeighingJson.O[jf_product]);
 
   inherited FromJson(pWeighingJson);
+end;
+
+procedure TItemWeighing.FromQuery(pWeighingQuery: TCustomUniDataSet);
+begin
+  Self.Id := pWeighingQuery.FieldByName('ID_OUT').AsInteger;
+  Self.WeighingNo := pWeighingQuery.FieldByName('WEIGHING_NO_OUT').AsString;
+  Self.MassIn := pWeighingQuery.FieldByName('MASS_IN_OUT').AsFloat;
+  Self.MassOut := pWeighingQuery.FieldByName('MASS_OUT_OUT').AsFloat;
+  Self.DateIn := pWeighingQuery.FieldByName('DATE_IN_OUT').AsDateTime;
+  Self.DateOut := pWeighingQuery.FieldByName('DATE_OUT_OUT').AsDateTime;
+  Self.CarNo := pWeighingQuery.FieldByName('CAR_NO_OUT').AsString;
+  Self.TrailerNo := pWeighingQuery.FieldByName('TRAILER_NO_OUT').AsString;
+  Self.UserIn.Id := pWeighingQuery.FieldByName('ID_USER_IN_OUT').AsInteger;
+  Self.UserOut.Id := pWeighingQuery.FieldByName('ID_USER_OUT_OUT').AsInteger;
+
+  Self.Product.FromQuery(pWeighingQuery);
+  Self.Customer.FromQuery(pWeighingQuery);
 end;
 
 function TItemWeighing.GetCarNo: String;
@@ -234,6 +253,21 @@ begin
   Result := TItemWeighing.Create;
   try
     Result.FromJson(pWeighingJson);
+  except
+    FreeAndNil(Result);
+  end;
+end;
+
+class function TItemWeighing.QueryToWeighing(
+  pWeighingQuery: TCustomUniDataSet): TItemWeighing;
+begin
+  Result := nil;
+  if not Assigned(pWeighingQuery) then
+    Exit;
+
+  Result := TItemWeighing.Create;
+  try
+    Result.FromQuery(pWeighingQuery);
   except
     FreeAndNil(Result);
   end;

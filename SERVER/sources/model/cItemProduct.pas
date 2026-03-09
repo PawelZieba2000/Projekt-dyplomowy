@@ -91,10 +91,10 @@ end;
 
 procedure TItemProduct.FromQuery(pProdQuery: TCustomUniDataSet);
 begin
-  Self.Name := pProdQuery.FieldByName('NAME_OUT').AsString;
-  Self.Code := pProdQuery.FieldByName('CODE_OUT').AsString;
-  Self.Price := pProdQuery.FieldByName('PRICE_OUT').AsFloat;
-  Self.Id := pProdQuery.FieldByName('ID_OUT').AsInteger;
+  Self.Name := pProdQuery.FieldByName('PROD_NAME_OUT').AsString;
+  Self.Code := pProdQuery.FieldByName('PROD_CODE_OUT').AsString;
+  Self.Price := pProdQuery.FieldByName('PROD_PRICE_OUT').AsFloat;
+  Self.Id := pProdQuery.FieldByName('PROD_ID_OUT').AsInteger;
   Self.LocationId := pProdQuery.FieldByName('').AsInteger;
 end;
 
