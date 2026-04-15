@@ -34,10 +34,16 @@ type
       FApPort : Integer;
       FApiLogPath : String;
       FApiUseSSL : Boolean;
+      FApiCertFile : String;
+      FApiRootCertFile : String;
+      FApiKeyFile : String;
     public
       property ApiPort : Integer read FApPort write FApPort;
       property ApiLogPath : String read FApiLogPath write FApiLogPath;
       property ApiUseSSL : Boolean read FApiUseSSL write FApiUseSSL;
+      property ApiCertFile : String read FApiCertFile write FApiCertFile;
+      property ApiRootCertFile : String read FApiRootCertFile write FApiRootCertFile;
+      property ApiKeyFile : String read FApiKeyFile write FApiKeyFile;
 
       procedure SetDefaultValues();
 
@@ -65,6 +71,9 @@ begin
   Self.ApiPort := 0;
   Self.ApiLogPath := '';
   Self.ApiUseSSL := False;
+  Self.ApiCertFile := '';
+  Self.ApiRootCertFile := '';
+  Self.ApiKeyFile := '';
 end;
 
 { TDataBaseConfig }

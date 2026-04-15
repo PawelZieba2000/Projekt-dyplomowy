@@ -27,13 +27,18 @@ type
       function GetCustomers(pCustomerList : TObjectList<TItemCustomer>) : TApiResponse;
       function GetWeighings(pWeighingList : TObjectList<TItemWeighing>; const pSearchFilter : TSearchFilters) : TApiResponse;
       function GetWeighingData(const pIdErpWeighing : Integer) : TApiResponse;
-      function PostWeighing(const pWeighing : TItemWeighing) : TApiResponse;
+      function PostWeighing(pWeighing : TItemWeighing) : TApiResponse;
+      function CheckApi(const pConnConfig : TRestClientConfig) : TApiResponse;
+
+      constructor Create(); overload;
+      destructor Destroy(); override;
   end;
 
 implementation
 
 uses
-  System.SysUtils, IdURI, cManagerUser, IdSSLOpenSSL, IdLogFile, uConsts;
+  System.SysUtils, IdURI, cManagerUser, IdSSLOpenSSL, IdLogFile, uConsts,
+  cManagerConfig, System.StrUtils;
 
 
 
@@ -94,6 +99,87 @@ begin
   end;
 end;
 
+function TRestClientApi.CheckApi(const pConnConfig : TRestClientConfig): TApiResponse;
+begin
+  Result.ResponseCode := 0;
+
+  if not Assigned(pConnConfig) then
+  begin
+    Result.ErrMsg := Self.ClassName + '.CheckApi Error: config not assigned';
+    Exit;
+  end;
+
+  Self.FRestConfig := pConnConfig;
+
+  var idHttp := TIdHttp.Create(nil);
+  try
+    Self.PrepareIdHttp(idHttp, API_END_POINT_CHECK_API);
+  except
+    on E: Exception do
+    begin
+      Self.FreeIdHttp(idHttp);
+      E.Message := Self.ClassName + '.CheckApi Error inside PrepareIdHttp:' + sLineBreak +
+                   E.Message;
+
+      Result.ErrMsg := E.Message;
+    end;
+  end;
+
+  idHttp.Request.Username := '';
+  idHttp.Request.Password := '';
+  idHttp.Request.BasicAuthentication := False;
+
+  var outputStream : TStringStream := TStringStream.Create();
+  try
+    idHttp.Get(Self.FUrl, outputStream);
+  except
+    on E: Exception do
+    begin
+      Self.FreeIdHttp(idHttp);
+      outputStream.Free;
+      E.Message := Self.ClassName + '.CheckApi Error inside idHttp.Get:' + sLineBreak +
+                   E.Message;
+
+      Result.ErrMsg := E.Message;
+      Exit;
+    end;
+  end;
+
+  var reqResult : ISuperObject := nil;
+  try
+    try
+      reqResult := Self.GetResult(idHttp, outputStream);
+    except
+      on E: Exception do
+      begin
+        E.Message := Self.ClassName + '.CheckApi Error inside GetResult:' + sLineBreak +
+                     E.Message;
+
+        Result.ErrMsg := E.Message;
+        Exit;
+      end;
+    end;
+
+    Result.ResponseCode := idHttp.ResponseCode;
+  finally
+    Self.FreeIdHttp(idHttp);
+    outputStream.Free;
+  end;
+end;
+
+constructor TRestClientApi.Create;
+begin
+  inherited Create();
+
+  Self.FRestConfig := TManagerConfig.Instance.RestClientConfig;
+end;
+
+destructor TRestClientApi.Destroy;
+begin
+  Self.FRestConfig := nil;
+  inherited;
+end;
+
 procedure TRestClientApi.FreeIdHttp(pIdHttp: TIdHttp);
 begin
   if not Assigned(pIdHttp) then
@@ -116,12 +202,14 @@ end;
 
 function TRestClientApi.GetCustomers(
   pCustomerList: TObjectList<TItemCustomer>): TApiResponse;
+const
+  JF_CUSTOMERS : String = 'customers';
 begin
   Result.ResponseCode := 0;
 
   if not Assigned(pCustomerList) then
   begin
-    Result.ErrMsg := Self.ClassName + '.GetCustomers Error: user not assigned';
+    Result.ErrMsg := Self.ClassName + '.GetCustomers Error: Customer list not assigned';
     Exit;
   end;
 
@@ -177,7 +265,7 @@ begin
     outputStream.Free;
   end;
 
-  var customerArrJson : TSuperArray := reqResult.AsArray;
+  var customerArrJson : TSuperArray := reqResult.A[JF_CUSTOMERS];
   if not Assigned(customerArrJson) then
   begin
     Result.ResponseCode := 0;
@@ -199,12 +287,14 @@ end;
 
 function TRestClientApi.GetProducts(
   pProductList: TObjectList<TItemProduct>): TApiResponse;
+const
+  JF_PRODUCTS : String = 'products';
 begin
   Result.ResponseCode := 0;
 
   if not Assigned(pProductList) then
   begin
-    Result.ErrMsg := Self.ClassName + '.GetProducts Error: user not assigned';
+    Result.ErrMsg := Self.ClassName + '.GetProducts Error: Product list not assigned';
     Exit;
   end;
 
@@ -260,7 +350,7 @@ begin
     outputStream.Free;
   end;
 
-  var prodArrJson : TSuperArray := reqResult.AsArray;
+  var prodArrJson : TSuperArray := reqResult.A[JF_PRODUCTS];
   if not Assigned(prodArrJson) then
   begin
     Result.ResponseCode := 0;
@@ -315,12 +405,13 @@ function TRestClientApi.GetWeighings(pWeighingList: TObjectList<TItemWeighing>;
 const
   jf_filter_date_start : String = 'date_start';
   jf_filter_date_stop : String = 'date_stop';
+  JF_WEIGHINGS : String = 'weighings';
 begin
   Result.ResponseCode := 0;
 
   if not Assigned(pWeighingList) then
   begin
-    Result.ErrMsg := Self.ClassName + '.GetWeighings Error: user not assigned';
+    Result.ErrMsg := Self.ClassName + '.GetWeighings Error: Weighing list not assigned';
     Exit;
   end;
 
@@ -383,7 +474,7 @@ begin
     outputStream.Free;
   end;
 
-  var weighingArrJson : TSuperArray := reqResult.AsArray;
+  var weighingArrJson : TSuperArray := reqResult.A[JF_WEIGHINGS];
   if not Assigned(weighingArrJson) then
   begin
     Result.ResponseCode := 0;
@@ -458,6 +549,9 @@ begin
   try
     try
       reqResult := Self.GetResult(idHttp, outputStream);
+      pUser.Id := reqResult.I['user_id'];
+      pUser.FirstName := reqResult.S['user_f_name'];
+      pUser.LastName := reqResult.S['user_l_name'];
     except
       on E: Exception do
       begin
@@ -476,10 +570,90 @@ begin
   end;
 end;
 
-function TRestClientApi.PostWeighing(
-  const pWeighing: TItemWeighing): TApiResponse;
+function TRestClientApi.PostWeighing(pWeighing: TItemWeighing): TApiResponse;
+const
+  JF_MESSAGE : String = 'message';
+  JF_WEIGHING : String = 'weighing';
 begin
+  Result.ResponseCode := 0;
 
+  if not Assigned(pWeighing) then
+  begin
+    Result.ErrMsg := Self.ClassName + '.PostWeighing Error: Weighing item not assigned';
+    Exit;
+  end;
+
+  var idHttp := TIdHttp.Create(nil);
+  try
+    Self.PrepareIdHttp(idHttp, API_END_POINT_SEND_WEIGHING);
+  except
+    on E: Exception do
+    begin
+      Self.FreeIdHttp(idHttp);
+      E.Message := Self.ClassName + '.PostWeighing Error inside PrepareIdHttp:' + sLineBreak +
+                   E.Message;
+
+      Result.ErrMsg := E.Message;
+    end;
+  end;
+
+  var iReqBody : ISuperObject := pWeighing.ToJson();
+
+  var inputStream : TStringStream := TStringStream.Create(iReqBody.AsJSon(True));
+  var outputStream : TStringStream := TStringStream.Create();
+  try
+    idHttp.Post(Self.FUrl, inputStream, outputStream);
+  except
+    on E: Exception do
+    begin
+      Self.FreeIdHttp(idHttp);
+      inputStream.Free;
+      outputStream.Free;
+      E.Message := Self.ClassName + '.PostWeighing Error inside idHttp.Get:' + sLineBreak +
+                   E.Message;
+
+      Result.ErrMsg := E.Message;
+      Exit;
+    end;
+  end;
+
+  var reqResult : ISuperObject := nil;
+  try
+    try
+      reqResult := Self.GetResult(idHttp, outputStream);
+    except
+      on E: Exception do
+      begin
+        E.Message := Self.ClassName + '.PostWeighing Error inside GetResult:' + sLineBreak +
+                     E.Message;
+
+        Result.ErrMsg := E.Message;
+        Exit;
+      end;
+    end;
+
+    var weighingJson : ISuperObject := reqResult.O[JF_WEIGHING];
+    var errMsg : String := reqResult.S[JF_MESSAGE];
+    if not Assigned(weighingJson) then
+    begin
+      Result.ResponseCode := 0;
+      Result.ErrMsg := Self.ClassName + '.PostWeighing Error: request result not assigned: ' + IfThen(not errMsg.IsEmpty, sLineBreak + errMsg);
+      Exit;
+    end;
+
+    var tmpWeighing : TItemWeighing := TItemWeighing.JsonToWeighing(weighingJson);
+    try
+      pWeighing.AssignValues(tmpWeighing);
+    finally
+      tmpWeighing.Free;
+    end;
+
+    Result.ResponseCode := idHttp.ResponseCode;
+  finally
+    Self.FreeIdHttp(idHttp);
+    inputStream.Free;
+    outputStream.Free;
+  end;
 end;
 
 end.

@@ -32,6 +32,7 @@ type
     procedure gGridListTableView1CellDblClick(Sender: TcxCustomGridTableView;
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
+    procedure actRefreshExecute(Sender: TObject);
   private
     FCustomer: TItemCustomer;
 
@@ -60,6 +61,8 @@ begin
 
   Self.FCustomer := nil;
   Self.gGridListTableView1.DataController.CustomDataSource := TManagerCustomers.Instance.CustomersDS;
+  gGridListTableView1.OptionsView.CellAutoHeight := False;
+  actRefreshExecute(nil);
 end;
 
 procedure TFormCustomerList.actOkExecute(Sender: TObject);
@@ -69,6 +72,12 @@ begin
     Self.SelectCustomer;
     Self.ModalResult := mrOk;
   end;
+end;
+
+procedure TFormCustomerList.actRefreshExecute(Sender: TObject);
+begin
+  TManagerCustomers.Instance.GetCustomers;
+  Self.gGridListTableView1.DataController.CustomDataSource.DataChanged;
 end;
 
 constructor TFormCustomerList.Create(AOwner: TComponent;

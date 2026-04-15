@@ -117,7 +117,8 @@ implementation
 
 uses
   uConsts, cManagerScale, frmAppMessage, cTypes, cHelpFunctions, cItemCustomer,
-  cItemProduct, frmCustomerList, frmProductList, frmWeighingList;
+  cItemProduct, frmCustomerList, frmProductList, frmWeighingList,
+  cManagerWeighings, cManagerUser;
 
 {$R *.dfm}
 
@@ -143,14 +144,43 @@ end;
 
 procedure TFormWeighing.actDoWeighingExecute(Sender: TObject);
 begin
-  inherited;
-//
+  if not Self.ValidateWeighingData() then
+    Exit;
+
+  Self.AssignDataToWeighing();
+
+  var res : TApiResponse;
+  try
+    res := TManagerWeighings.Instance.DoWeighing(Self.FWeighingItem);
+
+    if (res.ResponseCode <> 200) or (not res.ErrMsg.IsEmpty) then
+      raise Exception.Create(res.ErrMsg);
+  except
+    on E: Exception do begin
+      TFormAppMessage.ShowError(E.Message);
+
+      Exit;
+    end;
+  end;
+
+  TFormAppMessage.ShowInfo('Pomyœlnie wykonano wa¿enie: ' + Self.FWeighingItem.WeighingNo);
+
+  actClearDataExecute(nil);
 end;
 
 procedure TFormWeighing.actSearchCarExecute(Sender: TObject);
 begin
-  inherited;
-//
+  TManagerWeighings.Instance.GetWeighings;
+  for var I := TManagerWeighings.Instance.WeighingList.Count - 1 downto 0 do
+  begin
+    var weighing : TItemWeighing := TManagerWeighings.Instance.WeighingList[I];
+
+    if (weighing.WeighingType <> wtFirst) or (weighing.CarNo <> edtCarNo.Text) then
+      Continue;
+
+    Self.FWeighingItem.AssignValues(weighing);
+    Self.FillFormData;
+  end;
 end;
 
 procedure TFormWeighing.actSelectCutomerExecute(Sender: TObject);
@@ -210,6 +240,29 @@ begin
   Self.FWeighingItem.Product.AssignValues(product);
 
   Self.FWeighingItem.WeighingType := TWeighingType.FromInteger(Self.cmbWeighingType.ItemIndex);
+  Self.FWeighingItem.CarNo := Trim(Self.edtCarNo.Text);
+  Self.FWeighingItem.TrailerNo := Trim(Self.edtTrailerNo.Text);
+
+  case Self.FWeighingItem.WeighingType of
+    wtSingle: begin
+      Self.FWeighingItem.MassIn := seTare.Value;
+      Self.FWeighingItem.MassOut := StrToIntDef(lblScaleMass.Caption, EMPTY_INT);
+      Self.FWeighingItem.UserIn.AssignValues(TManagerUser.Instance.LoggedUser);
+      Self.FWeighingItem.UserOut.AssignValues(Self.FWeighingItem.UserIn);
+      Self.FWeighingItem.DateIn := Now();
+      Self.FWeighingItem.DateOut := Self.FWeighingItem.DateIn;
+    end;
+    wtFirst: begin
+      Self.FWeighingItem.MassIn := StrToIntDef(lblScaleMass.Caption, EMPTY_INT);
+      Self.FWeighingItem.UserIn.AssignValues(TManagerUser.Instance.LoggedUser);
+      Self.FWeighingItem.DateIn := Now();
+    end;
+    wtSecond: begin
+      Self.FWeighingItem.MassOut := StrToIntDef(lblScaleMass.Caption, EMPTY_INT);
+      Self.FWeighingItem.UserOut.AssignValues(TManagerUser.Instance.LoggedUser);
+      Self.FWeighingItem.DateOut := Now();
+    end;
+  end;
 end;
 
 procedure TFormWeighing.cmbWeighingTypePropertiesChange(Sender: TObject);
@@ -217,7 +270,7 @@ begin
   var tmpWT : TWeighingType := TWeighingType.FromInteger(Self.cmbWeighingType.ItemIndex);
 
   Self.liTare.Visible := tmpWT in [wtSecond, wtSingle];
-  Self.liNetto.Visible := Self.liTare.Visible;
+  Self.lgWeighingData.Visible := Self.liTare.Visible;
 end;
 
 constructor TFormWeighing.Create(AOwner: TComponent);
@@ -281,6 +334,8 @@ begin
     Self.cmbProduct.ItemIndex := I;
     Break;
   end;
+
+  Self.seTare.Value := Self.FWeighingItem.MassIn;
 end;
 
 procedure TFormWeighing.FormActivate(Sender: TObject);

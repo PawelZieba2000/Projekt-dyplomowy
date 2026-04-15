@@ -28,11 +28,13 @@ inherited FormProductList: TFormProductList
         object clmnProdLocationId: TcxGridColumn
           Caption = 'ID ODDZIA'#321'U'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnProdModifDT: TcxGridColumn
           Caption = 'DATA MODYFIKACJI'
           DataBinding.ValueType = 'DateTime'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
       end

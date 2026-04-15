@@ -38,7 +38,7 @@ var
 implementation
 
 uses
-  frmConfig, cManagerUser, cItemUser, cHelpFunctions;
+  frmConfig, cManagerUser, cItemUser, cHelpFunctions, frmAppMessage;
 
 {$R *.dfm}
 
@@ -54,11 +54,12 @@ begin
   tmpUser.Login := edtUserName.Text;
   tmpUser.Password := edtPassword.Text;
   try
-    if true {pomyslnie zalogowano} then
+    if TManagerUser.Instance.CheckUser(tmpUser) then
     begin
       TManagerUser.Instance.LoggedUser.AssignValues(tmpUser);
       Self.ModalResult := mrOk;
-    end;
+    end else
+      TFormAppMessage.ShowWarning('B³êdne dane logowania');
   finally
     tmpUser.Free;
   end;

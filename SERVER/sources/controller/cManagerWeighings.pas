@@ -30,7 +30,7 @@ type
 implementation
 
 uses
-  System.SysUtils, uModDatabase, Uni, cManagerUser;
+  System.SysUtils, uModDatabase, Uni, cManagerUser, cTypes;
 
 { TManagerWeighings }
 
@@ -76,9 +76,9 @@ begin
 
       while not query.Eof do
       begin
-        //var tmpWeighing : TItemWeighing := TItemWeighing.QueryToWeighing(query);
-        //if Assigned(tmpWeighing) then
-        //  Self.FWeighingList.Add(tmpWeighing);
+        var tmpWeighing : TItemWeighing := TItemWeighing.QueryToWeighing(query);
+        if Assigned(tmpWeighing) then
+          Self.FWeighingList.Add(tmpWeighing);
 
         query.Next;
       end;
@@ -111,7 +111,7 @@ begin
     try
       ModuleDataBase.PrepareStoredProcedure(storedProc, 'INSERT_UPDATE_WEIGHING', transaction);
 
-      storedProc.ParamByName('ID_IN').Value := pWeighing.Id;
+      storedProc.ParamByName('ID_IN').Value := pWeighing.IdErp;
       storedProc.ParamByName('CAR_NO_IN').Value := pWeighing.CarNo;
       storedProc.ParamByName('TRAILER_NO_IN').Value := pWeighing.TrailerNo;
       storedProc.ParamByName('MASS_IN_IN').Value := pWeighing.MassIn;
@@ -119,8 +119,8 @@ begin
       storedProc.ParamByName('MASS_OUT_IN').Value := pWeighing.MassOut;
       storedProc.ParamByName('DATE_OUT_IN').Value := pWeighing.DateOut;
       storedProc.ParamByName('WEIGHING_TYPE_IN').Value := pWeighing.WeighingType.ToInteger;
-      storedProc.ParamByName('ID_CUSTOMER_IN').Value := pWeighing.Customer.Id;
-      storedProc.ParamByName('ID_PRODUCT_IN').Value := pWeighing.Product.Id;
+      storedProc.ParamByName('ID_CUSTOMER_IN').Value := pWeighing.Customer.IdErp;
+      storedProc.ParamByName('ID_PRODUCT_IN').Value := pWeighing.Product.IdErp;
       storedProc.ParamByName('ID_USER_IN_IN').Value := pWeighing.UserIn.Id;
       storedProc.ParamByName('ID_USER_OUT_IN').Value := pWeighing.UserOut.Id;
       storedProc.ParamByName('ID_LOCATION_IN').Value := pWeighing.LocationId;
@@ -128,10 +128,12 @@ begin
 
       storedProc.ExecProc;
 
-      if not storedProc.FieldByName('ERROR_CODE_OUT').IsNull then
+      var resCode : Integer := storedProc.ParamByName('ERROR_CODE_OUT').AsInteger;
+      if resCode <> 1 then
         raise Exception.Create('Weighing insert or update failure');
 
-      pWeighing.Id := storedProc.FieldByName('ID_OUT').AsInteger;
+      pWeighing.Id := storedProc.ParamByName('ID_OUT').AsInteger;
+      pWeighing.WeighingNo := storedProc.ParamByName('weighing_no_out').AsString;
 
       transaction.Commit;
     except

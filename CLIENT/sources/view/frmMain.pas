@@ -62,7 +62,9 @@ implementation
 
 uses
   frmLogin, frmConfig, cHelpFunctions, System.StrUtils, cManagerUser, uConsts,
-  cManagerConfig, frmWeighing, frmWeighingList, frmCustomerList, frmProductList;
+  cManagerConfig, frmWeighing, frmWeighingList, frmCustomerList, frmProductList,
+  cManagerApiService, cManagerCustomers, cManagerProducts, cManagerScale,
+  cManagerWeighings;
 
 {$R *.dfm}
 
@@ -106,6 +108,9 @@ end;
 procedure TFormMain.FormActivate(Sender: TObject);
 begin
   actLoginExecute(nil);
+  TManagerProducts.Instance.GetProducts;
+  TManagerCustomers.Instance.GetCustomers;
+  TManagerWeighings.Instance.GetWeighings;
 end;
 
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -117,12 +122,22 @@ procedure TFormMain.FormCreate(Sender: TObject);
 begin
   TManagerConfig.Instance.LoadConfig();
   TManagerUser.Instance;
+  //TManagerScale.Instance;
+  TManagerWeighings.Instance;
+  TManagerProducts.Instance;
+  TManagerCustomers.Instance;
+  TManagerApiService.Instance;
 end;
 
 procedure TFormMain.FormDestroy(Sender: TObject);
 begin
   TManagerConfig.ReleaseInstance;
   TManagerUser.ReleaseInstance;
+  TManagerScale.ReleaseInstance;
+  TManagerWeighings.ReleaseInstance;
+  TManagerProducts.ReleaseInstance;
+  TManagerCustomers.ReleaseInstance;
+  TManagerApiService.ReleaseInstance;
 end;
 
 end.

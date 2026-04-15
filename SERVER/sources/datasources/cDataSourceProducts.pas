@@ -93,7 +93,7 @@ begin
     Exit;
 
   var product : TItemProduct := Self.FProductList[recordHanleInt];
-  var columnID : Integer := GetDefaultItemID(recordHanleInt);
+  var columnID : Integer := GetDefaultItemID(Integer(AItemHandle));
 
   case columnID of
     0 : Result := product.IdErp;

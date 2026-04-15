@@ -28,6 +28,7 @@ type
         jf_date_out : String = 'date_out';
         jf_car_no : String = 'car_no';
         jf_trailer_no : String = 'trailer_no';
+        jf_weighing_type : String = 'weighing_type';
       {$ENDREGION}
     private
       FCustomer : TItemCustomer;
@@ -143,6 +144,7 @@ begin
   Self.DateOut := pWeighingJson.DT[jf_date_out];
   Self.CarNo := pWeighingJson.S[jf_car_no];
   Self.TrailerNo := pWeighingJson.S[jf_trailer_no];
+  Self.WeighingType := TWeighingType.FromInteger(pWeighingJson.I[jf_weighing_type]);
   Self.UserIn.Id := pWeighingJson.I[jf_user_in_id];
   Self.UserIn.FirstName := pWeighingJson.S[jf_user_in_fname];
   Self.UserIn.LastName := pWeighingJson.S[jf_user_in_lname];
@@ -158,7 +160,7 @@ end;
 
 procedure TItemWeighing.FromQuery(pWeighingQuery: TCustomUniDataSet);
 begin
-  Self.Id := pWeighingQuery.FieldByName('ID_OUT').AsInteger;
+  Self.IdErp := pWeighingQuery.FieldByName('ID_OUT').AsInteger;
   Self.WeighingNo := pWeighingQuery.FieldByName('WEIGHING_NO_OUT').AsString;
   Self.MassIn := pWeighingQuery.FieldByName('MASS_IN_OUT').AsFloat;
   Self.MassOut := pWeighingQuery.FieldByName('MASS_OUT_OUT').AsFloat;
@@ -170,7 +172,8 @@ begin
   Self.UserOut.Id := pWeighingQuery.FieldByName('ID_USER_OUT_OUT').AsInteger;
 
   Self.Product.FromQuery(pWeighingQuery);
-  Self.Customer.FromQuery(pWeighingQuery);
+  Self.Customer.FromQuery(pWeighingQuery, True);
+  Self.Customer.Address.FromQuery(pWeighingQuery);
 end;
 
 function TItemWeighing.GetCarNo: String;
@@ -358,6 +361,7 @@ begin
   Result.DT[jf_date_out] := Self.DateOut;
   Result.S[jf_car_no] := Self.CarNo;
   Result.S[jf_trailer_no] := Self.TrailerNo;
+  Result.I[jf_weighing_type] := Self.WeighingType.ToInteger;
 end;
 
 end.

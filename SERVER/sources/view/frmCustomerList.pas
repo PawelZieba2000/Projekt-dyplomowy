@@ -32,6 +32,10 @@ type
     procedure gGridListTableView1CellDblClick(Sender: TcxCustomGridTableView;
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRemoveExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
   private
     FCustomer: TItemCustomer;
 
@@ -50,7 +54,7 @@ var
 implementation
 
 uses
-  cHelpFunctions, cManagerCustomers;
+  cHelpFunctions, cManagerCustomers, cTypes, frmCustomerAddEdit, frmAppMessage;
 
 {$R *.dfm}
 
@@ -60,6 +64,40 @@ begin
 
   Self.FCustomer := nil;
   Self.gGridListTableView1.DataController.CustomDataSource := TManagerCustomers.Instance.CustomersDS;
+  gGridListTableView1.OptionsView.CellAutoHeight := False;
+  actRefreshExecute(nil);
+end;
+
+procedure TFormCustomerList.actAddExecute(Sender: TObject);
+begin
+  var customer : TItemCustomer := TItemCustomer.Create();
+
+  if TFormCustomerAddEdit.CreateAndShowModal(nil, customer, fetAddNew) = mrOk then
+    TManagerCustomers.Instance.InsertUpdateCustomer(customer)
+  else
+    customer.Free;
+end;
+
+procedure TFormCustomerList.actEditExecute(Sender: TObject);
+begin
+  if (not Assigned(gGridListTableView1.Controller.FocusedRow))
+     or (gGridListTableView1.Controller.FocusedRow is TcxGridFilterRow)
+  then
+    Exit;
+
+  var tmpID : Integer := gGridListTableView1.Controller.FocusedRow.Values[clmnIdErp.Index];
+  for var customer : TItemCustomer in TManagerCustomers.Instance.CustomerList do
+  begin
+    if tmpID <> customer.Id then
+      Continue;
+
+    if TFormCustomerAddEdit.CreateAndShowModal(nil, customer, fetEdit) <> mrOk then
+      Exit;
+
+    TManagerCustomers.Instance.InsertUpdateCustomer(customer);
+    actRefreshExecute(nil);
+    Break;
+  end;
 end;
 
 procedure TFormCustomerList.actOkExecute(Sender: TObject);
@@ -69,6 +107,36 @@ begin
     Self.SelectCustomer;
     Self.ModalResult := mrOk;
   end;
+end;
+
+procedure TFormCustomerList.actRefreshExecute(Sender: TObject);
+begin
+  TManagerCustomers.Instance.GetCustomersFromDb;
+  Self.gGridListTableView1.DataController.CustomDataSource.DataChanged;
+end;
+
+procedure TFormCustomerList.actRemoveExecute(Sender: TObject);
+begin
+  var tmpID : Integer := gGridListTableView1.Controller.FocusedRow.Values[clmnIdErp.Index];
+  var customer : TItemCustomer := nil;
+  for var tmpCustomer : TItemCustomer in TManagerCustomers.Instance.CustomerList do
+  begin
+    if tmpID <> tmpCustomer.Id then
+      Continue;
+
+    customer := tmpCustomer;
+    Break;
+  end;
+
+  if not Assigned(customer) then
+    Exit;
+
+  if not TFormAppMessage.ShowQusetion('Czy na pewno chcesz usun¹æ kontrahenta ' + customer.Name + '?') then
+    Exit;
+
+  customer.IsDeleted := True;
+  TManagerCustomers.Instance.InsertUpdateCustomer(customer);
+  actRefreshExecute(nil);
 end;
 
 constructor TFormCustomerList.Create(AOwner: TComponent;

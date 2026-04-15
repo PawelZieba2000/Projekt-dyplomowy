@@ -52,6 +52,7 @@ inherited FormWeighingList: TFormWeighingList
         object clmnCustomerIdErp: TcxGridColumn
           Caption = 'ID KONTRAHENT'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnCustomerCode: TcxGridColumn
@@ -65,6 +66,7 @@ inherited FormWeighingList: TFormWeighingList
         object clmnProductIdErp: TcxGridColumn
           Caption = 'ID PRODUKTU'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnProductCode: TcxGridColumn
@@ -77,30 +79,36 @@ inherited FormWeighingList: TFormWeighingList
         end
         object clmnUserInName: TcxGridColumn
           Caption = 'UZYTKOWNIK WJAZD'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnUserInId: TcxGridColumn
           Caption = 'UZYTKOWNIK WJAZD ID'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnUserOutName: TcxGridColumn
           Caption = 'UZYTKOWNIK WYJAZD'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnUserOutId: TcxGridColumn
           Caption = 'UZYTKOWNIK WYJAZD ID'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnIsDeleted: TcxGridColumn
           Caption = 'USUNIETO'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnModifDT: TcxGridColumn
           Caption = 'DATA MODYFIKACJI'
           DataBinding.ValueType = 'DateTime'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
       end

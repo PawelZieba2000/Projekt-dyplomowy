@@ -7,7 +7,7 @@ inherited FormWeighingList: TFormWeighingList
       inherited gGridListTableView1: TcxGridTableView
         OnCellDblClick = gGridListTableView1CellDblClick
         object clmnIdErp: TcxGridColumn
-          Caption = 'ID ERP'
+          Caption = 'ID'
           DataBinding.ValueType = 'Integer'
           HeaderAlignmentHorz = taCenter
         end
@@ -52,6 +52,7 @@ inherited FormWeighingList: TFormWeighingList
         object clmnCustomerIdErp: TcxGridColumn
           Caption = 'ID KONTRAHENT'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnCustomerCode: TcxGridColumn
@@ -65,6 +66,7 @@ inherited FormWeighingList: TFormWeighingList
         object clmnProductIdErp: TcxGridColumn
           Caption = 'ID PRODUKTU'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnProductCode: TcxGridColumn
@@ -77,30 +79,36 @@ inherited FormWeighingList: TFormWeighingList
         end
         object clmnUserInName: TcxGridColumn
           Caption = 'UZYTKOWNIK WJAZD'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnUserInId: TcxGridColumn
           Caption = 'UZYTKOWNIK WJAZD ID'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnUserOutName: TcxGridColumn
           Caption = 'UZYTKOWNIK WYJAZD'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnUserOutId: TcxGridColumn
           Caption = 'UZYTKOWNIK WYJAZD ID'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnIsDeleted: TcxGridColumn
           Caption = 'USUNIETO'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnModifDT: TcxGridColumn
           Caption = 'DATA MODYFIKACJI'
           DataBinding.ValueType = 'DateTime'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
       end
@@ -108,5 +116,22 @@ inherited FormWeighingList: TFormWeighingList
   end
   inherited barmngMain: TdxBarManager
     PixelsPerInch = 96
+    inherited btnRefresh: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+  end
+  inherited actlstMain: TActionList
+    inherited actAdd: TAction
+      Enabled = False
+      Visible = False
+    end
+    inherited actEdit: TAction
+      Enabled = False
+      Visible = False
+    end
+    inherited actRemove: TAction
+      Enabled = False
+      Visible = False
+    end
   end
 end

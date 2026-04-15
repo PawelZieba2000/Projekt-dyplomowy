@@ -27,6 +27,8 @@ type
       class procedure SetComboItemIndex(pCombo : TCustomComboBox; const pText : String);
 
       class function GetStringFromComCombo(const pCombo : TCustomComboBox) : String;
+
+      class function GetIPAddress(): String;
   end;
 
 implementation
@@ -34,7 +36,7 @@ implementation
 uses
   System.SysUtils, Vcl.Controls, Vcl.ActnList, System.IOUtils, Vcl.Forms,
   cxFilter, cTypes, cItemProduct, cManagerProducts, cItemCustomer,
-  cManagerCustomers;
+  cManagerCustomers, IdStack;
 
 { THelpFunctions }
 
@@ -51,6 +53,16 @@ end;
 class function THelpFunctions.GetCurrentDirectory: String;
 begin
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName));
+end;
+
+class function THelpFunctions.GetIPAddress: String;
+begin
+  TIdStack.IncUsage;
+  try
+    Result := GStack.LocalAddress;
+  finally
+    TIdStack.DecUsage;
+  end;
 end;
 
 class function THelpFunctions.GetStringFromComCombo(

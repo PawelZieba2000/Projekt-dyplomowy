@@ -1,0 +1,239 @@
+inherited FormUserAddEdit: TFormUserAddEdit
+  ClientHeight = 257
+  ClientWidth = 402
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 418
+  ExplicitHeight = 296
+  TextHeight = 15
+  inherited lcMain: TdxLayoutControl
+    Width = 402
+    Height = 257
+    ExplicitWidth = 402
+    ExplicitHeight = 257
+    inherited btnOk: TcxButton
+      Left = 233
+      Top = 220
+      TabOrder = 4
+      ExplicitLeft = 233
+      ExplicitTop = 220
+    end
+    inherited btnCancel: TcxButton
+      Left = 315
+      Top = 220
+      TabOrder = 5
+      ExplicitLeft = 315
+      ExplicitTop = 220
+    end
+    object edtLogin: TcxTextEdit [2]
+      Left = 68
+      Top = 74
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 0
+      Width = 322
+    end
+    object edtPassword: TcxTextEdit [3]
+      Left = 68
+      Top = 104
+      Properties.EchoMode = eemPassword
+      Properties.ShowPasswordRevealButton = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 1
+      Width = 322
+    end
+    object edtFirstName: TcxTextEdit [4]
+      Left = 68
+      Top = 134
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 2
+      Width = 322
+    end
+    object edtLastName: TcxTextEdit [5]
+      Left = 68
+      Top = 164
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 3
+      Width = 322
+    end
+    inherited lgMain: TdxLayoutGroup
+      ItemIndex = 2
+    end
+    inherited lgBottom: TdxLayoutGroup
+      Index = 3
+    end
+    inherited lgBottomButtons: TdxLayoutGroup
+      AllowRemove = False
+    end
+    inherited liOk: TdxLayoutItem
+      AllowRemove = False
+    end
+    inherited liCancel: TdxLayoutItem
+      AllowRemove = False
+    end
+    object lgTop: TdxLayoutGroup
+      Parent = lgMain
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      SizeOptions.AssignedValues = [sovSizableVert]
+      SizeOptions.SizableVert = True
+      SizeOptions.Height = 42
+      AllowRemove = False
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object lgCenter: TdxLayoutGroup
+      Parent = lgMain
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'New Group'
+      AllowRemove = False
+      ItemIndex = 3
+      ShowBorder = False
+      Index = 2
+    end
+    object imgTitle: TdxLayoutImageItem
+      Parent = lgTop
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      AllowRemove = False
+      CaptionOptions.Text = 'Image'
+      CaptionOptions.Visible = False
+      Image.SourceDPI = 96
+      Image.SourceHeight = 64
+      Image.SourceWidth = 64
+      Image.Data = {
+        3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554
+        462D38223F3E0D0A3C7376672076657273696F6E3D22312E31222069643D224C
+        617965725F312220786D6C6E733D22687474703A2F2F7777772E77332E6F7267
+        2F323030302F7376672220786D6C6E733A786C696E6B3D22687474703A2F2F77
+        77772E77332E6F72672F313939392F786C696E6B2220783D223070782220793D
+        22307078222076696577426F783D2230203020333220333222207374796C653D
+        22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
+        3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
+        303B3C7374796C6520747970653D22746578742F6373732220786D6C3A737061
+        63653D227072657365727665223E2E426C75657B66696C6C3A23313137374437
+        3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
+        423131353B7D262331333B262331303B2623393B2E5265647B66696C6C3A2344
+        31314331433B7D262331333B262331303B2623393B2E477265656E7B66696C6C
+        3A233033394332333B7D262331333B262331303B2623393B2E426C61636B7B66
+        696C6C3A233732373237323B7D262331333B262331303B2623393B2E57686974
+        657B66696C6C3A234646464646463B7D262331333B262331303B2623393B2E73
+        74307B6F7061636974793A302E353B7D262331333B262331303B2623393B2E73
+        74317B6F7061636974793A302E37353B7D262331333B262331303B2623393B2E
+        7374327B646973706C61793A6E6F6E653B7D262331333B262331303B2623393B
+        2E7374337B646973706C61793A696E6C696E653B66696C6C3A23464642313135
+        3B7D262331333B262331303B2623393B2E7374347B646973706C61793A696E6C
+        696E653B7D262331333B262331303B2623393B2E7374357B646973706C61793A
+        696E6C696E653B6F7061636974793A302E37353B7D262331333B262331303B26
+        23393B2E7374367B646973706C61793A696E6C696E653B6F7061636974793A30
+        2E353B7D262331333B262331303B2623393B2E7374377B646973706C61793A69
+        6E6C696E653B66696C6C3A233033394332333B7D262331333B262331303B2623
+        393B2E7374387B646973706C61793A696E6C696E653B66696C6C3A2344313143
+        31433B7D262331333B262331303B2623393B2E7374397B646973706C61793A69
+        6E6C696E653B66696C6C3A233131373744373B7D262331333B262331303B2623
+        393B2E737431307B646973706C61793A696E6C696E653B66696C6C3A23464646
+        4646463B7D3C2F7374796C653E0D0A3C672069643D2255736572223E0D0A0909
+        3C7061746820636C6173733D22426C61636B2220643D224D31362E322C323648
+        32762D312E3563302D372E352C352E372D352C382D382E3563302E382C312E35
+        2C322E312C342C342C3473332E322D322E352C342D3463302E372C312C312E37
+        2C312E352C322E372C312E396C302C3020202623393B2623393B632D302E352C
+        302E392D302E372C322D302E372C332E3163302C302E342C302C302E372C302E
+        312C312E314C31362E322C32364C31362E322C32367A204D392E332C31302E39
+        63302C302C302C302E312C302C302E3263302E362C322E332C322C342E392C34
+        2E372C342E3973342E322D322E362C342E372D342E3920202623393B2623393B
+        56313163312C302E312C302E362D312E312C302E392D312E364331392E382C38
+        2E392C32302C382E352C31392E392C38632D302E312D302E342D302E342D302E
+        342D302E352D302E334332312E322C322E382C31382E332C332C31382E332C33
+        5331382C302C31322E382C3043382C302C372E342C342C382E352C372E362020
+        2623393B2623393B43382E342C372E362C382E312C372E372C382C372E394337
+        2E392C382E342C382E322C382E382C382E342C392E3343382E362C392E382C38
+        2E332C31312C392E332C31302E397A222F3E0D0A09093C7061746820636C6173
+        733D2259656C6C6F772220643D224D32372C3136632D322E382C302D352C322E
+        322D352C3563302C302E362C302E312C312E322C302E332C312E374C31362C32
+        3976336834762D326832762D3268326C322E312D322E314332362E342C32362C
+        32362E372C32362C32372C323620202623393B2623393B63322E382C302C352D
+        322E322C352D355332392E382C31362C32372C31367A204D32372C3232632D30
+        2E362C302D312D302E342D312D3163302D302E362C302E342D312C312D317331
+        2C302E342C312C314332382C32312E362C32372E362C32322C32372C32327A22
+        2F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+      Index = 0
+    end
+    object liLblTitle: TdxLayoutLabeledItem
+      Parent = lgTop
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      LayoutLookAndFeel = ModDispatcher.dxLayoutSkin_Title
+      AllowRemove = False
+      CaptionOptions.Text = 'Label'
+      Index = 1
+    end
+    object sprtr1: TdxLayoutSeparatorItem
+      Parent = lgMain
+      AllowRemove = False
+      CaptionOptions.Text = 'Separator'
+      Index = 1
+    end
+    object liLogin: TdxLayoutItem
+      Parent = lgCenter
+      AlignHorz = ahClient
+      AlignVert = avTop
+      AllowRemove = False
+      CaptionOptions.Text = 'Login'
+      Control = edtLogin
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object liPassword: TdxLayoutItem
+      Parent = lgCenter
+      AlignHorz = ahClient
+      AlignVert = avTop
+      AllowRemove = False
+      CaptionOptions.Text = 'Has'#322'o'
+      Control = edtPassword
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object liFirstName: TdxLayoutItem
+      Parent = lgCenter
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'Imi'#281
+      Control = edtFirstName
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object liLastName: TdxLayoutItem
+      Parent = lgCenter
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'Nazwisko'
+      Control = edtLastName
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+  end
+  inherited barmngMain: TdxBarManager
+    PixelsPerInch = 96
+  end
+end

@@ -30,7 +30,6 @@ object FormMain: TFormMain
     TabOrder = 0
     TabStop = False
     object dxRibbonTabMain: TdxRibbonTab
-      Active = True
       Caption = 'Narz'#281'dzia g'#322#243'wne'
       Groups = <
         item
@@ -61,6 +60,15 @@ object FormMain: TFormMain
           ToolbarName = 'brWeighing'
         end>
       Index = 3
+    end
+    object dxRibbonTabServer: TdxRibbonTab
+      Active = True
+      Caption = 'Serwer'
+      Groups = <
+        item
+          ToolbarName = 'brServer'
+        end>
+      Index = 4
     end
   end
   object stsbrBottom: TdxStatusBar
@@ -111,11 +119,23 @@ object FormMain: TFormMain
       ImageIndex = 2
       OnExecute = actOpenProductsExecute
     end
-    object actOpenWeighing: TAction
-      Caption = 'Nowe wa'#380'enie'
+    object actOpenUsers: TAction
+      Caption = 'U'#380'ytkownicy'
       Enabled = False
-      ImageIndex = 4
-      OnExecute = actOpenWeighingExecute
+      ImageIndex = 17
+      OnExecute = actOpenUsersExecute
+    end
+    object actStartServer: TAction
+      Caption = 'Uruchom'
+      Enabled = False
+      ImageIndex = 18
+      OnExecute = actStartServerExecute
+    end
+    object actStopServer: TAction
+      Caption = 'Zatrzymaj'
+      Enabled = False
+      ImageIndex = 19
+      OnExecute = actStopServerExecute
     end
   end
   object barmngMain: TdxBarManager
@@ -184,6 +204,10 @@ object FormMain: TFormMain
         item
           Visible = True
           ItemName = 'btnConfig'
+        end
+        item
+          Visible = True
+          ItemName = 'btnOpenUsers'
         end>
       NotDocking = [dsNone, dsLeft, dsTop, dsRight, dsBottom]
       OneOnRow = True
@@ -237,10 +261,6 @@ object FormMain: TFormMain
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'btnOpenWeighing'
-        end
-        item
-          Visible = True
           ItemName = 'btnOpenWeighingHistory'
         end>
       NotDocking = [dsNone, dsLeft, dsTop, dsRight, dsBottom]
@@ -249,6 +269,43 @@ object FormMain: TFormMain
       UseOwnFont = False
       Visible = True
       WholeRow = False
+    end
+    object brServer: TdxBar
+      Caption = 'Serwer'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 899
+      FloatTop = 2
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'btnStartServer'
+        end
+        item
+          Visible = True
+          ItemName = 'btnStopServer'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'baredtPort'
+        end
+        item
+          Visible = True
+          ItemName = 'baredtIpAddress'
+        end
+        item
+          Visible = True
+          ItemName = 'baredtUrl'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = True
     end
     object btnLogin: TdxBarLargeButton
       Action = actLogin
@@ -262,10 +319,6 @@ object FormMain: TFormMain
       Action = actExit
       Category = 0
     end
-    object btnOpenWeighing: TdxBarLargeButton
-      Action = actOpenWeighing
-      Category = 0
-    end
     object btnOpenWeighingHistory: TdxBarLargeButton
       Action = actOpenWeighingHistory
       Category = 0
@@ -277,6 +330,53 @@ object FormMain: TFormMain
     object btnOpenProducts: TdxBarLargeButton
       Action = actOpenProducts
       Category = 0
+    end
+    object btnOpenUsers: TdxBarLargeButton
+      Action = actOpenUsers
+      Category = 0
+    end
+    object btnStartServer: TdxBarLargeButton
+      Action = actStartServer
+      Category = 0
+    end
+    object btnStopServer: TdxBarLargeButton
+      Action = actStopServer
+      Category = 0
+    end
+    object dxBarLargeButton1: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object baredtPort: TcxBarEditItem
+      Align = iaClient
+      Caption = 'Port'
+      Category = 0
+      Hint = 'Port'
+      Visible = ivAlways
+      PropertiesClassName = 'TcxSpinEditProperties'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.ReadOnly = True
+      Properties.SpinButtons.Visible = False
+    end
+    object baredtIpAddress: TcxBarEditItem
+      Align = iaClient
+      Caption = 'Adres IP'
+      Category = 0
+      Hint = 'Adres IP'
+      Visible = ivAlways
+      PropertiesClassName = 'TcxTextEditProperties'
+      Properties.ReadOnly = True
+    end
+    object baredtUrl: TcxBarEditItem
+      Align = iaClient
+      Caption = 'Adres URL'
+      Category = 0
+      Hint = 'Adres URL'
+      Visible = ivAlways
+      PropertiesClassName = 'TcxTextEditProperties'
+      Properties.ReadOnly = True
     end
   end
 end

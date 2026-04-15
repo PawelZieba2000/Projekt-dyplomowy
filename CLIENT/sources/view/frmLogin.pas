@@ -26,6 +26,7 @@ type
     procedure actOpenConfigExecute(Sender: TObject);
     procedure actCancelExecute(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,7 +39,8 @@ var
 implementation
 
 uses
-  frmConfig, cManagerUser, cItemUser, cHelpFunctions;
+  frmConfig, cManagerUser, cItemUser, cHelpFunctions, cManagerApiService,
+  frmAppMessage;
 
 {$R *.dfm}
 
@@ -54,11 +56,13 @@ begin
   tmpUser.Login := edtUserName.Text;
   tmpUser.Password := edtPassword.Text;
   try
-    if true {pomyslnie zalogowano} then
+    if TManagerApiService.Instance.ApiDoLogin(tmpUser) then
     begin
       TManagerUser.Instance.LoggedUser.AssignValues(tmpUser);
+      TFormAppMessage.ShowInfo('Pomyœlnie zalogowano operatora: ' + tmpUser.FullName);
       Self.ModalResult := mrOk;
-    end;
+    end else
+      TFormAppMessage.ShowWarning('B³êdne dane logowania');
   finally
     tmpUser.Free;
   end;
@@ -85,6 +89,11 @@ begin
   finally
     FreeAndNil(FormLogin);
   end;
+end;
+
+procedure TFormLogin.FormDestroy(Sender: TObject);
+begin
+  FormLogin := nil;
 end;
 
 end.

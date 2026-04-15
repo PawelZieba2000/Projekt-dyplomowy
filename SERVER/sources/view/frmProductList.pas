@@ -26,6 +26,10 @@ type
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
     procedure actOkExecute(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRemoveExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
   private
     FProduct: TItemProduct;
 
@@ -44,9 +48,41 @@ var
 implementation
 
 uses
-  cHelpFunctions, cManagerProducts;
+  cHelpFunctions, cManagerProducts, frmProductAddEdit, cTypes, frmAppMessage;
 
 {$R *.dfm}
+
+procedure TFormProductList.actAddExecute(Sender: TObject);
+begin
+  var tmpProduct : TItemProduct := TItemProduct.Create();
+
+  if TFormProductAddEdit.CreateAndShowModal(nil, tmpProduct, fetAddNew) = mrOk then
+    TManagerProducts.Instance.InsertUpdateProduct(tmpProduct)
+  else
+    tmpProduct.Free;
+end;
+
+procedure TFormProductList.actEditExecute(Sender: TObject);
+begin
+  if (not Assigned(gGridListTableView1.Controller.FocusedRow))
+     or (gGridListTableView1.Controller.FocusedRow is TcxGridFilterRow)
+  then
+    Exit;
+
+  var tmpID : Integer := gGridListTableView1.Controller.FocusedRow.Values[clmnIdErp.Index];
+  for var product : TItemProduct in TManagerProducts.Instance.ProductList do
+  begin
+    if tmpID <> product.Id then
+      Continue;
+
+    if TFormProductAddEdit.CreateAndShowModal(nil, product, fetEdit) <> mrOk then
+      Exit;
+
+    TManagerProducts.Instance.InsertUpdateProduct(product);
+    actRefreshExecute(nil);
+    Break;
+  end;
+end;
 
 procedure TFormProductList.actOkExecute(Sender: TObject);
 begin
@@ -57,12 +93,43 @@ begin
   end;
 end;
 
+procedure TFormProductList.actRefreshExecute(Sender: TObject);
+begin
+  TManagerProducts.Instance.GetProductsFromDb;
+  Self.gGridListTableView1.DataController.CustomDataSource.DataChanged;
+end;
+
+procedure TFormProductList.actRemoveExecute(Sender: TObject);
+begin
+  var tmpID : Integer := gGridListTableView1.Controller.FocusedRow.Values[clmnIdErp.Index];
+  var product : TItemProduct := nil;
+  for var tmpProduct : TItemProduct in TManagerProducts.Instance.ProductList do
+  begin
+    if tmpID <> tmpProduct.Id then
+      Continue;
+
+    product := tmpProduct;
+    Break;
+  end;
+
+  if not Assigned(product) then
+    Exit;
+
+  if not TFormAppMessage.ShowQusetion('Czy na pewno chcesz usun¹æ produkt ' + product.Name + '?') then
+    Exit;
+
+  product.IsDeleted := True;
+  TManagerProducts.Instance.InsertUpdateProduct(product);
+  actRefreshExecute(nil);
+end;
+
 constructor TFormProductList.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
   Self.FProduct := nil;
   Self.gGridListTableView1.DataController.CustomDataSource := TManagerProducts.Instance.ProductsDS;
+  actRefreshExecute(nil);
 end;
 
 constructor TFormProductList.Create(AOwner: TComponent; AProduct: TItemProduct);

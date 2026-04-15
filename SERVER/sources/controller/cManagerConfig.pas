@@ -13,6 +13,9 @@ type
       INI_API_KEY_PORT = 'API_PORT';
       INI_API_KEY_LOG_PATH = 'API_LOG_PATH';
       INI_API_KEY_USE_SSL = 'API_USE_SSL';
+      INI_API_KEY_CERT_FILE = 'API_CERT_FILE';
+      INI_API_KEY_ROOT_CERT_FILE = 'API_ROOT_CERT_FILE';
+      INI_API_KEY_KEY_FILE = 'API_KEY_FILE';
 
       INI_DATABASE_REGION = 'DATABASE';
       INI_DATABASE_KEY_DB_SERVER = 'DB_SERVER';
@@ -103,6 +106,9 @@ begin
       Self.RestServerConfig.ApiPort := ReadInteger(INI_API_REGION, INI_API_KEY_PORT, EMPTY_INT);
       Self.RestServerConfig.ApiLogPath := ReadString(INI_API_REGION, INI_API_KEY_LOG_PATH, EMPTY_STR);
       Self.RestServerConfig.ApiUseSSL := ReadBool(INI_API_REGION, INI_API_KEY_USE_SSL, EMPTY_BOOL);
+      Self.RestServerConfig.ApiCertFile := ReadString(INI_API_REGION, INI_API_KEY_CERT_FILE, EMPTY_STR);
+      Self.RestServerConfig.ApiRootCertFile := ReadString(INI_API_REGION, INI_API_KEY_ROOT_CERT_FILE, EMPTY_STR);
+      Self.RestServerConfig.ApiKeyFile := ReadString(INI_API_REGION, INI_API_KEY_KEY_FILE, EMPTY_STR);
 
       Self.DatabaseConfig.DbServer := ReadString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_SERVER, EMPTY_STR);
       Self.DatabaseConfig.DbPort := ReadInteger(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PORT, EMPTY_INT);
@@ -130,6 +136,9 @@ begin
       WriteInteger(INI_API_REGION, INI_API_KEY_PORT, Self.RestServerConfig.ApiPort);
       WriteString(INI_API_REGION, INI_API_KEY_LOG_PATH, Self.RestServerConfig.ApiLogPath);
       WriteBool(INI_API_REGION, INI_API_KEY_USE_SSL, Self.RestServerConfig.ApiUseSSL);
+      WriteString(INI_API_REGION, INI_API_KEY_CERT_FILE, Self.RestServerConfig.ApiCertFile);
+      WriteString(INI_API_REGION, INI_API_KEY_ROOT_CERT_FILE, Self.RestServerConfig.ApiRootCertFile);
+      WriteString(INI_API_REGION, INI_API_KEY_KEY_FILE, Self.RestServerConfig.ApiKeyFile);
 
       WriteString(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_SERVER, Self.DatabaseConfig.DbServer);
       WriteInteger(INI_DATABASE_REGION, INI_DATABASE_KEY_DB_PORT, Self.DatabaseConfig.DbPort);

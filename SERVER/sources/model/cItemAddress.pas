@@ -116,6 +116,10 @@ begin
   Self.City := pAddressQuery.FieldByName('ADDRESS_CITY_OUT').AsString;
   Self.Country := pAddressQuery.FieldByName('ADDRESS_COUNTRY_OUT').AsString;
   Self.Id := pAddressQuery.FieldByName('ADDRESS_ID_OUT').AsInteger;
+  Self.IdErp := Self.Id;
+  Self.ModificationDate := pAddressQuery.FieldByName('ADDRESS_MODIF_TIME_OUT').AsDateTime;
+  Self.IsDeleted := pAddressQuery.FieldByName('ADDRESS_IS_DELETED_OUT').AsInteger <> 0;
+  Self.IsModified := False;
 end;
 
 function TItemAddress.GetCity: String;

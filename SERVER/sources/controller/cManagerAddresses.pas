@@ -77,7 +77,7 @@ begin
       if query.Eof then
         Exit;
 
-      if query.FieldByName('ID_OUT').IsNull or (query.FieldByName('ID_OUT').Value = 0) then
+      if query.FieldByName('ADDRESS_ID_OUT').IsNull or (query.FieldByName('ADDRESS_ID_OUT').Value = 0) then
         raise Exception.Create('There is no address with id ' + pAddressId.ToString);
 
       Result := TItemAddress.QueryToAddress(query);
@@ -122,7 +122,7 @@ begin
 
       storedProc.ExecProc;
 
-      pAddress.Id := storedProc.FieldByName('ID_OUT').AsInteger;
+      pAddress.Id := storedProc.ParamByName('ID_OUT').AsInteger;
 
       transaction.Commit;
     except

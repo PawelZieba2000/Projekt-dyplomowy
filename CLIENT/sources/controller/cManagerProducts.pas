@@ -18,6 +18,8 @@ type
       property ProductList : TObjectList<TItemProduct> read FProductList;
       property ProductsDS : TDataSourceProducts read FProductsDS;
 
+      procedure GetProducts();
+
       constructor Create(); overload;
       class function Instance : TManagerProducts;
       class procedure ReleaseInstance;
@@ -27,7 +29,7 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, cManagerApiService;
 
 { TManagerProducts }
 
@@ -51,6 +53,11 @@ begin
   Self.FProductsDS.Free;
 
   inherited;
+end;
+
+procedure TManagerProducts.GetProducts;
+begin
+  TManagerApiService.Instance.GetProducts(Self.FProductList);
 end;
 
 class function TManagerProducts.Instance: TManagerProducts;

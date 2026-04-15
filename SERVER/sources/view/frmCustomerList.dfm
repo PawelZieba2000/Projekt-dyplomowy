@@ -7,7 +7,7 @@ inherited FormCustomerList: TFormCustomerList
       inherited gGridListTableView1: TcxGridTableView
         OnCellDblClick = gGridListTableView1CellDblClick
         object clmnIdErp: TcxGridColumn
-          Caption = 'ID ERP'
+          Caption = 'ID'
           DataBinding.ValueType = 'Integer'
           HeaderAlignmentHorz = taCenter
         end
@@ -50,11 +50,13 @@ inherited FormCustomerList: TFormCustomerList
         object clmnCustomerLocationId: TcxGridColumn
           Caption = 'ID ODDZIA'#321'U'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnCustomerModifDT: TcxGridColumn
           Caption = 'DATA MODYFIKACJI'
           DataBinding.ValueType = 'DateTime'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
       end
@@ -62,5 +64,17 @@ inherited FormCustomerList: TFormCustomerList
   end
   inherited barmngMain: TdxBarManager
     PixelsPerInch = 96
+    inherited btnRefresh: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+    inherited btnAddNew: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+    inherited btnEdit: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+    inherited btnRemove: TdxBarLargeButton
+      AutoGrayScale = False
+    end
   end
 end

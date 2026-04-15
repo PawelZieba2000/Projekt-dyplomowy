@@ -30,7 +30,7 @@ type
 implementation
 
 uses
-  System.SysUtils, uModDatabase, cManagerUser, Uni;
+  System.SysUtils, uModDatabase, cManagerUser, Uni, cManagerAddresses;
 
 { TManagerCustomers }
 
@@ -109,6 +109,7 @@ begin
   var storedProc : TUniStoredProc := TUniStoredProc.Create(nil);
   try
     try
+      TManagerAddresses.Instance.InsertUpdateAddress(pCustomer.Address);
       ModuleDataBase.PrepareStoredProcedure(storedProc, 'INSERT_UPDATE_CUSTOMER', transaction);
 
       storedProc.ParamByName('ID_IN').Value := pCustomer.Id;
@@ -122,7 +123,7 @@ begin
 
       storedProc.ExecProc;
 
-      pCustomer.Id := storedProc.FieldByName('ID_OUT').AsInteger;
+      pCustomer.Id := storedProc.ParamByName('ID_OUT').AsInteger;
 
       transaction.Commit;
     except

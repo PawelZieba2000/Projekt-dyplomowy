@@ -28,6 +28,7 @@ type
         jf_date_out : String = 'date_out';
         jf_car_no : String = 'car_no';
         jf_trailer_no : String = 'trailer_no';
+        jf_weighing_type : String = 'weighing_type';
       {$ENDREGION}
     private
       FCustomer : TItemCustomer;
@@ -92,6 +93,7 @@ type
       property WeighingType: TWeighingType read GetWeighingType write SetWeighingType;
 
       procedure SetDefaultValues(); reintroduce;
+      procedure AssignValues(const pSource : TItemWeighing); reintroduce;
 
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pWeighingJson : ISuperObject); reintroduce;
@@ -108,6 +110,26 @@ uses
   System.SysUtils;
 
 { TItemWeighing }
+
+procedure TItemWeighing.AssignValues(const pSource: TItemWeighing);
+begin
+  if not Assigned(pSource) then
+    Exit;
+
+  inherited AssignValues(pSource);
+
+  Self.WeighingNo := pSource.WeighingNo;
+  Self.MassIn := pSource.MassIn;
+  Self.MassOut := pSource.MassOut;
+  Self.DateIn := pSource.DateIn;
+  Self.DateOut := pSource.DateOut;
+  Self.CarNo := pSource.CarNo;
+  Self.TrailerNo := pSource.TrailerNo;
+  Self.WeighingType := pSource.WeighingType;
+
+  Self.Customer.AssignValues(pSource.Customer);
+  Self.Product.AssignValues(pSource.Product);
+end;
 
 constructor TItemWeighing.Create;
 begin
@@ -141,6 +163,7 @@ begin
   Self.DateOut := pWeighingJson.DT[jf_date_out];
   Self.CarNo := pWeighingJson.S[jf_car_no];
   Self.TrailerNo := pWeighingJson.S[jf_trailer_no];
+  Self.WeighingType := TWeighingType.FromInteger(pWeighingJson.I[jf_weighing_type]);
   Self.UserIn.Id := pWeighingJson.I[jf_user_in_id];
   Self.UserIn.FirstName := pWeighingJson.S[jf_user_in_fname];
   Self.UserIn.LastName := pWeighingJson.S[jf_user_in_lname];
@@ -324,6 +347,7 @@ begin
   Result.DT[jf_date_out] := Self.DateOut;
   Result.S[jf_car_no] := Self.CarNo;
   Result.S[jf_trailer_no] := Self.TrailerNo;
+  Result.I[jf_weighing_type] := Self.WeighingType.ToInteger;
 end;
 
 end.

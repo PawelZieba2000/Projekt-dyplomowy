@@ -52,6 +52,10 @@ type
     cmbScaleFlowControl: TComComboBox;
     cmbScaleDataBits: TComComboBox;
     cmbScaleStopBits: TComComboBox;
+    lgsTranssprotocols: TdxLayoutGroup;
+    liOpenProtoList: TdxLayoutItem;
+    actOpenProtoList: TAction;
+    btnOpenProtoList: TcxButton;
     procedure actOkExecute(Sender: TObject);
     procedure actCancelExecute(Sender: TObject);
     procedure edtbtnApiLogPathPropertiesButtonClick(Sender: TObject;
@@ -60,6 +64,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure cmbScaleConnTypePropertiesChange(Sender: TObject);
     procedure liChbScaleActiveClick(Sender: TObject);
+    procedure actOpenProtoListExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     procedure FillControls();
     function ValidateData() : Boolean;
@@ -73,7 +79,8 @@ var
 implementation
 
 uses
-  cManagerConfig, cHelpFunctions, cTypes, CPort, frmAppMessage;
+  cManagerConfig, cHelpFunctions, cTypes, CPort, frmAppMessage,
+  cItemTranssProtocol, frmProtocolsList, cManagerApiService, cConfig;
 
 {$R *.dfm}
 
@@ -81,7 +88,16 @@ uses
 
 procedure TFormConfig.actApiTestExecute(Sender: TObject);
 begin
-//
+  var restConfig : TRestClientConfig := TRestClientConfig.Create();
+  restConfig.ApiUrl := Trim(edtApiUrl.Text);
+  try
+    if TManagerApiService.Instance.CheckApi(restConfig) then
+      TFormAppMessage.ShowInfo('Nawi¹zano po³¹czenie')
+    else
+      TFormAppMessage.ShowWarning('B³êdne dane po³¹czenia');
+  finally
+    restConfig.Free;
+  end;
 end;
 
 procedure TFormConfig.actCancelExecute(Sender: TObject);
@@ -109,7 +125,9 @@ begin
   begin
     IsActive := liChbScaleActive.Checked;
 
-    ScaleProtocolType := TScaleProtocolType.FromInteger(cmbScaleProtocols.ItemIndex);
+    if cmbScaleProtocols.ItemIndex > -1 then
+      ScaleTranssProtocol.AssignValues(TItemTranssProtocol(cmbScaleProtocols.ItemObject));
+
     ConnType := TScaleConnType.FromInteger(cmbScaleConnType.ItemIndex);
 
     TcpIpAddress := Trim(edtScaleIp.Text);
@@ -126,6 +144,29 @@ begin
   TManagerConfig.Instance.SaveConfig;
 
   Self.ModalResult := mrOk;
+end;
+
+procedure TFormConfig.actOpenProtoListExecute(Sender: TObject);
+begin
+  var tmpProtocol : TItemTranssProtocol := TFormProtocolsList.CreateAndSelectOne(nil);
+
+  if not Assigned(tmpProtocol) then
+    Exit;
+
+  try
+    for var I : Integer := 0 to cmbScaleProtocols.Properties.Items.Count - 1 do
+    begin
+      if TItemTranssProtocol(cmbScaleProtocols.Properties.Items.Objects[I]).Id <> tmpProtocol.Id then
+        Continue;
+
+      cmbScaleProtocols.ItemIndex := I;
+      Break;
+    end;
+  finally
+    tmpProtocol.Free;
+  end;
+
+  THelpFunctions.FillScaleProtocolsCombo(Self.cmbScaleProtocols);
 end;
 
 procedure TFormConfig.cmbScaleConnTypePropertiesChange(Sender: TObject);
@@ -185,7 +226,15 @@ begin
     liChbScaleActive.Checked := IsActive;
     liChbScaleActiveClick(nil);
 
-    cmbScaleProtocols.ItemIndex := ScaleProtocolType.ToInteger;
+    for var I : Integer := 0 to cmbScaleProtocols.Properties.Items.Count - 1 do
+    begin
+      if TItemTranssProtocol(cmbScaleProtocols.Properties.Items.Objects[I]).Id <> ScaleTranssProtocol.Id then
+        Continue;
+
+      cmbScaleProtocols.ItemIndex := I;
+      Break;
+    end;
+
     cmbScaleConnType.ItemIndex := ConnType.ToInteger;
 
     edtScaleIp.Text := TcpIpAddress;
@@ -218,6 +267,11 @@ begin
   Self.FillControls;
 end;
 
+procedure TFormConfig.FormDestroy(Sender: TObject);
+begin
+  FormConfig := nil;
+end;
+
 procedure TFormConfig.liChbScaleActiveClick(Sender: TObject);
 begin
   self.cmbScaleProtocols.Enabled := liChbScaleActive.Checked;
@@ -238,7 +292,7 @@ begin
 
   if liChbScaleActive.Checked then
   begin
-    if (Self.cmbScaleProtocols.ItemIndex = -1) or (Self.cmbScaleProtocols.ItemIndex = sptNone.ToInteger) then
+    if (Self.cmbScaleProtocols.ItemIndex = -1) or (not assigned(Self.cmbScaleProtocols.ItemObject)) then
     begin
       TFormAppMessage.ShowWarning('Protokó³ komunikacyjny nie zosta³ wybrany!');
       Exit;

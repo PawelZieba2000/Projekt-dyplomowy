@@ -3,7 +3,7 @@ unit cConfig;
 interface
 
 uses
-  cTypes, CPort;
+  cTypes, CPort, cItemTranssProtocol;
 
 type
   TScaleConfig = class;
@@ -14,7 +14,7 @@ type
       FIsActive : Boolean;
 
       FConnType : TScaleConnType;
-      FScaleProtocolType : TScaleProtocolType;
+      FScaleTranssProtocol : TItemTranssProtocol;
 
       FTcpIpAddress : String;
       FTcpPort : Integer;
@@ -28,7 +28,7 @@ type
     public
       property IsActive : Boolean read FIsActive write FIsActive;
       property ConnType : TScaleConnType read FConnType write FConnType;
-      property ScaleProtocolType : TScaleProtocolType read FScaleProtocolType write FScaleProtocolType;
+      property ScaleTranssProtocol : TItemTranssProtocol read FScaleTranssProtocol write FScaleTranssProtocol;
 
       property TcpIpAddress : String read FTcpIpAddress write FTcpIpAddress;
       property TcpPort : Integer read FTcpPort write FTcpPort;
@@ -67,11 +67,13 @@ implementation
 constructor TScaleConfig.Create;
 begin
   inherited;
+  Self.FScaleTranssProtocol := TItemTranssProtocol.Create();
   Self.SetDefaultValues();
 end;
 
 destructor TScaleConfig.Destroy;
 begin
+  Self.FScaleTranssProtocol.Free;
   inherited;
 end;
 
@@ -80,7 +82,7 @@ begin
   Self.IsActive := False;
 
   Self.ConnType := sctNone;
-  Self.ScaleProtocolType := sptNone;
+  Self.ScaleTranssProtocol.SetDefaultValues;
 
   Self.TcpIpAddress := '';
   Self.TcpPort := 0;

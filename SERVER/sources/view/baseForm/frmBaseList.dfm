@@ -85,11 +85,15 @@ inherited FormBaseList: TFormBaseList
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'baredtFilter'
+          ItemName = 'btnAddNew'
         end
         item
           Visible = True
-          ItemName = 'btnSearch'
+          ItemName = 'btnEdit'
+        end
+        item
+          Visible = True
+          ItemName = 'btnRemove'
         end>
       NotDocking = [dsNone, dsLeft, dsTop, dsRight, dsBottom]
       OneOnRow = True
@@ -103,8 +107,10 @@ inherited FormBaseList: TFormBaseList
       Category = 0
     end
     object btnSearch: TdxBarLargeButton
-      Action = actSearch
+      Caption = 'Szukaj'
       Category = 0
+      Visible = ivAlways
+      LargeImageIndex = 11
     end
     object baredtFilter: TcxBarEditItem
       Caption = 'Filtry'
@@ -115,6 +121,18 @@ inherited FormBaseList: TFormBaseList
       PropertiesClassName = 'TcxTextEditProperties'
       InternalEditValue = ''
     end
+    object btnAddNew: TdxBarLargeButton
+      Action = actAdd
+      Category = 0
+    end
+    object btnEdit: TdxBarLargeButton
+      Action = actEdit
+      Category = 0
+    end
+    object btnRemove: TdxBarLargeButton
+      Action = actRemove
+      Category = 0
+    end
   end
   inherited actlstMain: TActionList
     object actRefresh: TAction
@@ -122,10 +140,20 @@ inherited FormBaseList: TFormBaseList
       ImageIndex = 10
       OnExecute = actRefreshExecute
     end
-    object actSearch: TAction
-      Caption = 'Szukaj'
-      ImageIndex = 11
-      OnExecute = actSearchExecute
+    object actAdd: TAction
+      Caption = 'Dodaj'
+      ImageIndex = 13
+      OnExecute = actAddExecute
+    end
+    object actEdit: TAction
+      Caption = 'Edytuj'
+      ImageIndex = 15
+      OnExecute = actEditExecute
+    end
+    object actRemove: TAction
+      Caption = 'Usus'#324
+      ImageIndex = 14
+      OnExecute = actRemoveExecute
     end
   end
 end

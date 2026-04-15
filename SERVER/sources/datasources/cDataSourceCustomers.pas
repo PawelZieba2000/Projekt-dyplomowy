@@ -93,7 +93,7 @@ begin
     Exit;
 
   var customer : TItemCustomer := Self.FCustomerList[recordHanleInt];
-  var columnID : Integer := GetDefaultItemID(recordHanleInt);
+  var columnID : Integer := GetDefaultItemID(Integer(AItemHandle));
 
   case columnID of
     0 : Result := customer.IdErp;

@@ -14,6 +14,7 @@ object FormAppMessage: TFormAppMessage
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poScreenCenter
   OnClose = FormClose
   TextHeight = 15
   object imgWarning: TcxImage
@@ -48,8 +49,6 @@ object FormAppMessage: TFormAppMessage
     Properties.FitMode = ifmProportionalStretch
     TabOrder = 0
     Visible = False
-    ExplicitLeft = 184
-    ExplicitHeight = 211
     Height = 170
     Width = 80
   end
@@ -79,8 +78,6 @@ object FormAppMessage: TFormAppMessage
     Properties.FitMode = ifmProportionalStretch
     TabOrder = 1
     Visible = False
-    ExplicitLeft = 4
-    ExplicitHeight = 211
     Height = 170
     Width = 80
   end
@@ -115,8 +112,6 @@ object FormAppMessage: TFormAppMessage
     Properties.FitMode = ifmProportionalStretch
     TabOrder = 2
     Visible = False
-    ExplicitLeft = 104
-    ExplicitHeight = 211
     Height = 170
     Width = 80
   end
@@ -174,8 +169,6 @@ object FormAppMessage: TFormAppMessage
     Properties.FitMode = ifmProportionalStretch
     TabOrder = 3
     Visible = False
-    ExplicitLeft = 284
-    ExplicitHeight = 211
     Height = 170
     Width = 80
   end
@@ -189,10 +182,6 @@ object FormAppMessage: TFormAppMessage
     Color = clHighlightText
     ParentBackground = False
     TabOrder = 4
-    ExplicitLeft = 112
-    ExplicitTop = 104
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object lblMessage: TcxLabel
       AlignWithMargins = True
       Left = 3
@@ -208,10 +197,6 @@ object FormAppMessage: TFormAppMessage
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
       Properties.WordWrap = True
-      ExplicitLeft = -24
-      ExplicitTop = 96
-      ExplicitWidth = 63
-      ExplicitHeight = 19
       Width = 58
       AnchorX = 32
       AnchorY = 85
@@ -231,9 +216,6 @@ object FormAppMessage: TFormAppMessage
     Padding.Bottom = 8
     ParentBackground = False
     TabOrder = 5
-    ExplicitLeft = 112
-    ExplicitTop = 104
-    ExplicitWidth = 185
     object btnYes: TcxButton
       AlignWithMargins = True
       Left = 218
@@ -248,7 +230,6 @@ object FormAppMessage: TFormAppMessage
       Caption = 'Ok'
       TabOrder = 0
       OnClick = btnYesClick
-      ExplicitTop = 3
     end
     object btnNo: TcxButton
       AlignWithMargins = True
@@ -266,8 +247,6 @@ object FormAppMessage: TFormAppMessage
       TabOrder = 1
       Visible = False
       OnClick = btnNoClick
-      ExplicitLeft = 160
-      ExplicitTop = 16
     end
   end
 end

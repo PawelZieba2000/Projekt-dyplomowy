@@ -36,7 +36,7 @@ implementation
 uses
   System.SysUtils, Vcl.Controls, Vcl.ActnList, System.IOUtils, Vcl.Forms,
   cxFilter, cTypes, cItemProduct, cManagerProducts, cItemCustomer,
-  cManagerCustomers;
+  cManagerCustomers, cItemTranssProtocol, cManagerConfig;
 
 { THelpFunctions }
 
@@ -129,8 +129,8 @@ begin
   pCombo.Properties.Items.BeginUpdate;
   try
     pCombo.Properties.Items.Clear;
-    for var item : TScaleProtocolType := Low(TScaleProtocolType) to High(TScaleProtocolType) do
-      pCombo.Properties.Items.Add(item.ToString);
+    for var item : TItemTranssProtocol in TManagerConfig.Instance.TranssProtocolList do
+      pCombo.Properties.Items.AddObject(item.Name, item);
 
     pCombo.ItemIndex := 0;
   finally

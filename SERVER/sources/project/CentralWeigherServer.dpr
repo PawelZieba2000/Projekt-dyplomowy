@@ -36,18 +36,24 @@ uses
   frmBaseList in '..\view\baseForm\frmBaseList.pas' {FormBaseList},
   uWebModule in '..\modules\uWebModule.pas' {WebModuleMain: TDataModule},
   uModDatabase in '..\modules\uModDatabase.pas' {ModuleDataBase: TDataModule},
-  cManagerAddresses in '..\controller\cManagerAddresses.pas';
+  cManagerAddresses in '..\controller\cManagerAddresses.pas',
+  frmProductAddEdit in '..\view\frmProductAddEdit.pas' {FormProductAddEdit},
+  frmCustomerAddEdit in '..\view\frmCustomerAddEdit.pas' {FormCustomerAddEdit},
+  uRestSession in '..\units\uRestSession.pas',
+  cDataSourceUsers in '..\datasources\cDataSourceUsers.pas',
+  frmUserAddEdit in '..\view\frmUserAddEdit.pas' {FormUserAddEdit},
+  frmUserList in '..\view\frmUserList.pas' {FormUserList};
 
 {$R *.res}
 
 begin
-  if WebRequestHandler.WebModuleClass <> nil then
+  if WebRequestHandler <> nil then
     WebRequestHandler.WebModuleClass := WebModuleMain;
 
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TFormMain, FormMain);
-  Application.CreateForm(TModDispatcher, ModDispatcher);
   Application.CreateForm(TModuleDataBase, ModuleDataBase);
+  Application.CreateForm(TModDispatcher, ModDispatcher);
+  Application.CreateForm(TFormMain, FormMain);
   Application.Run;
 end.

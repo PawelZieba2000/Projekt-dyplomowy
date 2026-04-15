@@ -16,11 +16,12 @@ const
 
   HTTP_OK = 200;
 
-  API_END_POINT_LOGIN : String = '/login';
-  API_END_POINT_GET_PRODUCTS : String = '/products';
-  API_END_POINT_GET_CUSTOMERS : String = '/customers';
-  API_END_POINT_GET_WEIGHINGS : String = '/weighings';
-  API_END_POINT_SEND_WEIGHING : String = '/weighings';
+  API_END_POINT_LOGIN : String = '/login/';
+  API_END_POINT_GET_PRODUCTS : String = '/products/';
+  API_END_POINT_GET_CUSTOMERS : String = '/customers/';
+  API_END_POINT_GET_WEIGHINGS : String = '/weighings/';
+  API_END_POINT_SEND_WEIGHING : String = '/do_weighings/';
+  API_END_POINT_CHECK_API : String = '/checkApi/';
 
 implementation
 

@@ -3,7 +3,7 @@ unit cManagerWeighings;
 interface
 
 uses
-  System.Generics.Collections, cDataSourceWeighings, cItemWeighing;
+  System.Generics.Collections, cDataSourceWeighings, cItemWeighing, cTypes;
 
 type
   TManagerWeighings = class
@@ -18,6 +18,9 @@ type
       property WeighingList : TObjectList<TItemWeighing> read FWeighingList;
       property WeighingDS : TDataSourceWeighings read FWeighingsDS;
 
+      function DoWeighing(pWeighing : TItemWeighing) : TApiResponse;
+      procedure GetWeighings();
+
       constructor Create(); overload;
       class function Instance : TManagerWeighings;
       class procedure ReleaseInstance;
@@ -27,7 +30,7 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, cManagerApiService;
 
 { TManagerWeighings }
 
@@ -51,6 +54,17 @@ begin
   Self.FWeighingsDS.Free;
 
   inherited;
+end;
+
+function TManagerWeighings.DoWeighing(pWeighing : TItemWeighing) : TApiResponse;
+begin
+  Result := TManagerApiService.Instance.PostWeighing(pWeighing);
+end;
+
+procedure TManagerWeighings.GetWeighings;
+begin
+  var searchFilter: TSearchFilters;
+  TManagerApiService.Instance.GetWeighings(Self.FWeighingList, searchFilter);
 end;
 
 class function TManagerWeighings.Instance: TManagerWeighings;

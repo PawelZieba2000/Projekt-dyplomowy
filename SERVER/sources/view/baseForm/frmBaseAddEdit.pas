@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, frmBase, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, dxLayoutControlAdapters, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.StdCtrls, cxButtons, dxLayoutContainer,
-  cxClasses, dxBar, System.ImageList, Vcl.ImgList, cxImageList, dxLayoutControl;
+  cxClasses, dxBar, System.ImageList, Vcl.ImgList, cxImageList, dxLayoutControl,
+  dxSkinsCore, dxSkinBasic;
 
 type
   TFormBaseAddEdit = class(TFormBase)

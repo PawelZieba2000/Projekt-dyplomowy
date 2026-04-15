@@ -21,7 +21,6 @@ type
       procedure GetProductsFromDb();
       procedure InsertUpdateProduct(pProduct: TItemProduct);
 
-
       constructor Create(); overload;
       class function Instance : TManagerProducts;
       class procedure ReleaseInstance;
@@ -122,7 +121,7 @@ begin
 
       storedProc.ExecProc;
 
-      pProduct.Id := storedProc.FieldByName('ID_OUT').AsInteger;
+      pProduct.Id := storedProc.ParamByName('ID_OUT').AsInteger;
 
       transaction.Commit;
     except

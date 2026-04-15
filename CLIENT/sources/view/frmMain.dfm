@@ -29,9 +29,7 @@ object FormMain: TFormMain
     Contexts = <>
     TabOrder = 0
     TabStop = False
-    ExplicitWidth = 624
     object dxRibbonTabMain: TdxRibbonTab
-      Active = True
       Caption = 'Narz'#281'dzia g'#322#243'wne'
       Groups = <
         item
@@ -56,6 +54,7 @@ object FormMain: TFormMain
       Index = 2
     end
     object dxRibbonTabWeighings: TdxRibbonTab
+      Active = True
       Caption = 'Wa'#380'enia'
       Groups = <
         item
@@ -74,8 +73,6 @@ object FormMain: TFormMain
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         Text = 'Zalogowano jako:'
       end>
-    ExplicitTop = 421
-    ExplicitWidth = 624
   end
   object actlstMain: TActionList
     Images = ModDispatcher.imgList32

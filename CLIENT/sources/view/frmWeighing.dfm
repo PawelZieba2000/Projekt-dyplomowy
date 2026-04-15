@@ -250,6 +250,7 @@ inherited FormWeighing: TFormWeighing
       Left = 122
       Top = 93
       AutoSize = False
+      Properties.CharCase = ecUpperCase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -261,6 +262,7 @@ inherited FormWeighing: TFormWeighing
     object edtTrailerNo: TcxTextEdit [11]
       Left = 122
       Top = 125
+      Properties.CharCase = ecUpperCase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -362,7 +364,7 @@ inherited FormWeighing: TFormWeighing
       TabOrder = 3
     end
     inherited lgMain: TdxLayoutGroup
-      ItemIndex = 2
+      ItemIndex = 6
     end
     inherited lgBottom: TdxLayoutGroup
       Index = 7
@@ -501,7 +503,6 @@ inherited FormWeighing: TFormWeighing
       SizeOptions.SizableVert = True
       SizeOptions.Height = 117
       AllowRemove = False
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       Index = 6
     end

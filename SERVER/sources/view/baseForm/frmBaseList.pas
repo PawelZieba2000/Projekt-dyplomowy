@@ -22,12 +22,19 @@ type
     barmngMainBar1: TdxBar;
     btnRefresh: TdxBarLargeButton;
     actRefresh: TAction;
-    actSearch: TAction;
     btnSearch: TdxBarLargeButton;
     baredtFilter: TcxBarEditItem;
     gGridListTableView1: TcxGridTableView;
+    actAdd: TAction;
+    actEdit: TAction;
+    actRemove: TAction;
+    btnAddNew: TdxBarLargeButton;
+    btnEdit: TdxBarLargeButton;
+    btnRemove: TdxBarLargeButton;
     procedure actRefreshExecute(Sender: TObject);
-    procedure actSearchExecute(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRemoveExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,12 +51,22 @@ uses
 
 {$R *.dfm}
 
+procedure TFormBaseList.actAddExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TFormBaseList.actEditExecute(Sender: TObject);
+begin
+//
+end;
+
 procedure TFormBaseList.actRefreshExecute(Sender: TObject);
 begin
 //
 end;
 
-procedure TFormBaseList.actSearchExecute(Sender: TObject);
+procedure TFormBaseList.actRemoveExecute(Sender: TObject);
 begin
 //
 end;

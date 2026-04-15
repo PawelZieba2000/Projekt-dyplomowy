@@ -93,7 +93,7 @@ begin
     Exit;
 
   var weighing : TItemWeighing := Self.FWeighingList[recordHanleInt];
-  var columnID : Integer := GetDefaultItemID(recordHanleInt);
+  var columnID : Integer := GetDefaultItemID(Integer(AItemHandle));
 
   case columnID of
     0 : Result := weighing.IdErp;
@@ -102,7 +102,11 @@ begin
     3 : Result := weighing.TrailerNo;
     4 : Result := weighing.DateIn;
     5 : Result := weighing.MassIn;
-    6 : Result := weighing.DateOut;
+    6 : begin
+      Result := '';
+      if weighing.DateOut <> MinDateTime then
+        Result := weighing.DateOut;
+    end;
     7 : Result := weighing.MassOut;
     8 : Result := weighing.MassTare;
     9 : Result := weighing.MassNetto;

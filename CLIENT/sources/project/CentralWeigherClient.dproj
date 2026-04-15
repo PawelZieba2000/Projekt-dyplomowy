@@ -200,6 +200,18 @@
         <DCCReference Include="..\controller\cManagerWeighings.pas"/>
         <DCCReference Include="..\datasources\cDataSourceWeighings.pas"/>
         <DCCReference Include="..\transsmision\cScaleTranssRhewa84.pas"/>
+        <DCCReference Include="..\model\cItemTranssProtocol.pas"/>
+        <DCCReference Include="..\datasources\cDataSourceTranssProtocols.pas"/>
+        <DCCReference Include="..\view\frmProtocolsList.pas">
+            <Form>FormProtocolsList</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\view\frmTranssProtocolAddEdit.pas">
+            <Form>FormTranssProtocolAddEdit</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\transsmision\cScaleTranssmision.pas"/>
+        <DCCReference Include="..\controller\cManagerApiService.pas"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txaPackage"/>
         <None Include="ModelSupport_CentralWeigherClient\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txvpck"/>
@@ -220,6 +232,75 @@
         <None Include="ModelSupport_CentralWeigherClient\IScaleTranssmision\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\uModDispatcher\default.txvpck"/>
         <None Include="ModelSupport_CentralWeigherClient\WeighingClientProject\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemTranssProtocol\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmProductList\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmTranssProtocolAddEdit\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemBase\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerApiService\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cRestClient\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerProducts\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\iApiClient\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerCustomers\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\uConsts\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerUser\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmCustomerList\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerScale\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmProtocolsList\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmAppMessage\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cScaleTranssmision\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceProducts\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceTranssProtocols\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\CentralWeigherClient\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemAddress\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerWeighings\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceCustomers\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cScaleTranssRinstrumC520\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceWeighings\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cScaleTranssRhewa84\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmWeighingList\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmWeighing\default.txvpck"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceWeighings\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmBaseList\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemWeighing\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerUser\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerProducts\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\CentralWeigherClient\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceProducts\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cTypes\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemCustomer\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerWeighings\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmProductList\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cScaleTranssRinstrumC520\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemBase\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerScale\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmBase\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\IScaleTranssmision\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\uModDispatcher\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemTranssProtocol\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cScaleTranssmision\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cConfig\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemAddress\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cScaleTranssRhewa84\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmWeighing\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmTranssProtocolAddEdit\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\iApiClient\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmWeighingList\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceCustomers\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerConfig\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cRestClient\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmAppMessage\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemUser\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerCustomers\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmBaseAddEdit\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\uConsts\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cItemProduct\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmConfig\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cDataSourceTranssProtocols\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmCustomerList\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmProtocolsList\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\cManagerApiService\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmMain\default.txaPackage"/>
+        <None Include="ModelSupport_CentralWeigherClient\frmLogin\default.txaPackage"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -252,9 +333,51 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\CentralWeigherClient\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\IScaleTranssmision\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\IScaleTranssmision\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\WeighingClientProject\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cConfig\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cConfig\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cDataSourceCustomers\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cDataSourceProducts\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cDataSourceTranssProtocols\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cDataSourceWeighings\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -262,11 +385,125 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cHelpFunctions\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemAddress\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemBase\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemCustomer\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemCustomer\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemProduct\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemProduct\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemTranssProtocol\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemUser\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemUser\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemWeighing\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cItemWeighing\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerApiService\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerConfig\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerConfig\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerCustomers\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerProducts\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerScale\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerUser\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cManagerWeighings\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cRestClient\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cScaleTranssRhewa84\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cScaleTranssRinstrumC520\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cScaleTranssmision\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\cTypes\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\cTypes\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
@@ -275,12 +512,108 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmAppMessage\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBaseAddEdit\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBaseAddEdit\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBaseList\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBaseList\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBase\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmBase\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmConfig\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmConfig\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmCustomerList\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmLogin\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmLogin\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmMain\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmMain\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmProductList\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmProtocolsList\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmTranssProtocolAddEdit\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmWeighingList\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\frmWeighing\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\iApiClient\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\uConsts\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_CentralWeigherClient\uModDispatcher\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="ModelSupport_CentralWeigherClient\uModDispatcher\default.txvpck" Configuration="Debug" Class="ProjectFile"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">

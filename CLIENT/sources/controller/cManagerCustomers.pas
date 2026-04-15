@@ -18,6 +18,8 @@ type
       property CustomerList : TObjectList<TItemCustomer> read FCustomerList;
       property CustomersDS : TDataSourceCustomers read FCustomersDS;
 
+      procedure GetCustomers();
+
       constructor Create(); overload;
       class function Instance : TManagerCustomers;
       class procedure ReleaseInstance;
@@ -27,7 +29,7 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, cManagerApiService;
 
 { TManagerCustomers }
 
@@ -51,6 +53,11 @@ begin
   Self.FCustomersDS.Free;
 
   inherited;
+end;
+
+procedure TManagerCustomers.GetCustomers;
+begin
+  TManagerApiService.Instance.GetCustomers(Self.FCustomerList);
 end;
 
 class function TManagerCustomers.Instance: TManagerCustomers;

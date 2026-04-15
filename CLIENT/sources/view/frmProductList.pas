@@ -26,6 +26,7 @@ type
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
     procedure actOkExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
   private
     FProduct: TItemProduct;
 
@@ -63,6 +64,13 @@ begin
 
   Self.FProduct := nil;
   Self.gGridListTableView1.DataController.CustomDataSource := TManagerProducts.Instance.ProductsDS;
+  actRefreshExecute(nil);
+end;
+
+procedure TFormProductList.actRefreshExecute(Sender: TObject);
+begin
+  TManagerProducts.Instance.GetProducts;
+  Self.gGridListTableView1.DataController.CustomDataSource.DataChanged;
 end;
 
 constructor TFormProductList.Create(AOwner: TComponent; AProduct: TItemProduct);

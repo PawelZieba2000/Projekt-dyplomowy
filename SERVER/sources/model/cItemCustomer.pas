@@ -47,7 +47,7 @@ type
       function ToJson() : ISuperObject; reintroduce;
       procedure FromJson(pCustomerJson : ISuperObject); reintroduce;
 
-      procedure FromQuery(pCustomerQuery : TCustomUniDataSet);
+      procedure FromQuery(pCustomerQuery : TCustomUniDataSet; pIsWeighing : Boolean = False);
 
       class function JsonToCustomer(pCustomerJson : ISuperObject) : TItemCustomer;
       class function QueryToCustomer(pCustomerQuery : TCustomUniDataSet) : TItemCustomer;
@@ -105,19 +105,25 @@ begin
   inherited FromJson(pCustomerJson);
 end;
 
-procedure TItemCustomer.FromQuery(pCustomerQuery: TCustomUniDataSet);
+procedure TItemCustomer.FromQuery(pCustomerQuery: TCustomUniDataSet;
+  pIsWeighing : Boolean);
 begin
   Self.Name := pCustomerQuery.FieldByName('CUST_NAME_OUT').AsString;
   Self.Code := pCustomerQuery.FieldByName('CUST_CODE_OUT').AsString;
   Self.NIP := pCustomerQuery.FieldByName('CUST_NIP_OUT').AsString;
   Self.PhoneNo := pCustomerQuery.FieldByName('CUST_PHONE_NO_OUT').AsString;
   Self.Id := pCustomerQuery.FieldByName('CUST_ID_OUT').AsInteger;
-  Self.LocationId := pCustomerQuery.FieldByName('').AsInteger;
+  Self.IdErp := Self.Id;
+  //Self.LocationId := pCustomerQuery.FieldByName('').AsInteger;
+  Self.ModificationDate := pCustomerQuery.FieldByName('CUST_MODIF_TIME_OUT').AsDateTime;
+  Self.IsDeleted := pCustomerQuery.FieldByName('CUST_IS_DELETED_OUT').AsInteger <> 0;
+  Self.IsModified := False;
   Self.Address.id := pCustomerQuery.FieldByName('CUST_ID_ADDRESS_OUT').AsInteger;
 
   var tmpAddress : TItemAddress := nil;
   try
-    tmpAddress := TManagerAddresses.Instance.GetAddressFromDbById(Self.Address.id);
+    if not pIsWeighing then
+      tmpAddress := TManagerAddresses.Instance.GetAddressFromDbById(Self.Address.id);
     if Assigned(tmpAddress) then
       Self.Address.AssignValues(tmpAddress);
   finally

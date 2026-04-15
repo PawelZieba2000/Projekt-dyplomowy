@@ -11,6 +11,8 @@ type
 
   TMessageType = (mtInfo, mtWarning, mtError, mtQuestion);
 
+  TFormEditType = (fetNone, fetAddNew, fetEdit);
+
   TScaleConnTypeHelper = record helper for TScaleConnType
     function ToInteger() : Integer;
     function ToString() : String;
@@ -33,6 +35,11 @@ type
     DateStart : TDateTime;
     DateStop : TDateTime;
     IsTranzit : Boolean;
+  end;
+
+  TApiResponse = record
+    ResponseCode : Integer;
+    ErrMsg : String;
   end;
 
 implementation

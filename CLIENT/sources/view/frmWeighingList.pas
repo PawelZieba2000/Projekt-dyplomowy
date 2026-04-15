@@ -42,6 +42,7 @@ type
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
     procedure actOkExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
   private
     FWeighing: TItemWeighing;
 
@@ -70,6 +71,8 @@ begin
 
   Self.FWeighing := nil;
   Self.gGridListTableView1.DataController.CustomDataSource := TManagerWeighings.Instance.WeighingDS;
+  gGridListTableView1.OptionsView.CellAutoHeight := False;
+  actRefreshExecute(nil);
 end;
 
 procedure TFormWeighingList.actOkExecute(Sender: TObject);
@@ -79,6 +82,12 @@ begin
     Self.SelectWeighing;
     Self.ModalResult := mrOk;
   end;
+end;
+
+procedure TFormWeighingList.actRefreshExecute(Sender: TObject);
+begin
+  TManagerWeighings.Instance.GetWeighings;
+  Self.gGridListTableView1.DataController.CustomDataSource.DataChanged;
 end;
 
 constructor TFormWeighingList.Create(AOwner: TComponent;

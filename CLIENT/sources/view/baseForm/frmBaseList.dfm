@@ -81,15 +81,6 @@ inherited FormBaseList: TFormBaseList
         item
           Visible = True
           ItemName = 'btnRefresh'
-        end
-        item
-          BeginGroup = True
-          Visible = True
-          ItemName = 'baredtFilter'
-        end
-        item
-          Visible = True
-          ItemName = 'btnSearch'
         end>
       NotDocking = [dsNone, dsLeft, dsTop, dsRight, dsBottom]
       OneOnRow = True
@@ -101,10 +92,13 @@ inherited FormBaseList: TFormBaseList
     object btnRefresh: TdxBarLargeButton
       Action = actRefresh
       Category = 0
+      AutoGrayScale = False
     end
     object btnSearch: TdxBarLargeButton
-      Action = actSearch
+      Caption = 'Szukaj'
       Category = 0
+      Visible = ivAlways
+      LargeImageIndex = 11
     end
     object baredtFilter: TcxBarEditItem
       Caption = 'Filtry'
@@ -121,11 +115,6 @@ inherited FormBaseList: TFormBaseList
       Caption = 'Od'#347'wie'#380
       ImageIndex = 10
       OnExecute = actRefreshExecute
-    end
-    object actSearch: TAction
-      Caption = 'Szukaj'
-      ImageIndex = 11
-      OnExecute = actSearchExecute
     end
   end
 end

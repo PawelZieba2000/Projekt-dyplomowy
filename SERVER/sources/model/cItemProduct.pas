@@ -91,11 +91,15 @@ end;
 
 procedure TItemProduct.FromQuery(pProdQuery: TCustomUniDataSet);
 begin
+  Self.Id := pProdQuery.FieldByName('PROD_ID_OUT').AsInteger;
+  Self.IdErp := Self.Id;
   Self.Name := pProdQuery.FieldByName('PROD_NAME_OUT').AsString;
   Self.Code := pProdQuery.FieldByName('PROD_CODE_OUT').AsString;
   Self.Price := pProdQuery.FieldByName('PROD_PRICE_OUT').AsFloat;
-  Self.Id := pProdQuery.FieldByName('PROD_ID_OUT').AsInteger;
-  Self.LocationId := pProdQuery.FieldByName('').AsInteger;
+  //Self.LocationId := pProdQuery.FieldByName('').AsInteger;
+  Self.ModificationDate := pProdQuery.FieldByName('PROD_MODIF_TIME_OUT').AsDateTime;
+  Self.IsDeleted := pProdQuery.FieldByName('PROD_IS_DELETED_OUT').AsInteger <> 0;
+  Self.IsModified := False;
 end;
 
 class function TItemProduct.JsonToProduct(pProdJson: ISuperObject): TItemProduct;

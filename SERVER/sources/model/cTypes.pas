@@ -7,6 +7,10 @@ type
 
   TMessageType = (mtInfo, mtWarning, mtError, mtQuestion);
 
+  TFormEditType = (fetNone, fetAddNew, fetEdit);
+
+  TApiMethod = (amNone, amGetProducts, amGetCustomers, amGetWeighings, amLogIn, amDoWeighing, amCheckApi);
+
   TWeighingTypeHelper = record helper for TWeighingType
     function ToInteger() : Integer;
     function ToString() : String;

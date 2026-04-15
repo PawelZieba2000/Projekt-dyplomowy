@@ -14,25 +14,25 @@ inherited FormConfig: TFormConfig
   inherited lcMain: TdxLayoutControl
     Width = 434
     Height = 481
-    ExplicitWidth = 384
-    ExplicitHeight = 361
+    ExplicitWidth = 434
+    ExplicitHeight = 481
     inherited btnOk: TcxButton
       Left = 248
-      Top = 515
-      TabOrder = 13
+      Top = 571
+      TabOrder = 14
       ExplicitLeft = 248
-      ExplicitTop = 515
+      ExplicitTop = 571
     end
     inherited btnCancel: TcxButton
       Left = 330
-      Top = 515
-      TabOrder = 14
+      Top = 571
+      TabOrder = 15
       ExplicitLeft = 330
-      ExplicitTop = 515
+      ExplicitTop = 571
     end
     object edtApiUrl: TcxTextEdit [2]
       Left = 161
-      Top = 41
+      Top = 95
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -47,7 +47,7 @@ inherited FormConfig: TFormConfig
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 11
+      TabOrder = 12
       Visible = False
       Width = 235
     end
@@ -62,13 +62,13 @@ inherited FormConfig: TFormConfig
       Style.HotTrack = False
       Style.TransparentBorder = False
       Style.ButtonStyle = bts3D
-      TabOrder = 12
+      TabOrder = 13
       Visible = False
       Width = 235
     end
     object edtbtnApiLogPath: TcxButtonEdit [5]
       Left = 161
-      Top = 71
+      Top = 125
       Properties.Buttons = <
         item
           Default = True
@@ -87,7 +87,7 @@ inherited FormConfig: TFormConfig
     end
     object btnApiTest: TcxButton [6]
       Left = 286
-      Top = 102
+      Top = 156
       Width = 105
       Height = 25
       Action = actApiTest
@@ -95,7 +95,22 @@ inherited FormConfig: TFormConfig
     end
     object cmbScaleProtocols: TcxComboBox [7]
       Left = 161
-      Top = 194
+      Top = 278
+      AutoSize = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 4
+      Height = 25
+      Width = 186
+    end
+    object cmbScaleConnType: TcxComboBox [8]
+      Left = 161
+      Top = 248
+      Properties.OnChange = cmbScaleConnTypePropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -105,84 +120,79 @@ inherited FormConfig: TFormConfig
       TabOrder = 3
       Width = 230
     end
-    object cmbScaleConnType: TcxComboBox [8]
-      Left = 161
-      Top = 224
-      Properties.OnChange = cmbScaleConnTypePropertiesChange
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.TransparentBorder = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 4
-      Width = 230
-    end
     object cmbScaleComPorts: TComComboBox [9]
       Left = 114
-      Top = 292
+      Top = 348
       Width = 261
       Height = 23
       ComProperty = cpPort
       Text = 'COM1'
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 5
+      TabOrder = 6
     end
     object cmbScaleBaudrate: TComComboBox [10]
       Left = 114
-      Top = 322
+      Top = 378
       Width = 261
       Height = 23
       ComProperty = cpBaudRate
       Text = 'Custom'
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 6
+      TabOrder = 7
     end
     object cmbScaleParity: TComComboBox [11]
       Left = 114
-      Top = 382
+      Top = 438
       Width = 261
       Height = 23
       ComProperty = cpParity
       Text = 'None'
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 8
+      TabOrder = 9
     end
     object cmbScaleFlowControl: TComComboBox [12]
       Left = 114
-      Top = 412
+      Top = 468
       Width = 261
       Height = 23
       ComProperty = cpFlowControl
       Text = 'Hardware'
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 9
+      TabOrder = 10
     end
     object cmbScaleDataBits: TComComboBox [13]
       Left = 114
-      Top = 352
+      Top = 408
       Width = 261
       Height = 23
       ComProperty = cpDataBits
       Text = '5'
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 7
+      TabOrder = 8
     end
     object cmbScaleStopBits: TComComboBox [14]
       Left = 114
-      Top = 442
+      Top = 498
       Width = 261
       Height = 23
       ComProperty = cpStopBits
       Text = '1'
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 10
+      TabOrder = 11
+    end
+    object btnOpenProtoList: TcxButton [15]
+      Left = 354
+      Top = 278
+      Width = 37
+      Height = 25
+      Action = actOpenProtoList
+      TabOrder = 5
     end
     inherited lgMain: TdxLayoutGroup
       ItemIndex = 2
@@ -303,7 +313,7 @@ inherited FormConfig: TFormConfig
       Parent = lgCenter
       CaptionOptions.Text = 'Po'#322#261'czenie z miernikiem wagowym'
       AllowRemove = False
-      ItemIndex = 3
+      ItemIndex = 2
       Index = 1
     end
     object liScaleIp: TdxLayoutItem
@@ -347,7 +357,7 @@ inherited FormConfig: TFormConfig
       CaptionOptions.Visible = False
       Control = btnApiTest
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 105
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -445,14 +455,16 @@ inherited FormConfig: TFormConfig
       Index = 0
     end
     object liScaleProtocol: TdxLayoutItem
-      Parent = lgScaleConfig
+      Parent = lgsTranssprotocols
+      AlignHorz = ahClient
+      AlignVert = avClient
       AllowRemove = False
       CaptionOptions.Text = 'Protok'#243#322' komunikacyjny'
       Control = cmbScaleProtocols
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object liScaleConnType: TdxLayoutItem
       Parent = lgScaleConfig
@@ -462,7 +474,29 @@ inherited FormConfig: TFormConfig
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object lgsTranssprotocols: TdxLayoutGroup
+      Parent = lgScaleConfig
+      CaptionOptions.Text = 'New Group'
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
+    end
+    object liOpenProtoList: TdxLayoutItem
+      Parent = lgsTranssprotocols
+      AlignHorz = ahRight
+      AlignVert = avClient
+      SizeOptions.AssignedValues = [sovSizableHorz]
+      SizeOptions.SizableHorz = True
+      SizeOptions.Width = 37
+      CaptionOptions.Text = 'New Item'
+      CaptionOptions.Visible = False
+      Control = btnOpenProtoList
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 37
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   inherited barmngMain: TdxBarManager
@@ -475,6 +509,10 @@ inherited FormConfig: TFormConfig
     object actApiTest: TAction
       Caption = 'Test po'#322#261'czenia'
       OnExecute = actApiTestExecute
+    end
+    object actOpenProtoList: TAction
+      ImageIndex = 16
+      OnExecute = actOpenProtoListExecute
     end
   end
 end

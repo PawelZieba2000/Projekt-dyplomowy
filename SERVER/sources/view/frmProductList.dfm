@@ -8,7 +8,7 @@ inherited FormProductList: TFormProductList
         OnCellDblClick = gGridListTableView1CellDblClick
         OptionsView.ColumnAutoWidth = True
         object clmnIdErp: TcxGridColumn
-          Caption = 'ID ERP'
+          Caption = 'ID'
           DataBinding.ValueType = 'Integer'
           HeaderAlignmentHorz = taCenter
         end
@@ -28,11 +28,13 @@ inherited FormProductList: TFormProductList
         object clmnProdLocationId: TcxGridColumn
           Caption = 'ID ODDZIA'#321'U'
           DataBinding.ValueType = 'Integer'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object clmnProdModifDT: TcxGridColumn
           Caption = 'DATA MODYFIKACJI'
           DataBinding.ValueType = 'DateTime'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
       end
@@ -40,5 +42,17 @@ inherited FormProductList: TFormProductList
   end
   inherited barmngMain: TdxBarManager
     PixelsPerInch = 96
+    inherited btnRefresh: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+    inherited btnAddNew: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+    inherited btnEdit: TdxBarLargeButton
+      AutoGrayScale = False
+    end
+    inherited btnRemove: TdxBarLargeButton
+      AutoGrayScale = False
+    end
   end
 end

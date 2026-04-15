@@ -28,7 +28,7 @@ implementation
 
 uses
   cScaleTranssRinstrumC520, System.SysUtils, cManagerConfig, cTypes,
-  cScaleTranssRhewa84;
+  cScaleTranssRhewa84, cScaleTranssmision;
 
 { TManagerScale }
 
@@ -48,11 +48,7 @@ constructor TManagerScale.CreateInstance;
 begin
   inherited Create;
   Self.FScaleConn := nil;
-
-  case TManagerConfig.Instance.ScaleConfig.ScaleProtocolType of
-    sptRinstrumC520 : Self.FScaleConn := TTransRinstrumC520.Create(TManagerConfig.Instance.ScaleConfig);
-    sptRhewaDisplay : Self.FScaleConn := TTransRhewa84.Create(TManagerConfig.Instance.ScaleConfig);
-  end;
+  Self.FScaleConn := TScaleTranss.Create(TManagerConfig.Instance.ScaleConfig);
 end;
 
 destructor TManagerScale.Destroy;
@@ -77,7 +73,8 @@ end;
 
 class procedure TManagerScale.ReleaseInstance;
 begin
-  FInstance.Free;
+  if Assigned(FInstance) then
+    FInstance.Free;
 end;
 
 end.

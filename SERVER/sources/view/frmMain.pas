@@ -9,7 +9,7 @@ uses
   dxCore, dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxSkinsCore,
   dxSkinOffice2019Colorful, dxSkinBasic, dxDockControl, uModDispatcher,
   System.ImageList, Vcl.ImgList, cxImageList, dxStatusBar,
-  IdHTTPWebBrokerBridge;
+  IdHTTPWebBrokerBridge, cxSpinEdit, cxBarEditItem, cxTextEdit;
 
 type
   TFormMain = class(TForm)
@@ -25,8 +25,6 @@ type
     actOpenWeighingHistory: TAction;
     actOpenCustomers: TAction;
     actOpenProducts: TAction;
-    actOpenWeighing: TAction;
-    btnOpenWeighing: TdxBarLargeButton;
     btnOpenWeighingHistory: TdxBarLargeButton;
     btnOpenCustomers: TdxBarLargeButton;
     btnOpenProducts: TdxBarLargeButton;
@@ -39,6 +37,18 @@ type
     dxRibbonTabDictionaries: TdxRibbonTab;
     dxRibbonTabWeighings: TdxRibbonTab;
     stsbrBottom: TdxStatusBar;
+    actOpenUsers: TAction;
+    btnOpenUsers: TdxBarLargeButton;
+    brServer: TdxBar;
+    dxRibbonTabServer: TdxRibbonTab;
+    btnStartServer: TdxBarLargeButton;
+    btnStopServer: TdxBarLargeButton;
+    actStartServer: TAction;
+    actStopServer: TAction;
+    dxBarLargeButton1: TdxBarLargeButton;
+    baredtPort: TcxBarEditItem;
+    baredtIpAddress: TcxBarEditItem;
+    baredtUrl: TcxBarEditItem;
     procedure FormActivate(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actOpenConfigExecute(Sender: TObject);
@@ -46,10 +56,12 @@ type
     procedure actOpenWeighingHistoryExecute(Sender: TObject);
     procedure actOpenCustomersExecute(Sender: TObject);
     procedure actOpenProductsExecute(Sender: TObject);
-    procedure actOpenWeighingExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure actOpenUsersExecute(Sender: TObject);
+    procedure actStartServerExecute(Sender: TObject);
+    procedure actStopServerExecute(Sender: TObject);
   private
     FServer : TIdHTTPWebBrokerBridge;
 
@@ -69,7 +81,8 @@ implementation
 uses
   frmLogin, frmConfig, cHelpFunctions, System.StrUtils, cManagerUser, uConsts,
   cManagerConfig, frmWeighing, frmWeighingList, frmCustomerList, frmProductList,
-  IdSSLOpenSSL;
+  IdSSLOpenSSL, frmUserList, uModDatabase, cManagerAddresses, cManagerCustomers,
+  cManagerProducts, cManagerWeighings;
 
 {$R *.dfm}
 
@@ -81,7 +94,7 @@ end;
 procedure TFormMain.actLoginExecute(Sender: TObject);
 begin
   var logInResult : Boolean := TFormLogin.CreateAndShowModal(Nil) = mrOk;
-  THelpFunctions.SetControlEnable([actOpenCustomers, actOpenProducts, actOpenWeighing, actOpenWeighingHistory], logInResult);
+  THelpFunctions.SetControlEnable([actOpenCustomers, actOpenProducts, actOpenWeighingHistory, actOpenUsers, actStartServer], logInResult);
   Self.stsbrBottom.Panels[0].Text := Self.stsbrBottom.Panels[0].Text + ' ' + System.StrUtils.IfThen(logInResult, TManagerUser.Instance.LoggedUser.FullName, EMPTY_STR);
 end;
 
@@ -100,14 +113,24 @@ begin
   TFormProductList.CreateAndShowModal(nil);
 end;
 
-procedure TFormMain.actOpenWeighingExecute(Sender: TObject);
+procedure TFormMain.actOpenUsersExecute(Sender: TObject);
 begin
-  TFormWeighing.CreateAndShowModal(nil);
+  TFormUserList.CreateAndShowModal(nil);
 end;
 
 procedure TFormMain.actOpenWeighingHistoryExecute(Sender: TObject);
 begin
   TFormWeighingList.CreateAndShowModal(nil);
+end;
+
+procedure TFormMain.actStartServerExecute(Sender: TObject);
+begin
+  Self.StartServer();
+end;
+
+procedure TFormMain.actStopServerExecute(Sender: TObject);
+begin
+  Self.StopServer();
 end;
 
 procedure TFormMain.FormActivate(Sender: TObject);
@@ -125,39 +148,44 @@ begin
   TManagerConfig.Instance.LoadConfig();
   TManagerUser.Instance;
 
+  ModuleDataBase.Connect;
+
+  TManagerAddresses.Instance;
+  TManagerCustomers.Instance.GetCustomersFromDb;
+  TManagerProducts.Instance.GetProductsFromDb;
+  TManagerWeighings.Instance.GetWeighingsFromDb;
+
   FServer := TIdHTTPWebBrokerBridge.Create(Self);
 end;
 
-procedure TFormMain.FormDestroy(Sender: TObject);
-begin
-  Self.StopServer();
-  FreeAndNil(Self.FServer);
-  TManagerConfig.ReleaseInstance;
-  TManagerUser.ReleaseInstance;
-end;
-
-procedure TFormMain.OnGetSSLPassword(var APassword: String);
-begin
-//
-end;
-
 procedure TFormMain.StartServer;
+  function GetServerUrl() : String;
+  begin
+    Result := 'http://';
+    if Assigned(Self.FServer.IOHandler) and (Self.FServer.IOHandler is TIdServerIOHandlerSSLOpenSSL) then
+      Result := 'https://';
+
+    Result := Result + THelpFunctions.GetIPAddress();
+
+    if Self.FServer.DefaultPort <> 80 then
+      Result := Result + ':' + IntToStr(Self.FServer.DefaultPort);
+  end;
+
 begin
   if FServer.Active then
     Exit;
 
   FServer.Bindings.Clear;
   FServer.DefaultPort := TManagerConfig.Instance.RestServerConfig.ApiPort;
-  FServer.Active := True;
 
   if TManagerConfig.Instance.RestServerConfig.ApiUseSSL then
   begin
     var LIOHandleSSL : TIdServerIOHandlerSSLOpenSSL;
     LIOHandleSSL := TIdServerIOHandlerSSLOpenSSL.Create(FServer);
 
-    LIOHandleSSL.SSLOptions.CertFile := '';
-    LIOHandleSSL.SSLOptions.RootCertFile := '';
-    LIOHandleSSL.SSLOptions.KeyFile := '';
+    LIOHandleSSL.SSLOptions.CertFile := TManagerConfig.Instance.RestServerConfig.ApiCertFile;
+    LIOHandleSSL.SSLOptions.RootCertFile := TManagerConfig.Instance.RestServerConfig.ApiRootCertFile;
+    LIOHandleSSL.SSLOptions.KeyFile := TManagerConfig.Instance.RestServerConfig.ApiKeyFile;
 
     LIOHandleSSL.SSLOptions.SSLVersions := [sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2];
     LIOHandleSSL.SSLOptions.Mode := sslmServer;
@@ -170,12 +198,39 @@ begin
     FServer.IOHandler := nil;
   end;
 
+  FServer.Active := True;
+
+  baredtIpAddress.EditValue := THelpFunctions.GetIPAddress();
+  baredtPort.EditValue := FServer.DefaultPort;
+  baredtUrl.EditValue := GetServerUrl();
+  actStopServer.Enabled := True;
+  actStartServer.Enabled := not actStopServer.Enabled;
 end;
 
 procedure TFormMain.StopServer;
 begin
   FServer.Active := False;
   FServer.Bindings.Clear;
+  actStopServer.Enabled := False;
+  actStartServer.Enabled := not actStopServer.Enabled;
+end;
+
+procedure TFormMain.FormDestroy(Sender: TObject);
+begin
+  Self.StopServer();
+  FreeAndNil(Self.FServer);
+  TManagerConfig.ReleaseInstance;
+  TManagerUser.ReleaseInstance;
+  TManagerAddresses.ReleaseInstance;
+  TManagerCustomers.ReleaseInstance;
+  TManagerProducts.ReleaseInstance;
+  TManagerWeighings.ReleaseInstance;
+  ModuleDataBase.Disconnect;
+end;
+
+procedure TFormMain.OnGetSSLPassword(var APassword: String);
+begin
+//
 end;
 
 end.

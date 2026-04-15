@@ -37,7 +37,13 @@ uses
   frmAppMessage in '..\view\frmAppMessage.pas' {FormAppMessage},
   cManagerWeighings in '..\controller\cManagerWeighings.pas',
   cDataSourceWeighings in '..\datasources\cDataSourceWeighings.pas',
-  cScaleTranssRhewa84 in '..\transsmision\cScaleTranssRhewa84.pas';
+  cScaleTranssRhewa84 in '..\transsmision\cScaleTranssRhewa84.pas',
+  cItemTranssProtocol in '..\model\cItemTranssProtocol.pas',
+  cDataSourceTranssProtocols in '..\datasources\cDataSourceTranssProtocols.pas',
+  frmProtocolsList in '..\view\frmProtocolsList.pas' {FormProtocolsList},
+  frmTranssProtocolAddEdit in '..\view\frmTranssProtocolAddEdit.pas' {FormTranssProtocolAddEdit},
+  cScaleTranssmision in '..\transsmision\cScaleTranssmision.pas',
+  cManagerApiService in '..\controller\cManagerApiService.pas';
 
 {$R *.res}
 
